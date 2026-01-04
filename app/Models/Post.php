@@ -20,4 +20,8 @@ class Post extends Model
         $this->BelongsTo(Post::class);
 
     }
+
+    public function post_categorie(){
+        $this->belongsTo(Post::class);
+    }
 }
