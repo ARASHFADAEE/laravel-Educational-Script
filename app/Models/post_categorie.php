@@ -11,11 +11,13 @@ class post_categorie extends Model
         'slug'
     ];
 
-    
+
     public function posts()
     {
         return $this->hasMany(Post::class, 'category_id');
     }
+
+    
 
 
 }
