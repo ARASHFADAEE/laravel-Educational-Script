@@ -11,7 +11,9 @@ class PostCategoryController extends Controller
 
 
     public function index(){
-        return view('admin.postcategories.index');
+
+         $categories_blog=category::paginate(15);
+        return view('admin.postcategories.index',compact('categories_blog'));
     }
     
 
@@ -19,6 +21,8 @@ class PostCategoryController extends Controller
     public function create(){
         return view('admin.postcategories.create');
     }
+
+
 
 
 
@@ -40,6 +44,24 @@ class PostCategoryController extends Controller
 
 
 
+
+
+    }
+
+    public function edit($id){
+        $category=category::query()->findOrFail($id);
+
+        return view('admin.postcategories.edit', compact('category'));
+    }
+
+    public function destroy($id){
+
+        $category_post=category::query()->findOrFail($id);
+
+        $category_post->delete();
+
+
+        return redirect()->route('admin.post.categories.index')->with('success','دسته بندی با موفقیت حذف شد ');
 
 
     }

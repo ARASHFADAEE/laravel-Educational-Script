@@ -3,28 +3,36 @@
 
 
 
-@section('title','لیست دسته بندی مقالات')
+@section('title','لیست مقالات')
 
 @section('main')
 
 <div class="overflow-x-auto  shadow-lg rounded-lg">
     <header>
         <div class="from-gray-900  px-6 py-4 border-b flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست دسته بندی ها</h2>
-            <a href="{{route('admin.post.category.create')}}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست دوره ها</h2>
+            <div class="flex item-center gap-3">
+            <a href="{{ route('admin.post.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                افزودن دسته بندی
+                افزودن مقاله
             </a>
+                        <a href="{{ route('admin.post.categories.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
+
+                دسته بندی مقالات 
+            </a>
+            </div>
         </div>
+                
     </header>
         <table class="min-w-full table-auto">
             <thead class="bg-gray-800 text-white">
                 <tr>
                     <th class="px-6 py-4 text-right text-sm font-medium">شناسه</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">نام دسته بندی</th>
+                    <th class="px-6 py-4 text-right text-sm font-medium">عنوان مقاله</th>
                     <th class="px-6 py-4 text-right text-sm font-medium">اسلاگ</th>
+                    <th class="px-6 py-4 text-right text-sm font-medium">وضعیت</th>
                     <th class="px-6 py-4 text-right text-sm font-medium">تاریخ ثبت </th>
                     <th class="px-6 py-4 text-right text-sm font-medium">عملیات</th>
                 </tr>
@@ -32,25 +40,30 @@
             <tbody class=" text-white divide-y divide-gray-200">
                 
                     
-                @foreach ($categories_blog as $category)
-
+                @foreach ( $posts as $post )
+                    
                 <tr class=" transition">
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->id }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->name }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->slug }}</td>
+                    <td class="px-6 py-4 text-sm text-white">{{ $post->id }}</td>
+                    <td class="px-6 py-4 text-sm text-white">{{ $post->title }}</td>
+                    <td class="px-6 py-4 text-sm text-white">{{ $post->slug }}</td>
                     <td class="px-6 py-4 text-sm">
-                            {{verta($category->created_at)}}
+                        <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-900 text-white">
+                            {{ $post->status == 'published' ? 'منتشر شده' : 'پیش نویس' }}
+                        </span>
                     </td>
 
+                    <td class="px-6 py-4 text-sm text-white">
+                        {{ verta($post->created_at) }}
+                    </td>
                     <td class="px-6 py-4 text-sm font-medium text-center space-x-2 space-x-reverse flex items-center gap-3 ">
                         <!-- دکمه ویرایش -->
-                        <a href="{{route('admin.course_categories.edit', $category->id)}}" class="text-indigo-600  items-center">
+                        <a href="" class="text-indigo-600  items-center">
                             <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                             </svg>
                         </a>
                         <!-- دکمه حذف -->
-                        <form action="{{route('admin.post.category.delete', $category->id)}}" method="POST">
+                        <form action="{{route('admin.post.delete',$post->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
                         <button  class="text-red-600 hover:text-red-900 inline-flex items-center">
@@ -60,7 +73,6 @@
                         </button>
                         </form>
                     </td>
-
                 </tr>
                 @endforeach
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CourseController;
 
 use App\Http\Controllers\admin\PostCategoryController;
+use App\Http\Controllers\admin\PostController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -72,6 +73,20 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/post-categories',[PostCategoryController::class,'index'])->name('admin.post.categories.index');
     Route::get('/post-category/create',[PostCategoryController::class , 'create'])->name('admin.post.category.create');
     Route::post('/post-category/create',[PostCategoryController::class , 'store'])->name('admin.post.category.store');
+    Route::get('/post-category/{id}/edit',[PostCategoryController::class , 'edit'])->name('admin.post.category.edit');
+    Route::delete('/post-category/{id}/delete',[PostCategoryController::class,'destroy'])->name('admin.post.category.delete');
+
+
+
+    //Post  Management Routes 
+    Route::get('/posts/create',[PostController::class,'create'])->name('admin.post.create');
+    Route::post('/posts/create',[PostController::class , 'store'])->name('admin.post.store');
+    Route::get('/posts',[PostController::class,'index'])->name('admin.posts.index');
+    Route::delete('/posts/{id}/delete',[PostController::class,'destroy'])->name('admin.post.delete');
+
+
+
+    
 
 
 });
