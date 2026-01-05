@@ -39,7 +39,7 @@
                         <td class="px-6 py-4 text-sm text-white">{{ $category->name }}</td>
                         <td class="px-6 py-4 text-sm text-white">{{ $category->slug }}</td>
                     <td class="px-6 py-4 text-sm">
-                            {{$category->create_at}}
+                            {{verta($category->created_at)}}
                     </td>
 
                     <td class="px-6 py-4 text-sm font-medium text-center space-x-2 space-x-reverse flex items-center gap-3 ">

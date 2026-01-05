@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController as register;
 use App\Http\Controllers\admin\dashboard as adminDashboard;
 
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\CourseController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -56,5 +57,14 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/course-categories/{id}/edit',[App\Http\Controllers\admin\CourseCategoriesController::class,'edit'])->name('admin.course_categories.edit');
     Route::put('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'update'])->name('admin.course_categories.update');
     Route::delete('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'destroy'])->name('admin.course_categories.destroy');
+
+    //course Management Routes 
+    Route::get('/courses',[CourseController::class,'index'])->name('admin.courses.index');
+    Route::get('/courses/create',[CourseController::class,'create'])->name('admin.courses.create');
+    Route::post('/courses/store',[CourseController::class,'store'])->name('admin.courses.store');
+    Route::get('/courses/{id}/edit',[CourseController::class,'edit'])->name('admin.courses.edit');
+    Route::put('/courses/{id}',[CourseController::class,'update'])->name('admin.courses.update');
+    Route::delete('/courses/{id}',[CourseController::class,'destroy'])->name('admin.courses.destroy');
+
 });
 // Route::abort(404);
