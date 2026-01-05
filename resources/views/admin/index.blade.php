@@ -83,7 +83,7 @@
                         <span class="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">+8%</span>
                     </div>
                     <h3 class="text-sm font-medium mb-1 opacity-90">دوره‌ها</h3>
-                    <p class="text-3xl font-bold">25</p>
+                    <p class="text-3xl font-bold">{{$course_count}}</p>
                 </div>
 
                 <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white shadow-lg card-hover animate-fade-in" style="animation-delay: 0.2s">
@@ -96,7 +96,7 @@
                         <span class="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">+24%</span>
                     </div>
                     <h3 class="text-sm font-medium mb-1 opacity-90">پرداخت‌های موفق</h3>
-                    <p class="text-3xl font-bold">75</p>
+                    <p class="text-3xl font-bold">{{$payment_count}}</p>
                 </div>
 
                 <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg card-hover animate-fade-in" style="animation-delay: 0.3s">
@@ -109,7 +109,7 @@
                         <span class="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">+18%</span>
                     </div>
                     <h3 class="text-sm font-medium mb-1 opacity-90">درآمد کل</h3>
-                    <p class="text-3xl font-bold">112M</p>
+                    <p class="text-3xl font-bold">{{$payment_sum}} تومان</p>
                 </div>
             </div>
 
@@ -122,38 +122,21 @@
                     </div>
                     
                     <div class="space-y-4">
+                        @foreach ($users_lastest as $user)
+                            
                         <div class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                             <div class="flex items-center gap-3">
                                 <img src="https://ui-avatars.com/api/?name=Arash&background=6366f1&color=fff" class="w-12 h-12 rounded-full" alt="">
                                 <div>
-                                    <p class="font-semibold text-gray-800 dark:text-gray-100">آرش فدایی</p>
-                                    <p class="text-sm text-gray-500">arash@example.com</p>
+                                    <p class="font-semibold text-gray-800 dark:text-gray-100">{{$user->name}}</p>
+                                    <p class="text-sm text-gray-500">{{$user->email}}</p>
                                 </div>
                             </div>
-                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 rounded-full text-xs font-medium">ادمین</span>
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-700 dark:bg-indigo-900 dark:text-indigo-300 rounded-full text-xs font-medium">{{$user->role}}</span>
                         </div>
 
-                        <div class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Maryam&background=8b5cf6&color=fff" class="w-12 h-12 rounded-full" alt="">
-                                <div>
-                                    <p class="font-semibold text-gray-800 dark:text-gray-100">مریم حسینی</p>
-                                    <p class="text-sm text-gray-500">maryam@example.com</p>
-                                </div>
-                            </div>
-                            <span class="px-3 py-1 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded-full text-xs font-medium">دانشجو</span>
-                        </div>
+                         @endforeach
 
-                        <div class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Ali&background=ec4899&color=fff" class="w-12 h-12 rounded-full" alt="">
-                                <div>
-                                    <p class="font-semibold text-gray-800 dark:text-gray-100">علی محمدی</p>
-                                    <p class="text-sm text-gray-500">ali@example.com</p>
-                                </div>
-                            </div>
-                            <span class="px-3 py-1 bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300 rounded-full text-xs font-medium">دانشجو</span>
-                        </div>
                     </div>
                 </div>
 
