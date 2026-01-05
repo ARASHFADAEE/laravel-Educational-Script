@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController as login;
 use App\Http\Controllers\Auth\RegisterController as register;
 use App\Http\Controllers\admin\dashboard as adminDashboard;
+
+use App\Http\Controllers\admin\UserController;
+use App\Models\User;
+
 Route::get('/', function () {
     return view('frontend.index');
 })->name('home');
@@ -34,6 +38,14 @@ Route::post('/logout',[login::class,'logout'])->name('auth.logout');
 
 Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/dashboard',[adminDashboard::class,'index'])->name('admin.dashboard');
-});
 
+
+    // Users Management
+    Route::get('/users',[UserController::class,'index'])->name('admin.users.index');
+    Route::get('/users/create',[UserController::class,'create'])->name('admin.users.create');
+    Route::post('/users/store',[UserController::class,'store'])->name('admin.users.store');
+    Route::get('/users/{id}/edit',[UserController::class,'edit'])->name('admin.users.edit');
+    Route::put('/users/{id}',[UserController::class,'update'])->name('admin.users.update');
+    Route::delete('/users/{id}',[UserController::class,'destroy'])->name('admin.users.destroy');
+});
 // Route::abort(404);

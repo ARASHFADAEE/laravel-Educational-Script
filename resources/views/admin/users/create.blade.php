@@ -1,0 +1,85 @@
+@extends('admin.layouts.master')
+
+
+
+@section('title', 'افزودن کاربر')
+
+@section('main')
+
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 max-w-3xl">
+
+        <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6 flex flex-col p-12">
+            @csrf
+
+            <!-- Name -->
+            <div>
+                <label class="form-label text-white">نام و نام خانوادگی</label>
+                <input type="text" name="name" class="form-input w-100" placeholder="نام کاربر">
+                @error('name')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Email -->
+            <div>
+                <label class="form-label text-white">ایمیل</label>
+                <input type="email" name="email" class="form-input  w-100" placeholder="example@email.com">
+                @error('email')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Role -->
+            <div>
+                <label class="form-label text-white">نقش کاربر</label>
+                <select name="role" class="form-input  w-100">
+                    <option value="admin">ادمین</option>
+                    <option value="user">کاربر عادی</option>
+                </select>
+                @error('role')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label class="form-label text-white">
+                    رمز عبور
+                </label>
+                <input type="password" name="password" class="form-input  w-100" placeholder="********">
+
+                @error('password')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+            <div>
+                                <label class="form-label text-white">
+                    تکرار رمز عبور
+                </label>
+                <input type="password" name="password_confirmation" class="form-input  w-100" placeholder="********">
+                                @error('password_confirmation')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+
+            <!-- Actions -->
+            <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                <a href="{{ route('admin.users.index') }}" class="btn-secondary text-white">
+                    بازگشت
+                </a>
+
+                <button type="submit" class=" text-white p-3 rounded" style="background: #2a77ff;">
+                    ذخیره تغییرات
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+
+
+
+
+@endsection
