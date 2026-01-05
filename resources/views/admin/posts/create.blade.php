@@ -55,8 +55,10 @@
             <!-- بدنه مقاله (با Summernote) -->
             <div>
                 <label class="form-label">محتوای مقاله <span class="text-red-500">*</span></label>
-                <textarea name="body" id="body" rows="10" class="form-input w-full"
-                    placeholder="محتوای کامل مقاله را اینجا بنویسید...">{{ old('body') }}</textarea>
+                <textarea class="form-input w-full" id="myeditor" name="body">{{ old('body', $post->body ?? '') }}</textarea>
+
+
+
                 @error('body')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -121,29 +123,57 @@
         </form>
     </div>
 
-    {{-- Summernote JS --}}
-    @push('scripts')
-        <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.js"></script>
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.tiny.cloud/1/vfy2oipuptjnbbspfdodnrzexwgkhkgyxde74zknmhwh164b/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+  tinymce.init({
+    selector: '#myeditor',
+    height: 500,
+    menubar: true,
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+      'bold italic backcolor | alignleft aligncenter ' +
+      'alignright alignjustify | bullist numlist outdent indent | ' +
+      'removeformat | help | image media table code',
+    language: 'fa_IR',
+    directionality: 'rtl',
+    images_upload_handler: function (blobInfo, success, failure) {
+      var xhr, formData;
+      
+      xhr = new XMLHttpRequest();
+      xhr.withCredentials = false;
+      xhr.open('POST', '');
+      
+      xhr.onload = function() {
+        var json;
+        
+        if (xhr.status != 200) {
+          failure('HTTP Error: ' + xhr.status);
+          return;
+        }
+        
+        json = JSON.parse(xhr.responseText);
+        
+        if (!json || typeof json.location != 'string') {
+          failure('Invalid JSON: ' + xhr.responseText);
+          return;
+        }
+        
+        success(json.location);
+      };
+      
+      formData = new FormData();
+      formData.append('file', blobInfo.blob(), blobInfo.filename());
+      formData.append('_token', '{{ csrf_token() }}');
+      
+      xhr.send(formData);
+    }
+  });
+</script>
 
-        <script>
-            $(document).ready(function() {
-                $('#body').summernote({
-                    height: 400,
-                    lang: 'fa',
-                    toolbar: [
-                        ['style', ['style']],
-                        ['font', ['bold', 'underline', 'clear']],
-                        ['fontname', ['fontname']],
-                        ['color', ['color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['table', ['table']],
-                        ['insert', ['link', 'picture', 'video']],
-                        ['view', ['fullscreen', 'codeview', 'help']]
-                    ]
-                });
-            });
-        </script>
-    @endpush
+
 
 @endsection
