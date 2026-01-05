@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController as login;
 use App\Http\Controllers\Auth\RegisterController as register;
+use App\Http\Controllers\admin\dashboard as adminDashboard;
 Route::get('/', function () {
     return view('frontend.index');
 })->name('home');
@@ -32,9 +33,7 @@ Route::post('/logout',[login::class,'logout'])->name('auth.logout');
 
 
 Route::prefix('admin')->middleware('admin')->group(function(){
-    Route::get('/dashboard',function(){
-        return view('admin.index');
-    })->name('admin.dashboard');
+    Route::get('/dashboard',[adminDashboard::class,'index'])->name('admin.dashboard');
 });
 
 // Route::abort(404);
