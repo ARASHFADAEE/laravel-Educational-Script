@@ -7,6 +7,8 @@ use App\Http\Controllers\admin\dashboard as adminDashboard;
 
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CourseController;
+
+use App\Http\Controllers\admin\PostCategoryController;
 use App\Models\User;
 
 Route::get('/', function () {
@@ -65,6 +67,12 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/courses/{id}/edit',[CourseController::class,'edit'])->name('admin.courses.edit');
     Route::put('/courses/{id}',[CourseController::class,'update'])->name('admin.courses.update');
     Route::delete('/courses/{id}',[CourseController::class,'destroy'])->name('admin.courses.destroy');
+
+    //Post Categories Management Routes 
+    Route::get('/post-categories',[PostCategoryController::class,'index'])->name('admin.post.categories.index');
+    Route::get('/post-category/create',[PostCategoryController::class , 'create'])->name('admin.post.category.create');
+    Route::post('/post-category/create',[PostCategoryController::class , 'store'])->name('admin.post.category.store');
+
 
 });
 // Route::abort(404);

@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\post_categorie as category;
+
+class PostCategoryController extends Controller
+{
+
+
+    public function index(){
+        return view('admin.postcategories.index');
+    }
+    
+
+
+    public function create(){
+        return view('admin.postcategories.create');
+    }
+
+
+
+    public function store(Request $request){
+
+        $data=$request->validate([
+            "name"=>'required|min:4',
+            "slug"=>'required|unique:post_categories'
+        ],[
+            'name:required'=>'نام دسته بندی الزامی هست.',
+            'slug:required'=> 'اسلاگ دسته بندی الزامی هست',
+            'name:min:4'=>'حداقل کاراکتر باید ۴ کاراکتر باشید',
+            'unique:post_categories'=>'این اسلاگ قبلا استفاده شده'
+        ]);
+
+        category::create($data);
+
+        return redirect(route('admin.post.categories.index'))->with('success','دسته بندی با موفقیت ایجاد شد');
+
+
+
+
+
+    }
+}
