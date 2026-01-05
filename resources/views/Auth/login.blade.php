@@ -49,7 +49,7 @@
                     <div class=" items-center relative">
 
                         <label for="email">ایمیل:</label>
-                        <input name="email" type="email" dir="ltr" placeholder="Arash@gmail.com"
+                        <input name="email" type="email" dir="ltr" placeholder="Arash@gmail.com" value="{{old('email')}}"
                             class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground placeholder:text-right px-5" />
                         <label for="password">رمز عبور:</label>
 

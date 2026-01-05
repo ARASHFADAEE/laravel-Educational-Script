@@ -334,10 +334,13 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <button type="button"
+                                        <form action="{{route('auth.logout')}}" method="post">
+                                            @csrf
+                                        <button type="submit"
                                             class="flex items-center gap-2 w-full text-red-500 transition-colors hover:text-red-700 px-3 py-2">
                                             <span class="font-semibold text-xs">خروج از حساب</span>
                                         </button>
+                                        </form>
                                     </li>
                                 </ul>
                             </li>
@@ -459,7 +462,9 @@
                                         </svg>
                                         <span class="font-semibold text-xs">پرسش و دیدگاه ها</span>
                                     </a>
-                                    <button type="button"
+                                    <form action="{{route("auth.logout")}}" method="post">
+                                        @csrf
+                                    <button type="submit"
                                         class="flex items-center gap-2 w-full text-red-500 transition-colors hover:text-red-700 px-3 py-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -468,6 +473,7 @@
                                         </svg>
                                         <span class="font-semibold text-xs">خروج از حساب</span>
                                     </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

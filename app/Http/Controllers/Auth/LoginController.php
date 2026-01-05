@@ -71,14 +71,14 @@ class LoginController extends Controller
                 if ($user->hasRole('admin')) {
                     return redirect()->intended(route('admin.dashboard'));
                 } elseif ($user->hasRole('user')) {
-                    return redirect()->intended(route('user.dashboard'));
+                    return redirect()->intended(route('home'))->with('success','ورود با موفقیت انجام شد');
                 } else {
                     return redirect()->intended(route('dashboard'));
                 }
                 
             } else {
                 // احراز هویت ناموفق
-                \Log::warning('Failed login attempt', [
+                Log::warning('Failed login attempt', [
                     'email' => $validated['email'],
                     'ip' => $request->ip()
                 ]);
@@ -92,7 +92,7 @@ class LoginController extends Controller
             
         } catch (\Exception $e) {
             // ثبت خطا در لاگ
-            \Log::error('Login error', [
+            Log::error('Login error', [
                 'error' => $e->getMessage(),
                 'email' => $validated['email'] ?? 'N/A',
                 'ip' => $request->ip()
@@ -114,7 +114,7 @@ class LoginController extends Controller
         $user = Auth::user();
         
         // لاگ کردن خروج
-        \Log::info('User logged out', [
+        Log::info('User logged out', [
             'user_id' => $user->id ?? null,
             'email' => $user->email ?? 'N/A',
             'ip' => $request->ip()
@@ -125,7 +125,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         
-        return redirect()->route('login')->with('success', 'با موفقیت خارج شدید.');
+        return redirect()->route('home')->with('success', 'با موفقیت خارج شدید.');
     }
 
     /**

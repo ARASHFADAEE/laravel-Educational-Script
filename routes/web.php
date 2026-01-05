@@ -7,21 +7,34 @@ Route::get('/', function () {
     return view('frontend.index');
 })->name('home');
 
-//Auth
+//Auth Routes
+Route::prefix('auth')->middleware('guest')->group(function () {
+
 Route::get('/login', [login::class,'show'])->name('auth.show');
 Route::post('/login', [login::class,'submit'])->name('auth.login');
-
 Route::get('/register',[register::class,'show'])->name('auth.register.show');
 Route::post('/register',[register::class,'register'])->name('auth.register');
 
-
-
-
-
-
-Route::get('/admin',function(){
-    return view('admin.index');
 });
 
+Route::post('/logout',[login::class,'logout'])->name('auth.logout');
+
+
+
+
+
+
+
+
+// Route::get('/admin',function(){
+//     return view('admin.index');
+// })->middleware('admin')->name('admin.dashboard');
+
+
+Route::prefix('admin')->middleware('admin')->group(function(){
+    Route::get('/dashboard',function(){
+        return view('admin.index');
+    })->name('admin.dashboard');
+});
 
 // Route::abort(404);

@@ -7,6 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="{{asset('images/favicon.svg')}}" />
      @vite(['resources/css/app.css', 'resources/js/app.js'])
      <link rel="stylesheet" href="{{asset('frontend/css/swiper-bundle.min.css')}}" />
+     <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
     <title>@yield('title')</title>
 </head>
 
@@ -26,10 +27,27 @@
         <!-- footer -->
         @include('frontend.layouts.partials.footer')
         <!-- end footer -->
+
     </div>
+
+    <script src="{{asset('frontend/js/toastify.js')}}"></script>
 
 <script src="{{asset('frontend/js/alpinejs.min.js')}}"></script>
 <script src="{{asset('frontend/js/swiper-bundle.min.js')}}"></script>
+            @if (session('success'))
+    <script>
+        Toastify({
+            text: "{{ session('success') }}",  // یا متن ثابت: "ورود موفقیت آمیز بود"
+            duration: 2000,  // اختیاری: زمان نمایش (میلی‌ثانیه)
+            gravity: "top",   // اختیاری: top یا bottom
+            position: "right", // اختیاری: right, left, center
+            className: "info",
+            style: {
+                background: "green",
+            }
+        }).showToast();
+    </script>
+@endif
 
 </body>
 

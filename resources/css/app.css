@@ -4,7 +4,7 @@
 @import './frontend/fonts.css';
 @import './frontend/main.css';
 
-
+@import './frontend/toastify.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

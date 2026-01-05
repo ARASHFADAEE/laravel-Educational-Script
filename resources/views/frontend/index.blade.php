@@ -3,6 +3,8 @@
 @section('title', '- صفحه اصلی ض')
 @section('content')
         <main class="flex-auto py-5">
+
+
             <div class="space-y-14">
                 <!-- container -->
                 <div class="max-w-7xl space-y-14 px-4 mx-auto">
