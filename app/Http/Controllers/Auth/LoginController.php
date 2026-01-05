@@ -68,12 +68,12 @@ class LoginController extends Controller
                 // هدایت بر اساس نقش کاربر
                 $user = Auth::user();
                 
-                if ($user->hasRole('admin')) {
-                    return redirect()->intended(route('admin.dashboard'));
-                } elseif ($user->hasRole('user')) {
+                if ($user->role=='admin') {
+                    return redirect()->intended(route('admin.dashboard'))->with('success','ورود با موفقیت انجام شد');
+                } elseif ($user->role=='user') {
                     return redirect()->intended(route('home'))->with('success','ورود با موفقیت انجام شد');
                 } else {
-                    return redirect()->intended(route('dashboard'));
+                    return redirect()->intended(route('home'))->with('success','ورود با موفقیت انجام شد');
                 }
                 
             } else {
