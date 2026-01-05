@@ -47,5 +47,14 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/users/{id}/edit',[UserController::class,'edit'])->name('admin.users.edit');
     Route::put('/users/{id}',[UserController::class,'update'])->name('admin.users.update');
     Route::delete('/users/{id}',[UserController::class,'destroy'])->name('admin.users.destroy');
+
+
+    // Course Categories Management
+    Route::get('/course-categories',[App\Http\Controllers\admin\CourseCategoriesController::class,'index'])->name('admin.course_categories.index');
+    Route::get('/course-categories/create',[App\Http\Controllers\admin\CourseCategoriesController::class,'create'])->name('admin.course_categories.create');
+    Route::post('/course-categories/store',[App\Http\Controllers\admin\CourseCategoriesController::class,'store'])->name('admin.course_categories.store');
+    Route::get('/course-categories/{id}/edit',[App\Http\Controllers\admin\CourseCategoriesController::class,'edit'])->name('admin.course_categories.edit');
+    Route::put('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'update'])->name('admin.course_categories.update');
+    Route::delete('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'destroy'])->name('admin.course_categories.destroy');
 });
 // Route::abort(404);
