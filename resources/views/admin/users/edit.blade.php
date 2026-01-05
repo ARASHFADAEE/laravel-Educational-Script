@@ -15,7 +15,7 @@
             <!-- Name -->
             <div>
                 <label class="form-label text-white">نام و نام خانوادگی</label>
-                <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input w-100"
+                <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input w-full"
                     placeholder="نام کاربر">
                 @error('name')
                     <p class="form-error">{{ $message }}</p>
@@ -25,7 +25,7 @@
             <!-- Email -->
             <div>
                 <label class="form-label text-white">ایمیل</label>
-                <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-input  w-100"
+                <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-input  w-full"
                     placeholder="example@email.com">
                 @error('email')
                     <p class="form-error">{{ $message }}</p>
@@ -35,7 +35,7 @@
             <!-- Role -->
             <div>
                 <label class="form-label text-white">نقش کاربر</label>
-                <select name="role" class="form-input  w-100">
+                <select name="role" class="form-input  w-full">
                     <option value="admin" @selected($user->role === 'admin')>ادمین</option>
                     <option value="user" @selected($user->role === 'user')>کاربر عادی</option>
                 </select>
@@ -50,7 +50,7 @@
                     رمز عبور
                     <span class="text-xs text-gray-400 ">(در صورت عدم تغییر خالی بگذارید)</span>
                 </label>
-                <input type="password" name="password" class="form-input  w-100" placeholder="********">
+                <input type="password" name="password" class="form-input  w-full" placeholder="********">
                 @error('password')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -60,7 +60,7 @@
                     تکرار رمز عبور
                     <span class="text-xs text-gray-400 ">(در صورت عدم تغییر خالی بگذارید)</span>
                 </label>
-                <input type="password" name="password_confirmation" class="form-input  w-100" placeholder="********">
+                <input type="password" name="password_confirmation" class="form-input  w-full" placeholder="********">
                 @error('password_confirmation')
                     <p class="form-error">{{ $message }}</p>
                 @enderror

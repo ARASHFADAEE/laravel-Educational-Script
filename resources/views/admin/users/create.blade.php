@@ -14,7 +14,7 @@
             <!-- Name -->
             <div>
                 <label class="form-label text-white">نام و نام خانوادگی</label>
-                <input type="text" name="name" class="form-input w-100" placeholder="نام کاربر">
+                <input type="text" name="name" class="form-input w-full" placeholder="نام کاربر">
                 @error('name')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -23,7 +23,7 @@
             <!-- Email -->
             <div>
                 <label class="form-label text-white">ایمیل</label>
-                <input type="email" name="email" class="form-input  w-100" placeholder="example@email.com">
+                <input type="email" name="email" class="form-input  w-full" placeholder="example@email.com">
                 @error('email')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -32,7 +32,7 @@
             <!-- Role -->
             <div>
                 <label class="form-label text-white">نقش کاربر</label>
-                <select name="role" class="form-input  w-100">
+                <select name="role" class="form-input  w-full">
                     <option value="admin">ادمین</option>
                     <option value="user">کاربر عادی</option>
                 </select>
@@ -46,7 +46,7 @@
                 <label class="form-label text-white">
                     رمز عبور
                 </label>
-                <input type="password" name="password" class="form-input  w-100" placeholder="********">
+                <input type="password" name="password" class="form-input  w-full" placeholder="********">
 
                 @error('password')
                     <p class="form-error">{{ $message }}</p>
@@ -56,7 +56,7 @@
                                 <label class="form-label text-white">
                     تکرار رمز عبور
                 </label>
-                <input type="password" name="password_confirmation" class="form-input  w-100" placeholder="********">
+                <input type="password" name="password_confirmation" class="form-input  w-full" placeholder="********">
                                 @error('password_confirmation')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
