@@ -17,7 +17,7 @@ class LoginController extends Controller
     {
         // اگر کاربر قبلا لاگین کرده بود، به داشبورد هدایت شود
         if (Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         }
         
         return view('auth.login');
