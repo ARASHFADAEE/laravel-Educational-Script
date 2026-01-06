@@ -92,6 +92,10 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     //payment  Management Routes 
 
     Route::get('/payments',[PaymentController::class,'index'])->name('admin.payments.index');
+    Route::get('/payments/create',[PaymentController::class,'create'])->name('admin.payments.create');
+    Route::get('/payments/{id}/edit',[PaymentController::class,'edit'])->name('admin.payments.edit');
+    Route::put('/payments/{id}/update',[PaymentController::class,'update'])->name('admin.payments.update');
+    Route::post('/payments/store',[PaymentController::class,'store'])->name('admin.payments.store');
     Route::delete('/payments/{id}/delete',[PaymentController::class,'destroy'])->name('admin.payments.destroy');
 
 

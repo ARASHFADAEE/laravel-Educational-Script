@@ -30,7 +30,12 @@ class course extends Model
 
 
     public function lessons(){
-        $this->hasMany(lesson::class);
+        return $this->hasMany(lesson::class);
     }
+
+    public function payments()
+{
+    return $this->hasMany(Payment::class);
+}
 
 }
