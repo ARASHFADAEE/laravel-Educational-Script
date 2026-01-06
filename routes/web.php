@@ -82,6 +82,8 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/posts/create',[PostController::class,'create'])->name('admin.post.create');
     Route::post('/posts/create',[PostController::class , 'store'])->name('admin.post.store');
     Route::get('/posts',[PostController::class,'index'])->name('admin.posts.index');
+    Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('admin.post.edit');
+    Route::post('/posts/update',[PostController::class,'update'])->name('admin.post.update');
     Route::delete('/posts/{id}/delete',[PostController::class,'destroy'])->name('admin.post.delete');
 
 
