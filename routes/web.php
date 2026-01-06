@@ -7,7 +7,7 @@ use App\Http\Controllers\admin\dashboard as adminDashboard;
 
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CourseController;
-
+use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Models\User;
@@ -85,6 +85,14 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('admin.post.edit');
     Route::post('/posts/update',[PostController::class,'update'])->name('admin.post.update');
     Route::delete('/posts/{id}/delete',[PostController::class,'destroy'])->name('admin.post.delete');
+
+
+
+
+    //payment  Management Routes 
+
+    Route::get('/payments',[PaymentController::class,'index'])->name('admin.payments.index');
+    Route::delete('/payments/{id}/delete',[PaymentController::class,'destroy'])->name('admin.payments.destroy');
 
 
 

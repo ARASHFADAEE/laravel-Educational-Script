@@ -57,7 +57,7 @@
                     <span class="font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600">دسته بندی مقالات</span>
                 </a>
                 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all group">
+                <a href="{{route('admin.payments.index')}}" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-all group">
                     <svg class="w-5 h-5 text-gray-600 dark:text-gray-400 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                     </svg>
