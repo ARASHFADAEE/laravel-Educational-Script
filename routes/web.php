@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\dashboard as adminDashboard;
 
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\CourseController;
+use App\Http\Controllers\admin\LessonController;
 use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
@@ -68,6 +69,15 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/courses/{id}/edit',[CourseController::class,'edit'])->name('admin.courses.edit');
     Route::put('/courses/{id}',[CourseController::class,'update'])->name('admin.courses.update');
     Route::delete('/courses/{id}',[CourseController::class,'destroy'])->name('admin.courses.destroy');
+
+   //lesson  Management Routes 
+   Route::get('/lessons',[LessonController::class,'index'])->name('admin.lessons.index');
+   Route::get('/lessons/create',[LessonController::class,'create'])->name('admin.lessons.create');
+   Route::post('/lessons/store',[LessonController::class,'store'])->name('admin.lessons.store');
+   Route::get('/lessons/{id}/edit',[LessonController::class ,'edit'])->name('admin.lessons.edit');
+   Route::put('/lessons/{id}/update',[LessonController::class,'update'])->name('admin.lessons.update');
+   Route::delete('/lessons/{id}/delete',[LessonController::class,'destroy'])->name('admin.lessons.destroy');
+
 
     //Post Categories Management Routes 
     Route::get('/post-categories',[PostCategoryController::class,'index'])->name('admin.post.categories.index');

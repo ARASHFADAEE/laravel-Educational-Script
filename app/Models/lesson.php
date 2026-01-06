@@ -20,6 +20,6 @@ class lesson extends Model
 
 
     public function course(){
-        $this->belongsTo(course::class);
+        return $this->belongsTo(course::class);
     }
 }
