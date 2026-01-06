@@ -11,14 +11,11 @@ use App\Http\Controllers\admin\LessonController;
 use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
-use App\Models\User;
-
-Route::get('/', function () {
-    return view('frontend.index');
-})->name('home');
+use App\Http\Controllers\frontend\Homecontroller;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
+
 
 Route::get('/login', [login::class,'show'])->name('auth.show');
 Route::post('/login', [login::class,'submit'])->name('auth.login');
@@ -27,7 +24,11 @@ Route::post('/register',[register::class,'register'])->name('auth.register');
 
 });
 
-Route::post('/logout',[login::class,'logout'])->name('auth.logout');
+
+//front end Route
+
+//home page
+Route::get('/',[Homecontroller::class,'index'])->name('home');
 
 
 
@@ -36,9 +37,6 @@ Route::post('/logout',[login::class,'logout'])->name('auth.logout');
 
 
 
-// Route::get('/admin',function(){
-//     return view('admin.index');
-// })->middleware('admin')->name('admin.dashboard');
 
 
 Route::prefix('admin')->middleware('admin')->group(function(){
@@ -114,4 +112,6 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 
 
 });
-// Route::abort(404);
+
+
+Route::post('/logout',[login::class,'logout'])->name('auth.logout');

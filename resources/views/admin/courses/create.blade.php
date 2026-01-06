@@ -75,12 +75,28 @@
             <label class="form-label text-white">قیمت (تومان)</label>
             <input
                 type="text"
-                name="price"
-                value="{{ old('price') }}"
+                name="regular_price"
+                value="{{ old('regular_price') }}"
                 class="form-input w-full"
                 placeholder="مثال: 1500000"
             >
-            @error('price')
+            <label class="form-label text-white">قیمت با تخفیف (اختیاری)</label>
+            <input
+                type="text"
+                name="sale_price"
+                value="{{ old('sale_price') }}"
+                class="form-input w-full"
+                placeholder="مثال: 1500000"
+            >
+            <label class="form-label text-white">تایم دوره به ساعت</label>
+            <input
+                type="time_course"
+                name="time_course"
+                value="{{ old('time_course') }}"
+                class="form-input w-full"
+                placeholder="مثال: 5"
+            >
+            @error('time_course')
                 <p class="form-error">{{ $message }}</p>
             @enderror
         </div>
@@ -123,6 +139,7 @@
                 <p class="form-error">{{ $message }}</p>
             @enderror
         </div>
+
 
         <!-- Actions -->
         <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 ">

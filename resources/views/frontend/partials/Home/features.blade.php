@@ -1,4 +1,4 @@
-                    <div class="relative bg-secondary rounded-3xl">
+                    <div class="relative bg-secondary rounded-3xl item-center justify-center">
                         <div
                             class="relative right-1/2 translate-x-1/2 -translate-y-1/2 inline-flex items-center justify-center h-12 bg-background border border-border rounded-2xl font-black text-foreground text-lg text-center px-8">
                             چرا آکــــادمــــــی نابغه؟

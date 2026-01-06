@@ -16,6 +16,6 @@ class course_categorie extends Model
 
     public function courses()
     {
-        return $this->hasMany(course::class, 'category_id');
+        return $this->hasMany(course::class , 'category_id');
     }
 }

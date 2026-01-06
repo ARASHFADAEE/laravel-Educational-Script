@@ -73,15 +73,41 @@
 
         <!-- Price -->
         <div>
-            <label class="form-label">قیمت (تومان)</label>
+            <label class="form-label">قیمت اصلی( به تومان)</label>
             <input
                 type="text"
-                name="price"
-                value="{{ old('price', $course->price) }}"
+                name="regular_price"
+                value="{{ old('regular_price', $course->regular_price) }}"
                 class="form-input w-full"
                 placeholder="مثال: 1500000"
             >
-            @error('price')
+            @error('regular_price')
+                <p class="form-error">{{ $message }}</p>
+            @enderror
+        </div>
+           <div>
+            <label class="form-label">قیمت با تخفیف (اختیاری)</label>
+            <input
+                type="text"
+                name="sale_price"
+                value="{{ old('sale_price', $course->sale_price) }}"
+                class="form-input w-full"
+                placeholder="مثال: 1500000"
+            >
+            @error('regular_price')
+                <p class="form-error">{{ $message }}</p>
+            @enderror
+        </div>
+                   <div>
+            <label class="form-label">مدت زمان دوره (به ساعت)</label>
+            <input
+                type="text"
+                name="time_course"
+                value="{{ old('time_course', $course->time_course) }}"
+                class="form-input w-full"
+                placeholder="مثال: 1500000"
+            >
+            @error('time_course')
                 <p class="form-error">{{ $message }}</p>
             @enderror
         </div>

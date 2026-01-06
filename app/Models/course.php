@@ -12,10 +12,13 @@ class course extends Model
         'title',
         'slug',
         'level',
-        'price',
+        'regular_price',
         'status',
         'thumbnail',
         'description',
+        'sale_price',
+        'time_course'
+
     ];
 
 
@@ -25,8 +28,9 @@ class course extends Model
     }
 
     public function course_categorie(){
-        return $this->belongsTo(course_categorie::class);
-    }
+return $this->belongsTo(course_categorie::class, 'category_id', 'id');
+
+}
 
 
     public function lessons(){

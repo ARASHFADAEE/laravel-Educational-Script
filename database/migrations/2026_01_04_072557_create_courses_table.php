@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug',255)->unique();
             $table->string('level');
-            $table->string('price');
+            $table->string('regular_price');
+            $table->string('sale_price')->nullable();
+            $table->string('time_course')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->string('thumbnail')->nullable();
             $table->text('description');

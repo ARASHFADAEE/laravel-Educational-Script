@@ -32,7 +32,9 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
+            'regular_price' => 'required|numeric|min:0',
+            'sale_price' => 'required|numeric|min:0',
+            'time_course'   => 'required|integer|min:0',
             'level'=>'required',
             'slug'=>'required|unique:courses,slug',
             'status'=>'required',
@@ -50,9 +52,11 @@ class CourseController extends Controller
             'slug' => $request->slug,
             'user_id' => Auth::id(),
             'category_id' => $request->category_id,
-            'price' => $request->price,
+            'regular_price' => $request->regular_price,
+            'sale_price'=>$request->sale_price,
             'level'=>$request->level,
             'status'=>$request->status,
+            'time_course'=>$request->time_course,
             'thumbnail' => $filepath,
         ]);
 
@@ -68,14 +72,16 @@ class CourseController extends Controller
 
     public function update(Request $request, $id)
 {
-    $course = Course::findOrFail($id); // بهتره نام مدل PascalCase باشه (Course)
+    $course = Course::findOrFail($id); 
 
     $validated = $request->validate([
         'title'         => 'required|string|max:255',
         'slug'          => 'required|string|max:255|unique:courses,slug,' . $course->id,
         'category_id'   => 'required|exists:course_categories,id', // نام جدول رو بر اساس migration چک کن
         'level'         => 'required|in:beginner,intermediate,advanced',
-        'price'         => 'required|integer|min:0',
+        'regular_price' => 'required|integer|min:0',
+        'sale_price'    => 'required|integer|min:0',
+        'time_course'   => 'required|integer|min:0',
         'status'        => 'required|in:draft,published',
         'thumbnail'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         'description'   => 'nullable|string',
@@ -98,4 +104,14 @@ class CourseController extends Controller
 
     return redirect()->route('admin.courses.index')->with('success', 'دوره با موفقیت بروزرسانی شد.');
 }
+
+public function destroy($id){
+
+    course::query()->findOrFail($id)->delete();
+
+    return redirect()->route('admin.courses.index')->with('success','دوره با موفقیت حذف شد');
+
+}
+
+
 }

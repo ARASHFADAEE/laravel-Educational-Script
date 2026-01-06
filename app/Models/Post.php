@@ -24,15 +24,15 @@ class Post extends Model
     }
     public function user()
     {
-        $this->BelongsTo(Post::class);
+        return $this->BelongsTo(Post::class);
 
     }
 
     public function post_categorie(){
-        $this->belongsTo(Post::class);
+        return $this->belongsTo(Post::class);
     }
 
 
     public function comments(){
-        $this->hasMany(comment::class);    }
+        return $this->hasMany(comment::class);    }
 }
