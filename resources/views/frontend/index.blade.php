@@ -13,10 +13,7 @@
 
                 <!-- end intro -->
 
-                <!-- features -->
-                @include('frontend.partials.Home.features')
 
-                <!-- end features -->
 
                 <!-- section:latest-courses -->
                 @include('frontend.partials.Home.latest-courses',["courses"=>$courses])

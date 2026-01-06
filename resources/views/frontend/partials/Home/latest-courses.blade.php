@@ -50,7 +50,7 @@
                                                         d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
                                                         clip-rule="evenodd" />
                                                 </svg>
-{{ $course->course_categorie?->name ?? 'بدون دسته‌بندی' }}                                            </a>
+                                                {{ $course->course_categorie?->name ?? 'بدون دسته‌بندی' }} </a>
                                         </div>
                                         <div class="bg-background rounded-b-3xl -mt-12 pt-12">
                                             <div
@@ -96,7 +96,7 @@
                                                     <div class="flex items-center gap-3">
                                                         <div
                                                             class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="{{ $course->user->avatar }}"
+                                                            <img src="{{asset('storage')}}/{{$course->user->avatar }}"
                                                                 class="w-full h-full object-cover" alt="..." />
                                                         </div>
                                                         <div class="flex flex-col items-start space-y-1">
@@ -110,7 +110,6 @@
                                                     </div>
                                                     <div class="flex flex-col items-end justify-center h-14">
                                                         @if ($course->sale_price)
-
                                                             <span
                                                                 class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
 
@@ -119,20 +118,13 @@
                                                                     class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
                                                                 <span class="text-xs text-muted">تومان</span>
                                                             </div>
-
-                                                            @else
-
-
+                                                        @else
                                                             <div class="flex items-center gap-1">
                                                                 <span
                                                                     class="font-black text-xl text-foreground">{{ number_format($course->regular_price) }}</span>
                                                                 <span class="text-xs text-muted">تومان</span>
                                                             </div>
-
-
-
-
-                                                            @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-3 mt-3">

@@ -8,7 +8,8 @@
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 max-w-3xl">
 
-        <form action="{{ route('admin.users.update', $user->id) }}" method="POST" class="space-y-6 flex flex-col p-12">
+        <form action="{{ route('admin.users.update', $user->id) }}" method="POST" class="space-y-6 flex flex-col p-12"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -55,7 +56,7 @@
                     <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
-                        <div>
+            <div>
                 <label class="form-label text-white">
                     تکرار رمز عبور
                     <span class="text-xs text-gray-400 ">(در صورت عدم تغییر خالی بگذارید)</span>
@@ -65,7 +66,41 @@
                     <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
+<div>
+    <label class="form-label text-white">عکس آواتار</label>
 
+    <!-- نمایش عکس فعلی (اگر وجود داشته باشد) -->
+    @if($user->avatar)
+        <div class="mt-2 mb-4">
+            <p class="text-sm text-gray-400 mb-2">عکس فعلی:</p>
+            <img 
+                src="{{ asset('storage/' . $user->avatar) }}" 
+                alt="آواتار فعلی کاربر" 
+                class="w-32 h-32 object-cover rounded-full border-2 border-gray-300 shadow-sm"
+            >
+        </div>
+    @else
+        <div class="mt-2 mb-4">
+            <p class="text-sm text-gray-500">هیچ عکسی انتخاب نشده است</p>
+        </div>
+    @endif
+
+    <!-- فیلد آپلود عکس جدید -->
+    <input 
+        type="file" 
+        name="avatar" 
+        accept="image/*" 
+        class="form-input w-full"
+    >
+    
+    <p class="mt-1 text-xs text-gray-500">
+        فرمت‌های مجاز: jpg, jpeg, png, gif, webp (حداکثر ۲ مگابایت)
+    </p>
+
+    @error('avatar')
+        <p class="form-error mt-1">{{ $message }}</p>
+    @enderror
+</div>
 
 
             <!-- Actions -->

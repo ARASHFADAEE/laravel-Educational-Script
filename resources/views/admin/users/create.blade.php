@@ -8,7 +8,7 @@
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 max-w-3xl">
 
-        <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6 flex flex-col p-12">
+        <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-6 flex flex-col p-12" enctype="multipart/form-data">
             @csrf
 
             <!-- Name -->
@@ -59,6 +59,16 @@
                 <input type="password" name="password_confirmation" class="form-input  w-full" placeholder="********">
                                 @error('password_confirmation')
                     <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <label class="form-label text-white">
+                      عکس آواتار
+                </label>
+                <input type="file" name="avatar" class="form-input  w-full" >
+                @error('avatar')
+                <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
 
