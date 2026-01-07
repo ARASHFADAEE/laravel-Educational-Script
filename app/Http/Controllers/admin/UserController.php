@@ -33,6 +33,8 @@ class UserController extends Controller
             'role' => 'required|in:admin,user',
             'password' => 'required|string|min:8|confirmed',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'bio'   => 'required|string|max:600',
+
         ]);
 
         $file_path=Storage::disk('public')->put('avatar',$request->file('avatar'));
@@ -42,7 +44,8 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'role' => $request->input('role'),
             'password' => bcrypt($request->input('password')),
-            'avatar'=>$file_path
+            'avatar'=>$file_path,
+            'bio' =>$request->input('bio')
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت ایجاد شد');
@@ -66,6 +69,7 @@ public function update(Request $request, $id)
         'role' => 'required|in:admin,user',
         'password' => 'nullable|string|min:8|confirmed',
         'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        'bio'    => 'required|string|max:600',
     ]);
 
     // مدیریت پسورد (اگر وارد شده بود)

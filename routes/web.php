@@ -12,6 +12,7 @@ use App\Http\Controllers\admin\PaymentController;
 use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\frontend\Homecontroller;
+use App\Http\Controllers\frontend\SingleBlogController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -29,6 +30,9 @@ Route::post('/register',[register::class,'register'])->name('auth.register');
 
 //home page
 Route::get('/',[Homecontroller::class,'index'])->name('home');
+Route::get('/blog/{slug}',[SingleBlogController::class,'show'])->name('single.blog.show');
+Route::post('/logout',[login::class,'logout'])->name('auth.logout');
+
 
 
 
@@ -82,6 +86,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/post-category/create',[PostCategoryController::class , 'create'])->name('admin.post.category.create');
     Route::post('/post-category/create',[PostCategoryController::class , 'store'])->name('admin.post.category.store');
     Route::get('/post-category/{id}/edit',[PostCategoryController::class , 'edit'])->name('admin.post.category.edit');
+    Route::put('/post-category/{id}/update',[PostCategoryController::class,'update'])->name('admin.post.category.update');
     Route::delete('/post-category/{id}/delete',[PostCategoryController::class,'destroy'])->name('admin.post.category.delete');
 
 
@@ -114,4 +119,3 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 });
 
 
-Route::post('/logout',[login::class,'logout'])->name('auth.logout');

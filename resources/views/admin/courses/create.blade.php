@@ -85,7 +85,7 @@
                 type="text"
                 name="sale_price"
                 value="{{ old('sale_price') }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: 1500000"
             >
             <label class="form-label text-white">تایم دوره به ساعت</label>
@@ -93,7 +93,7 @@
                 type="time_course"
                 name="time_course"
                 value="{{ old('time_course') }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: 5"
             >
             @error('time_course')
@@ -104,9 +104,9 @@
         <!-- Status -->
         <div>
             <label class="form-label text-white">وضعیت</label>
-            <select name="status" class="form-input w-full">
-                <option value="draft" @selected(old('status')=='draft')>پیش‌نویس</option>
-                <option value="published" @selected(old('status')=='published')>منتشر شده</option>
+            <select name="status" class="form-input text-black w-full">
+                <option class="text-black" value="draft" @selected(old('status')=='draft')>پیش‌نویس</option>
+                <option class="text-black" value="published" @selected(old('status')=='published')>منتشر شده</option>
             </select>
             @error('status')
                 <p class="form-error">{{ $message }}</p>
@@ -119,7 +119,7 @@
             <input
                 type="file"
                 name="thumbnail"
-                class="form-input w-full"
+                class="form-input text-black w-full"
             >
             @error('thumbnail')
                 <p class="form-error">{{ $message }}</p>
@@ -132,7 +132,7 @@
             <textarea
                 name="description"
                 rows="5"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="توضیح کامل درباره دوره"
             >{{ old('description') }}</textarea>
             @error('description')

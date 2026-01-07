@@ -16,9 +16,18 @@
             <!-- Name -->
             <div>
                 <label class="form-label text-white">نام و نام خانوادگی</label>
-                <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input w-full"
+                <input type="text" name="name" value="{{ old('name', $user->name) }}" class="form-input text-black w-full"
                     placeholder="نام کاربر">
                 @error('name')
+                    <p class="form-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            {{-- bio textarea --}}
+            <div>
+                <label class="form-label text-white">بیوگرافی</label>
+                <textarea type="text" name="bio" class="form-input text-black  w-full" placeholder="من یک برنامه نویس خوشحالم" value="{{old('bio',$user->bio)}}"></textarea>
+                @error('bio')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
             </div>
@@ -26,7 +35,7 @@
             <!-- Email -->
             <div>
                 <label class="form-label text-white">ایمیل</label>
-                <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-input  w-full"
+                <input type="email" name="email" value="{{ old('email', $user->email) }}" class="form-input text-black  w-full"
                     placeholder="example@email.com">
                 @error('email')
                     <p class="form-error">{{ $message }}</p>
@@ -36,9 +45,9 @@
             <!-- Role -->
             <div>
                 <label class="form-label text-white">نقش کاربر</label>
-                <select name="role" class="form-input  w-full">
-                    <option value="admin" @selected($user->role === 'admin')>ادمین</option>
-                    <option value="user" @selected($user->role === 'user')>کاربر عادی</option>
+                <select name="role" class="form-input text-black  w-full">
+                    <option class="text-black" value="admin" @selected($user->role === 'admin')>ادمین</option>
+                    <option class="text-black" value="user" @selected($user->role === 'user')>کاربر عادی</option>
                 </select>
                 @error('role')
                     <p class="form-error">{{ $message }}</p>
@@ -90,7 +99,7 @@
         type="file" 
         name="avatar" 
         accept="image/*" 
-        class="form-input w-full"
+        class="form-input text-black w-full"
     >
     
     <p class="mt-1 text-xs text-gray-500">

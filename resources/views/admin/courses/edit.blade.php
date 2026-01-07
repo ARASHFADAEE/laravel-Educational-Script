@@ -17,7 +17,7 @@
                 type="text"
                 name="title"
                 value="{{ old('title', $course->title) }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: آموزش Laravel"
             >
             @error('title')
@@ -32,7 +32,7 @@
                 type="text"
                 name="slug"
                 value="{{ old('slug', $course->slug) }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="laravel-course"
             >
             @error('slug')
@@ -43,10 +43,10 @@
         <!-- Category -->
         <div>
             <label class="form-label">دسته‌بندی</label>
-            <select name="category_id" class="form-input w-full">
+            <select name="category_id" class="form-input text-black w-full">
                 <option value="">انتخاب دسته‌بندی</option>
                 @foreach($categories as $category)
-                    <option value="{{ $category->id }}"
+                    <option class="text-black" value="{{ $category->id }}"
                         @selected(old('category_id', $course->category_id) == $category->id)>
                         {{ $category->name }}
                     </option>
@@ -60,11 +60,11 @@
         <!-- Level -->
         <div>
             <label class="form-label">سطح دوره</label>
-            <select name="level" class="form-input w-full">
-                <option value="">انتخاب سطح</option>
-                <option value="beginner" @selected(old('level', $course->level) == 'beginner')>مبتدی</option>
-                <option value="intermediate" @selected(old('level', $course->level) == 'intermediate')>متوسط</option>
-                <option value="advanced" @selected(old('level', $course->level) == 'advanced')>پیشرفته</option>
+            <select name="level" class="form-input text-black w-full">
+                <option class="text-black" value="">انتخاب سطح</option>
+                <option class="text-black" value="beginner" @selected(old('level', $course->level) == 'beginner')>مبتدی</option>
+                <option class="text-black" value="intermediate" @selected(old('level', $course->level) == 'intermediate')>متوسط</option>
+                <option class="text-black" value="advanced" @selected(old('level', $course->level) == 'advanced')>پیشرفته</option>
             </select>
             @error('level')
                 <p class="form-error">{{ $message }}</p>
@@ -78,7 +78,7 @@
                 type="text"
                 name="regular_price"
                 value="{{ old('regular_price', $course->regular_price) }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: 1500000"
             >
             @error('regular_price')
@@ -91,7 +91,7 @@
                 type="text"
                 name="sale_price"
                 value="{{ old('sale_price', $course->sale_price) }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: 1500000"
             >
             @error('regular_price')
@@ -104,7 +104,7 @@
                 type="text"
                 name="time_course"
                 value="{{ old('time_course', $course->time_course) }}"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="مثال: 1500000"
             >
             @error('time_course')
@@ -114,10 +114,10 @@
 
         <!-- Status -->
         <div>
-            <label class="form-label">وضعیت</label>
-            <select name="status" class="form-input w-full">
-                <option value="draft" @selected(old('status', $course->status) == 'draft')>پیش‌نویس</option>
-                <option value="published" @selected(old('status', $course->status) == 'published')>منتشر شده</option>
+            <label class="form-label ">وضعیت</label>
+            <select name="status" class="form-input text-black w-full">
+                <option class="text-black" value="draft" @selected(old('status', $course->status) == 'draft')>پیش‌نویس</option>
+                <option class="text-black" value="published" @selected(old('status', $course->status) == 'published')>منتشر شده</option>
             </select>
             @error('status')
                 <p class="form-error">{{ $message }}</p>
@@ -136,7 +136,7 @@
             <input
                 type="file"
                 name="thumbnail"
-                class="form-input w-full"
+                class="form-input  w-full"
                 accept="image/*"
             >
             <p class="text-sm text-gray-500 mt-1">در صورت عدم انتخاب فایل، تصویر فعلی حفظ می‌شود.</p>
@@ -151,7 +151,7 @@
             <textarea
                 name="description"
                 rows="5"
-                class="form-input w-full"
+                class="form-input text-black w-full"
                 placeholder="توضیح کامل درباره دوره"
             >{{ old('description', $course->description) }}</textarea>
             @error('description')

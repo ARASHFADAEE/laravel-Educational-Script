@@ -8,8 +8,9 @@
 
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 max-w-3xl">
 
-        <form action="" method="POST" class="space-y-6 flex flex-col p-12">
+        <form action="{{route('admin.course_categories.update',$category->id)}}" method="POST" class="space-y-6 flex flex-col p-12">
             @csrf
+            @method('put')
 
             <!-- Name -->
             <div>

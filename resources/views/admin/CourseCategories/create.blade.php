@@ -15,7 +15,7 @@
             <!-- Name -->
             <div>
                 <label class="form-label text-white">نام دسته بندی</label>
-                <input type="text" name="name" class="form-input w-full" placeholder="نام دسته بندی">
+                <input type="text" name="name" class="form-input text-black w-full" placeholder="نام دسته بندی">
                 @error('name')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -23,7 +23,7 @@
 
             <div>
                 <label class="form-label text-white">اسلاگ</label>
-                <input type="text" name="slug" class="form-input  w-full" placeholder="laravel">
+                <input type="text" name="slug" class="form-input text-black  w-full" placeholder="laravel">
                 @error('slug')
                     <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -35,7 +35,7 @@
 
             <!-- Actions -->
             <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-                <a href="" class="btn-secondary text-white">
+                <a href="{{route('admin.course_categories.index')}}" class="btn-secondary text-white">
                     بازگشت
                 </a>
 

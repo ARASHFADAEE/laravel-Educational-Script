@@ -10,13 +10,14 @@
 
         <h3 class="text-white">ویرایش دسته بندی مقاله</h3>
 
-        <form action="{{route('admin.post.category.update')}}" method="POST" class="space-y-6 flex flex-col p-12">
+        <form action="{{route('admin.post.category.update',$category->id)}}" method="POST" class="space-y-6 flex flex-col p-12">
             @csrf
+            @method('put')
 
             <!-- Name -->
             <div>
                 <label class="form-label text-white">نام دسته بندی</label>
-                <input type="text" name="name" class="form-input w-full" placeholder="نام دسته بندی" value="{{old('name')}}">
+                <input type="text" name="name" class="form-input text-black w-full" placeholder="نام دسته بندی" value="{{old('name',$category->name)}}">
                 @error('name')
                     <p class="form-error bg-red-700">{{ $message }}</p>
                 @enderror
@@ -24,7 +25,7 @@
 
             <div>
                 <label class="form-label text-white">اسلاگ</label>
-                <input type="text" name="slug" class="form-input  w-full" placeholder="laravel" value="{{old('slug')}}">
+                <input type="text" name="slug" class="form-input text-black  w-full" placeholder="laravel" value="{{old('slug',$category->slug)}}">
                 @error('slug')
                     <p class="form-error bg-red-700">{{ $message }}</p>
                 @enderror

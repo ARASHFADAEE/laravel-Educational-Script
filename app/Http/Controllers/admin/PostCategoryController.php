@@ -54,6 +54,19 @@ class PostCategoryController extends Controller
         return view('admin.postcategories.edit', compact('category'));
     }
 
+    public function update(Request $request ,$id){
+        $category=category::query()->findOrFail($id);
+
+        $data=$request->validate([
+            'name'=>'required|string|min:3',
+            'slug'=>'required|string|min:3'
+        ]);
+
+        $category->update($data);
+
+        return redirect()->route("admin.post.categories.index")->with('success','آپدیت با موفقیت انجام شد');
+    }
+
     public function destroy($id){
 
         $category_post=category::query()->findOrFail($id);
