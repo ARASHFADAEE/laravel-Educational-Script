@@ -14,6 +14,7 @@ use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\frontend\Homecontroller;
 use App\Http\Controllers\frontend\SingleBlogController;
 use App\Http\Controllers\admin\TinymceController;
+use App\Http\Controllers\frontend\CommentController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -29,12 +30,18 @@ Route::post('/register',[register::class,'register'])->name('auth.register');
 
 //front end Route
 
-//home page
 Route::get('/',[Homecontroller::class,'index'])->name('home');
 Route::get('/blog/{slug}',[SingleBlogController::class,'show'])->name('single.blog.show');
 Route::post('/logout',[login::class,'logout'])->name('auth.logout');
+Route::get('/posts/{post}/comments', [CommentController::class, 'index'])->name('posts.comments');
 
-
+//Comments Route
+Route::middleware(['auth'])->group(function () {
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::get('/comments/{comment}/replies', [CommentController::class, 'replies'])->name('comments.replies');
+});
 
 
 
