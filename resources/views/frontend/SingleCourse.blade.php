@@ -917,11 +917,26 @@
                         <div class="flex items-center justify-between gap-5">
                             <span class="font-bold text-base text-muted">هزینه ثبت نام:</span>
                             <div class="flex flex-col items-end justify-center h-14">
-                                <span class="line-through text-muted">۱,۱۹۹,۰۰۰</span>
+
+                                @if ($course->sale_price)
+                                    
+                                <span class="line-through text-muted">{{number_format($course->regular_price)}}</span>
                                 <div class="flex items-center gap-1">
-                                    <span class="font-black text-xl text-foreground">۱,۰۷۹,۰۰۰</span>
+                                    <span class="font-black text-xl text-foreground">{{number_format($course->sale_price)}}</span>
                                     <span class="text-xs text-muted">تومان</span>
                                 </div>
+
+                                @else
+
+                                                                <div class="flex items-center gap-1">
+                                    <span class="font-black text-xl text-foreground">{{number_format($course->sale_price)}}</span>
+                                    <span class="text-xs text-muted">تومان</span>
+                                </div>
+
+
+
+                            @endif
+
                             </div>
                         </div>
                         <div class="flex gap-3 mt-3">
