@@ -33,25 +33,44 @@
                 </button>
             </div>
         </div>
-        <form id="comment-form" action="{{ route('comments.store') }}" method="POST" class="flex flex-col space-y-5">
-            @csrf
-            <input type="hidden" name="post_id" value="{{ $post->id }}">
-            <input type="hidden" name="parent_id" id="parent_id" value="">
+        @if (Auth()->check())
+            <form id="comment-form" action="{{ route('comments.store') }}" method="POST"
+                class="flex flex-col space-y-5">
+                @csrf
+                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                <input type="hidden" name="parent_id" id="parent_id" value="">
 
-            <textarea name="body" id="text" rows="5"
-                class="form-textarea w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border border-border rounded-xl text-sm text-foreground p-5"
-                placeholder="متن مورد نظر خود را وارد کنید ..." required></textarea>
+                <textarea name="body" id="text" rows="5"
+                    class="form-textarea w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border border-border rounded-xl text-sm text-foreground p-5"
+                    placeholder="متن مورد نظر خود را وارد کنید ..." required></textarea>
 
-            <button type="submit"
-                class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
-                <span class="font-semibold text-sm">ثبت دیدگاه یا پرسش</span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
-                    <path fill-rule="evenodd"
-                        d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                        clip-rule="evenodd"></path>
-                </svg>
-            </button>
-        </form>
+                <button type="submit"
+                    class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
+                    <span class="font-semibold text-sm">ثبت دیدگاه یا پرسش</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                            d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </form>
+        @else
+            <div class="flex justify-center flex-column item-center gap-4 "
+                style="
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+">
+                <div>
+                    <p>برای ارسال کامنت باید وارد شوید </p>
+
+                </div>
+                <div class="mb-4" >
+                    <a class="p-4 rounded text-white bg-blue-600" href="{{ Route('auth.login') }}">ورود به سایت</a>
+
+                </div>
+            </div>
+        @endif
     </div>
     <!-- end article:comments:form:wrapper -->
 
