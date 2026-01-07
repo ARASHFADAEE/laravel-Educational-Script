@@ -8,7 +8,7 @@
 
         <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">ایجاد مقاله جدید</h2>
 
-        <form action="{{route('admin.post.store')}}" method="POST" class="space-y-6" enctype="multipart/form-data">
+        <form action="{{ route('admin.post.store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
             @csrf
 
             <!-- عنوان مقاله -->
@@ -50,7 +50,7 @@
             <div class="p-5 bg-red ">
                 <label for="thumbnail">تصویر مقاله</label>
                 <br>
-                <input type="file" name="thumbnail" >
+                <input type="file" name="thumbnail">
             </div>
             <!-- بدنه مقاله (با Summernote) -->
             <div>
@@ -123,56 +123,73 @@
         </form>
     </div>
 
-    <script src="https://cdn.tiny.cloud/1/vfy2oipuptjnbbspfdodnrzexwgkhkgyxde74zknmhwh164b/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-  tinymce.init({
-    selector: '#myeditor',
-    height: 500,
-    menubar: true,
-    plugins: [
-      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-      'insertdatetime', 'media', 'table', 'help', 'wordcount'
-    ],
-    toolbar: 'undo redo | blocks | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'removeformat | help | image media table code',
-    language: 'fa_IR',
-    directionality: 'rtl',
-    images_upload_handler: function (blobInfo, success, failure) {
-      var xhr, formData;
-      
-      xhr = new XMLHttpRequest();
-      xhr.withCredentials = false;
-      xhr.open('POST', '');
-      
-      xhr.onload = function() {
-        var json;
-        
-        if (xhr.status != 200) {
-          failure('HTTP Error: ' + xhr.status);
-          return;
-        }
-        
-        json = JSON.parse(xhr.responseText);
-        
-        if (!json || typeof json.location != 'string') {
-          failure('Invalid JSON: ' + xhr.responseText);
-          return;
-        }
-        
-        success(json.location);
-      };
-      
-      formData = new FormData();
-      formData.append('file', blobInfo.blob(), blobInfo.filename());
-      formData.append('_token', '{{ csrf_token() }}');
-      
-      xhr.send(formData);
-    }
-  });
-</script>
+    <script src="https://cdn.tiny.cloud/1/vfy2oipuptjnbbspfdodnrzexwgkhkgyxde74zknmhwh164b/tinymce/6/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#myeditor',
+            height: 500,
+            menubar: true,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+
+            toolbar: 'undo redo | blocks | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help | image media table code',
+            language: 'fa_IR',
+            directionality: 'rtl',
+            images_upload_handler: function(blobInfo, success, failure) {
+                var xhr, formData;
+
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '{{ route('tinymce.upload') }}');
+
+                xhr.onload = function() {
+                    var json;
+
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+
+                    json = JSON.parse(xhr.responseText);
+
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+
+                    success(json.location);
+                };
+
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                formData.append('_token', '{{ csrf_token() }}');
+
+                xhr.send(formData);
+            },
+            video_template_callback: function(data) {
+                return `
+            <video 
+                class="js-player"  // <-- کلاس دلخواهت رو اینجا اضافه کن
+                width="${data.width}"
+                height="${data.height}"
+                ${data.poster ? `poster="${data.poster}"` : ''}
+                controls="controls"
+                preload="metadata">
+                <source src="${data.source}" ${data.sourcemime ? `type="${data.sourcemime}"` : ''} />
+                ${data.altsource ? `<source src="${data.altsource}" ${data.altsourcemime ? `type="${data.altsourcemime}"` : ''} />` : ''}
+            </video>
+        `;
+            }
+
+        });
+    </script>
 
 
 

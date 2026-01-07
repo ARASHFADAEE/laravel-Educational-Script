@@ -1,13 +1,13 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'adasd')
 
 @section('content')
 
 
         <main class="flex-auto py-5">
             @foreach ($posts as  $post)
-                
+            @section('title', $post->title)
+
             <!-- container -->
             <div class="max-w-7xl space-y-14 px-4 mx-auto">
                 <div class="flex md:flex-nowrap flex-wrap items-start gap-5">
@@ -301,11 +301,9 @@
                                     </div>
                                 </div>
                                 <div class="bg-secondary rounded-tl-3xl rounded-b-3xl text-sm text-muted p-5">
-                                    اول داستان، طراح گرافیک بودم و ۲ سالی به عنوان طراح مشغول بودم،
-                                    بعد به برنامه‌نویسی علاقمند شدم و الان بیشتر از ۱۰ ساله که عاشق
-                                    کدزنی و چالش‌های پروژه‌های مختلفم. به تدریس علاقه خاصی دارم و دوست
-                                    دارم دانشی که در این راه بدست آوردم را در اختیار دیگران قرار بدم
-                                    :)
+
+                                {{$post->user->bio}}
+
                                 </div>
                             </div>
                         </div>

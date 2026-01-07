@@ -241,34 +241,59 @@
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                 'insertdatetime', 'media', 'table', 'help', 'wordcount'
             ],
+
             toolbar: 'undo redo | blocks | ' +
                 'bold italic backcolor | alignleft aligncenter ' +
                 'alignright alignjustify | bullist numlist outdent indent | ' +
                 'removeformat | help | image media table code',
             language: 'fa_IR',
             directionality: 'rtl',
-            images_upload_handler: function (blobInfo, success, failure) {
-                var xhr = new XMLHttpRequest();
-                var formData = new FormData();
-                
+            images_upload_handler: function(blobInfo, success, failure) {
+                var xhr, formData;
+
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = false;
+                xhr.open('POST', '{{ route('tinymce.upload') }}');
+
+                xhr.onload = function() {
+                    var json;
+
+                    if (xhr.status != 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+
+                    json = JSON.parse(xhr.responseText);
+
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+
+                    success(json.location);
+                };
+
+                formData = new FormData();
                 formData.append('file', blobInfo.blob(), blobInfo.filename());
                 formData.append('_token', '{{ csrf_token() }}');
-                
-                xhr.open('POST', '');
-                xhr.onload = function() {
-                    if (xhr.status === 200) {
-                        var json = JSON.parse(xhr.responseText);
-                        if (json && json.location) {
-                            success(json.location);
-                        } else {
-                            failure('Invalid response');
-                        }
-                    } else {
-                        failure('HTTP Error: ' + xhr.status);
-                    }
-                };
+
                 xhr.send(formData);
+            },
+            video_template_callback: function(data) {
+                return `
+            <video 
+                class="js-player"  // <-- کلاس دلخواهت رو اینجا اضافه کن
+                width="${data.width}"
+                height="${data.height}"
+                ${data.poster ? `poster="${data.poster}"` : ''}
+                controls="controls"
+                preload="metadata">
+                <source src="${data.source}" ${data.sourcemime ? `type="${data.sourcemime}"` : ''} />
+                ${data.altsource ? `<source src="${data.altsource}" ${data.altsourcemime ? `type="${data.altsourcemime}"` : ''} />` : ''}
+            </video>
+        `;
             }
+
         });
     </script>
 

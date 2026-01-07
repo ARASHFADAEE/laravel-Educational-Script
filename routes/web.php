@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\PostCategoryController;
 use App\Http\Controllers\admin\PostController;
 use App\Http\Controllers\frontend\Homecontroller;
 use App\Http\Controllers\frontend\SingleBlogController;
+use App\Http\Controllers\admin\TinymceController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -88,6 +89,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/post-category/{id}/edit',[PostCategoryController::class , 'edit'])->name('admin.post.category.edit');
     Route::put('/post-category/{id}/update',[PostCategoryController::class,'update'])->name('admin.post.category.update');
     Route::delete('/post-category/{id}/delete',[PostCategoryController::class,'destroy'])->name('admin.post.category.delete');
+    Route::post('/upload-tinymce-image', [TinymceController::class, 'upload'])->name('tinymce.upload');
 
 
 

@@ -8,6 +8,7 @@
      @vite(['resources/css/app.css', 'resources/js/app.js'])
      <link rel="stylesheet" href="{{asset('frontend/css/swiper-bundle.min.css')}}" />
      <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
+     <link rel="stylesheet" href="{{asset('frontend/css/plyr.min.css')}}">
     <title>@yield('title')</title>
 </head>
 
@@ -34,6 +35,7 @@
 
 <script src="{{asset('frontend/js/alpinejs.min.js')}}"></script>
 <script src="{{asset('frontend/js/swiper-bundle.min.js')}}"></script>
+<script src="{{asset('frontend/js/plyr.min.js')}}"></script>
             @if (session('success'))
     <script>
         Toastify({

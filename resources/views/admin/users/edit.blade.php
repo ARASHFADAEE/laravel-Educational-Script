@@ -26,7 +26,7 @@
             {{-- bio textarea --}}
             <div>
                 <label class="form-label text-white">بیوگرافی</label>
-                <textarea type="text" name="bio" class="form-input text-black  w-full" placeholder="من یک برنامه نویس خوشحالم" value="{{old('bio',$user->bio)}}"></textarea>
+                <textarea type="text" name="bio" class="form-input text-black  w-full" placeholder="من یک برنامه نویس خوشحالم" >{{ old('bio', $user->bio ?? '') }}</textarea>
                 @error('bio')
                     <p class="form-error">{{ $message }}</p>
                 @enderror

@@ -17,7 +17,7 @@ class SingleBlogController extends Controller
     public function show($slug){
 
         $posts=Post::query()->where('slug','=',$slug)
-        ->with(['post_categorie:id,name,slug','user:id,name,avatar'])->get();
+        ->with(['post_categorie:id,name,slug','user:id,name,avatar,bio'])->get();
 
 
 
