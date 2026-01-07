@@ -42,4 +42,8 @@ return $this->belongsTo(course_categorie::class, 'category_id', 'id');
     return $this->hasMany(Payment::class);
 }
 
+    public function carts(){
+        $this->hasMany(cart::class);
+    }
+
 }

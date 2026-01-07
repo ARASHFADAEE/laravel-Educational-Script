@@ -633,7 +633,7 @@
                             </div>
                         </div>
                         <div class="flex gap-3 mt-3">
-                            <button type="button"
+                            <button id="add_to_cart" data-courseid="{{ $course->id }}" type="button"
                                 class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                 <span class="font-semibold text-sm">اضافه به سبد</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -682,6 +682,71 @@
         </div>
         <!-- end container -->
     </main>
+
+    <script>
+        jQuery('#add_to_cart').on('click', function() {
+            var courseId = $(this).data('courseid');
+            var button = $(this);
+
+            jQuery.ajax({
+                url: '/cart/add',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    course_id: courseId
+
+                },
+                beforeSend: function() {
+                    button.prop('disabled', true).html('در حال افزودن...');
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // به‌روزرسانی تعداد سبد
+                        $('#cart_count').text(response.cart_count);
+                        Toastify({
+                            text: response.message, // یا متن ثابت: "ورود موفقیت آمیز بود"
+                            duration: 2000, // اختیاری: زمان نمایش (میلی‌ثانیه)
+                            gravity: "top", // اختیاری: top یا bottom
+                            position: "right", // اختیاری: right, left, center
+                            className: "info",
+                            style: {
+                                background: "green",
+                            }
+                        }).showToast();
+                    }else{
+
+                            Toastify({
+                            text: response.message, // یا متن ثابت: "ورود موفقیت آمیز بود"
+                            duration: 2000, // اختیاری: زمان نمایش (میلی‌ثانیه)
+                            gravity: "top", // اختیاری: top یا bottom
+                            position: "right", // اختیاری: right, left, center
+                            className: "info",
+                            style: {
+                                background: "red",
+                            }
+                        }).showToast();
+
+                    }
+                    button.prop('disabled', false).html('اضافه به سبد');
+                },
+                error: function() {
+                            Toastify({
+                            text:'خطا در افزودن سبد خرید' , 
+                            duration: 2000, 
+                            gravity: "top", 
+                            position: "right", 
+                            className: "info",
+                            style: {
+                                background: "red",
+                            }
+                        }).showToast();
+                    button.prop('disabled', false).html('اضافه به سبد');
+                }
+            });
+        });
+    </script>
 
 
 @endsection

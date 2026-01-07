@@ -15,4 +15,10 @@ export default defineConfig({
             ignored: ['**/storage/framework/views/**'],
         },
     },
+    resolve: {
+        alias: {
+            '$': '/node_modules/jquery/dist/jquery.js',
+            'jquery': '/node_modules/jquery/dist/jquery.js'
+        }
+    },
 });

@@ -10,6 +10,8 @@
      <link rel="stylesheet" href="{{asset('frontend/css/swiper-bundle.min.css')}}" />
      <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
      <link rel="stylesheet" href="{{asset('frontend/css/plyr.min.css')}}">
+     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
     <title>@yield('title')</title>
 </head>
 
