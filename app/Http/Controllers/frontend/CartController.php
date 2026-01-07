@@ -63,7 +63,7 @@ public function addToCart(Request $request)
         
         return response()->json([
             'success' => true,
-            'message' => 'محصول در سبد خرید آپدیت شد'
+            'message' => 'سبد خرید آپدیت شد'
         ]);
     }
 }
