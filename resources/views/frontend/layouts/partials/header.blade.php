@@ -512,9 +512,9 @@
                 <!-- searchBox -->
                 <div class="absolute inset-x-4 hidden lg:flex flex-col h-full bg-background transition-all"
                     x-bind:class="openSearchBox ? 'top-0' : '-top-full'">
-                    <form action="#" class="h-full">
+                    <form class="h-full">
                         <div class="flex items-center h-full relative">
-                            <input type="text"
+                            <input type="text" id="SearchKey"
                                 class="form-input w-full !ring-0 !ring-offset-0 bg-background border-0 focus:border-0 text-foreground"
                                 placeholder="نام دوره،مقاله و یا دسته بندی را وارد نمایید.." />
                             <button type="button"
@@ -527,6 +527,11 @@
                             </button>
                         </div>
                     </form>
+                    <div id=search-results style="
+    background: #ebf9fe;
+    padding: 10px;
+"></div>
+
                 </div>
                 <!-- end searchBox -->
             </div>
@@ -568,7 +573,7 @@
                     <div class="space-y-5 p-4">
                         <form action="#">
                             <div class="flex items-center relative">
-                                <input type="text"
+                                <input type="text" id="SearchKey"
                                     class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary border border-border focus:border-border rounded-xl text-sm text-foreground pr-10"
                                     placeholder="دنبال چی میگردی؟" />
                                 <span class="absolute right-3 text-muted">

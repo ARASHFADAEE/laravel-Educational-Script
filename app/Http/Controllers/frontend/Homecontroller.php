@@ -40,4 +40,6 @@ class Homecontroller extends Controller
 
         return view('frontend.index', $this->home_data());
     }
+
+    
 }

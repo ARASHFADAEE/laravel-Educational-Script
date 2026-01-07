@@ -39,6 +39,8 @@ Route::post('/register',[register::class,'register'])->name('auth.register');
 Route::get('/',[Homecontroller::class,'index'])->name('home');
 Route::get('/blog/{slug}',[SingleBlogController::class,'show'])->name('single.blog.show');
 
+//Search Ajax
+Route::get('/Search',[PostController::class,'search'])->name('search.ajax');
 //logout
 Route::post('/logout',[login::class,'logout'])->name('auth.logout');
 
@@ -67,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 });
+
+
 
 
 

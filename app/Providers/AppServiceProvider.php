@@ -22,6 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
+        /**
+         * send Count Cart Item In App
+         * @return view
+         */
         View::composer('frontend.layouts.master', function ($view) {
 
         $cart_count = 0;
@@ -29,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         if (Auth::check()) {
             $cart_count = Cart::where('user_id', Auth::id())->count();
         }
+
+        
 
         $view->with('cart_count', $cart_count);
     });

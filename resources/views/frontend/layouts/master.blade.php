@@ -39,7 +39,7 @@
 <script src="{{asset('frontend/js/alpinejs.min.js')}}"></script>
 <script src="{{asset('frontend/js/swiper-bundle.min.js')}}"></script>
 <script src="{{asset('frontend/js/plyr.min.js')}}"></script>
-            @if (session('success'))
+@if (session('success'))
     <script>
         Toastify({
             text: "{{ session('success') }}",  // یا متن ثابت: "ورود موفقیت آمیز بود"
@@ -51,8 +51,45 @@
                 background: "green",
             }
         }).showToast();
+
+
+
+
     </script>
+
+
 @endif
+
+<script>
+    jQuery("#SearchKey").on('keyup', function () { 
+    let query = jQuery(this).val();
+
+    if(query.length < 2) return; 
+
+
+    jQuery.ajax({
+        url: '/Search', 
+        method: 'GET',
+        data: { q: query },
+        success: function(response) {
+
+            let html = '';
+
+            if(response.length > 0){
+                response.forEach(item => {
+                    html += `<div class="p-7 ">
+                                <a href="/blog/${item.slug}">${item.title}</a>
+                             </div>`;
+                });
+            } else {
+                html = '<div>هیچ نتیجه‌ای یافت نشد</div>';
+            }
+
+            jQuery('#search-results').html(html);
+        }
+    });
+});
+</script>
 
 </body>
 
