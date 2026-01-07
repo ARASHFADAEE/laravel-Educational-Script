@@ -35,7 +35,7 @@
                                 </a>
                             </div>
                             <div class="flex-shrink-0 flex justify-center md:w-72 w-full md:order-2 -order-1">
-                                <img src="{{ asset('images/theme/intro/main.png') }}" class="max-w-full"
+                                <img src="{{ asset('image/intro/main.png') }}" class="max-w-full"
                                     alt="..." />
                             </div>
                         </div>

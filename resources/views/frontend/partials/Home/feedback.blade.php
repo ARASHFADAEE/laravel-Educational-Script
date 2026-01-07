@@ -39,7 +39,7 @@
                                                 </div>
                                                 <div class="flex items-center gap-3">
                                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="{{asset('images/avatars/01.jpeg')}}"
+                                                        <img src="{{asset('/image/avatar/avatar.png')}}"
                                                             class="w-full h-full object-cover" alt="...">
                                                     </div>
                                                     <div class="flex flex-col items-start space-y-1">
@@ -65,7 +65,7 @@
                                                 </div>
                                                 <div class="flex items-center gap-3">
                                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="{{asset('images/avatars/01.jpeg')}}"
+                                                        <img src="{{asset('/image/avatar/avatar.png')}}"
                                                             class="w-full h-full object-cover" alt="...">
                                                     </div>
                                                     <div class="flex flex-col items-start space-y-1">
