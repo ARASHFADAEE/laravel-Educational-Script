@@ -27,8 +27,9 @@ class CourseSingleController extends Controller
          */
         $course=Course::query()->where('slug','=',$slug)->with(['user:id,name,avatar,bio','lessons:id,title,is_free,video_url'])->withCount('lessons')->first();
         $lesson_one=lesson::query()->where('course_id','=',$course->id)->first();
+        $lessons=lesson::query()->where('course_id','=',$course->id)->get();
         
-        return view('frontend.SingleCourse',compact('course','lesson_one'));
+        return view('frontend.SingleCourse',compact('course','lesson_one','lessons'));
 
     }
 }

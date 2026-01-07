@@ -15,8 +15,9 @@
                             <div>
 
 
-                                    <video class="js-player" data-poster="{{ asset('storage') }}/{{ $course->thumbnail }}" src="{{$lesson_one->video_url}}"></video>
-                                    
+                                <video class="js-player" data-poster="{{ asset('storage') }}/{{ $course->thumbnail }}"
+                                    src="{{ $lesson_one->video_url }}"></video>
+
                             </div>
                             <!-- end course:thumbnail -->
                         </div>
@@ -268,11 +269,10 @@
                                                         <span class="flex items-center gap-3 text-right">
                                                             <span
                                                                 class="font-semibold text-xs text-foreground line-clamp-1">
-                                                                فصل اول
+                                                                لیست ویدیو ها
                                                             </span>
                                                             <div class="w-1 h-1 bg-muted-foreground rounded-full">
                                                             </div>
-                                                            <span class="font-semibold text-xs"> معرفی</span>
                                                         </span>
                                                         <span x-bind:class="open ? 'rotate-180' : ''">
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -289,363 +289,59 @@
                                                     <div class="flex flex-col relative py-3 sm:pr-8 sm:pl-16"
                                                         x-show="open">
                                                         <!-- course:section:episodes:wrapper -->
+
                                                         <div class="space-y-1">
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۱</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    معرفی دوره
-                                                                </a>
+                                                            @foreach ($lessons as $lesson)
+                                                                <!-- episode -->
                                                                 <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
+                                                                    class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
+                                                                    <span class="text-xs text-muted">۱</span>
+                                                                    <div class="w-1 h-1 bg-muted-foreground rounded-full">
+                                                                    </div>
                                                                     <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
+                                                                        class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
+                                                                        {{ $lesson->title }}
                                                                     </a>
+                                                                    <div
+                                                                        class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
+                                                                        <span class="flex items-center gap-1 text-muted">
+                                                                            <span class="text-xs">۰۳:۵۸</span>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                fill="none" viewBox="0 0 24 24"
+                                                                                stroke-width="1.5" stroke="currentColor"
+                                                                                class="w-4 h-4">
+                                                                                <path stroke-linecap="round"
+                                                                                    stroke-linejoin="round"
+                                                                                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
+                                                                                </path>
+                                                                            </svg>
+                                                                        </span>
+                                                                        <a href="./course-episodes.html"
+                                                                            class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                                                                            <span class="text-xs">مشاهده</span>
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                viewBox="0 0 20 20" fill="currentColor"
+                                                                                class="w-5 h-5">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                                                                    clip-rule="evenodd"></path>
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <!-- end episode -->
+                                                                <!-- end episode -->
+                                                            @endforeach
 
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۲</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    پیش نیاز مشاهده این دوره
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۳</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    چرا باید این دوره را مشاهده کنیم؟
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۴</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    در این پروژه از typescript هم استفاده می‌شود
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
                                                         </div>
+
+
                                                         <!-- end course:section:episodes:wrapper -->
                                                     </div>
                                                     <!-- end accordion:content -->
                                                 </div>
                                                 <!-- end course:sections:accordion -->
 
-                                                <!-- course:section:accordion -->
-                                                <div class="w-full" x-data="{ open: false }">
-                                                    <!-- accordion:button -->
-                                                    <button type="button"
-                                                        class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
-                                                        x-bind:class="open ? 'text-foreground' : 'text-muted'"
-                                                        x-on:click="open = !open">
-                                                        <span class="flex items-center gap-3 text-right">
-                                                            <span
-                                                                class="font-semibold text-xs text-foreground line-clamp-1">
-                                                                فصل دوم
-                                                            </span>
-                                                            <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                            </div>
-                                                            <span class="font-semibold text-xs">
-                                                                پیاده سازی ساختار پروژه
-                                                            </span>
-                                                        </span>
-                                                        <span x-bind:class="open ? 'rotate-180' : ''">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                                            </svg>
-                                                        </span>
-                                                    </button><!-- end accordion:button -->
 
-                                                    <!-- accordion:content -->
-                                                    <div class="flex flex-col relative py-3 sm:pr-8 sm:pl-16"
-                                                        x-show="open">
-                                                        <!-- course:section:episodes wrapper -->
-                                                        <div class="space-y-1">
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۱</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    چه زمانی از next و چه زمانی از react استفاده
-                                                                    کنیم؟
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۲</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    نصب پروژه react و next
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۳</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    پیاده سازی ssr با vite
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-
-                                                            <!-- episode -->
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                <span class="text-xs text-muted">۴</span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <a href="./course-episodes.html"
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                    نصب و پیاده سازی redux
-                                                                </a>
-                                                                <div
-                                                                    class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                    <span class="flex items-center gap-1 text-muted">
-                                                                        <span class="text-xs">۰۳:۵۸</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            fill="none" viewBox="0 0 24 24"
-                                                                            stroke-width="1.5" stroke="currentColor"
-                                                                            class="w-4 h-4">
-                                                                            <path stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    <a href="./course-episodes.html"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">مشاهده</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                            <!-- end episode -->
-                                                        </div>
-                                                        <!-- end course:section:episodes wrapper -->
-                                                    </div><!-- end accordion:content -->
-                                                </div>
-                                                <!-- end course:section:accordion -->
                                             </div>
                                             <!-- end course:sections:wrapper -->
                                         </div>
@@ -919,23 +615,20 @@
                             <div class="flex flex-col items-end justify-center h-14">
 
                                 @if ($course->sale_price)
-                                    
-                                <span class="line-through text-muted">{{number_format($course->regular_price)}}</span>
-                                <div class="flex items-center gap-1">
-                                    <span class="font-black text-xl text-foreground">{{number_format($course->sale_price)}}</span>
-                                    <span class="text-xs text-muted">تومان</span>
-                                </div>
-
+                                    <span
+                                        class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
+                                    <div class="flex items-center gap-1">
+                                        <span
+                                            class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
+                                        <span class="text-xs text-muted">تومان</span>
+                                    </div>
                                 @else
-
-                                                                <div class="flex items-center gap-1">
-                                    <span class="font-black text-xl text-foreground">{{number_format($course->sale_price)}}</span>
-                                    <span class="text-xs text-muted">تومان</span>
-                                </div>
-
-
-
-                            @endif
+                                    <div class="flex items-center gap-1">
+                                        <span
+                                            class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
+                                        <span class="text-xs text-muted">تومان</span>
+                                    </div>
+                                @endif
 
                             </div>
                         </div>
