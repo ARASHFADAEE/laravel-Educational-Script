@@ -56,7 +56,9 @@
                                             <div
                                                 class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
                                                 <div class="flex items-center gap-2">
+                                                    
                                                     <span class="block w-1 h-1 bg-success rounded-full"></span>
+                        
                                                     <span class="font-bold text-xs text-success">تکمیل شده</span>
                                                 </div>
                                                 <h2 class="font-bold text-sm">

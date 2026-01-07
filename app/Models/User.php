@@ -59,12 +59,13 @@ class User extends Authenticatable
         return $this->hasMany(Course::class);
     }
 
-    public function comments(){
-        $this->hasMany(User::class);
-    }
+public function comments()
+{
+    return $this->hasMany(Comment::class); // نه User::class!
+}
 
     public function payments(){
-        $this->hasMany(Payment::class);
+       return $this->hasMany(Payment::class);
     }
 
 

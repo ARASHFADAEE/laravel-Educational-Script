@@ -10,12 +10,15 @@ class post_categorie extends Model
         'name',
         'slug'
     ];
+    protected $table = 'post_categories';
 
 
-    public function posts()
+     public function posts()
     {
         return $this->hasMany(Post::class, 'category_id');
     }
+
+
 
     
 

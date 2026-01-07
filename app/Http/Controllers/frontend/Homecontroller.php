@@ -11,12 +11,18 @@ class Homecontroller extends Controller
 {
 
     public function home_data(){
-$courses = Course::with('course_categorie:id,name')
+                 $courses = Course::with('course_categorie:id,name')
                  ->withCount('lessons')->with('user')
                  ->paginate(3);
 
 
-        $posts=Post::with('post_categorie:id,name')->paginate(4);
+$posts = Post::with([
+        'user:id,name,avatar',
+        'post_categorie:id,name'
+    ])
+    ->select('id', 'title', 'slug', 'thumbnail', 'created_at', 'user_id', 'category_id')
+    ->paginate(4);
+
         return[
             'courses'=>$courses,
             'posts'=>$posts

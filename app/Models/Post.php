@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\seo_meta as Seo;
+use App\Models\post_categorie as PostCategory;
 
 class Post extends Model
 {
@@ -22,14 +23,14 @@ class Post extends Model
     {
         return $this->morphOne(Seo::class, 'metable');
     }
-    public function user()
+public function user()
     {
-        return $this->BelongsTo(Post::class);
-
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function post_categorie(){
-        return $this->belongsTo(Post::class);
+public function post_categorie()
+    {
+        return $this->belongsTo(PostCategory::class, 'category_id');
     }
 
 
