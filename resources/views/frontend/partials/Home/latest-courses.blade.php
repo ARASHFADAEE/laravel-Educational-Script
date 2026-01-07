@@ -17,7 +17,7 @@
                                 <span class="font-semibold xs:text-base text-sm text-foreground">منتشر شده</span>
                             </div>
                         </div>
-                        <a href="./series.html"
+                        <div
                             class="sm:w-auto w-11 h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-foreground transition-colors hover:text-primary sm:px-4">
                             <span class="font-semibold text-sm sm:block hidden">مشاهده همه</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -26,7 +26,7 @@
                                     d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                        </a>
+                        </div>
                     </div>
                     <!-- end section:title -->
 
@@ -38,11 +38,11 @@
                                     <!-- course:card -->
                                     <div class="relative">
                                         <div class="relative z-10">
-                                            <a href="#" class="block">
+                                            <a href="{{route('course.show',$course->slug)}}" class="block">
                                                 <img src="{{ asset('storage') }}/{{ $course->thumbnail }}"
                                                     class="max-w-full rounded-3xl" alt="..." />
                                             </a>
-                                            <a href="./course-category.html"
+                                            <a href="{{route('course.show',$course->slug)}}"
                                                 class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                     fill="currentColor" class="w-6 h-6">
@@ -62,7 +62,7 @@
                                                     <span class="font-bold text-xs text-success">تکمیل شده</span>
                                                 </div>
                                                 <h2 class="font-bold text-sm">
-                                                    <a href="./course-detail.html"
+                                                    <a href="{{route('course.show',$course->slug)}}"
                                                         class="line-clamp-1 text-foreground transition-colors hover:text-primary">دوره
                                                         {{ $course->title }}</a>
                                                 </h2>
@@ -79,7 +79,7 @@
                                                                 d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
                                                             </path>
                                                         </svg>
-                                                        <span class="font-semibold text-xs">{{ $course->lessons_count }}
+                                                        <span class="font-semibold text-xs">{{ $course->lessons_count}}
                                                             درس</span>
                                                     </div>
                                                     <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
@@ -105,9 +105,9 @@
                                                             <span
                                                                 class="line-clamp-1 font-semibold text-xs text-muted">مدرس
                                                                 دوره:</span>
-                                                            <a href="./lecturer.html"
+                                                            <div
                                                                 class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">
-                                                                {{ $course->user->name }}</a>
+                                                                {{ $course->user->name }}</div>
                                                         </div>
                                                     </div>
                                                     <div class="flex flex-col items-end justify-center h-14">
@@ -130,7 +130,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
+                                                    <a href="{{route('course.show',$course->slug)}}"
                                                         class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                                         <span class="line-clamp-1 font-semibold text-sm">مشاهده
                                                             دوره</span>

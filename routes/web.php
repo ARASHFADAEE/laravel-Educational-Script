@@ -15,6 +15,7 @@ use App\Http\Controllers\frontend\Homecontroller;
 use App\Http\Controllers\frontend\SingleBlogController;
 use App\Http\Controllers\admin\TinymceController;
 use App\Http\Controllers\frontend\CommentController;
+use App\Http\Controllers\frontend\CourseSingleController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -28,11 +29,21 @@ Route::post('/register',[register::class,'register'])->name('auth.register');
 });
 
 
-//front end Route
+/**
+ * Front End Route
+ * 
+ * @return Route
+ */
 
+//home and blog
 Route::get('/',[Homecontroller::class,'index'])->name('home');
 Route::get('/blog/{slug}',[SingleBlogController::class,'show'])->name('single.blog.show');
+
+//logout
 Route::post('/logout',[login::class,'logout'])->name('auth.logout');
+
+
+//Render Comments for Single Blog Page
 Route::get('/posts/{post}/comments', [CommentController::class, 'index'])->name('posts.comments');
 
 //Comments Route
@@ -42,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::get('/comments/{comment}/replies', [CommentController::class, 'replies'])->name('comments.replies');
 });
+
+
+
+//Single Course page
+Route::get('/courses/{slug}',[CourseSingleController::class,'show'])->name('course.show');
 
 
 
