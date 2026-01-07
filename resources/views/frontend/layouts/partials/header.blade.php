@@ -15,7 +15,7 @@
                             </svg>
                         </button>
                         <!-- end offcanvas:button -->
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="{{Route('home')}}" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
