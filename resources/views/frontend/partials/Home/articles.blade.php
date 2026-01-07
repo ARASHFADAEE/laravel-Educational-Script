@@ -28,7 +28,7 @@
                                 <!-- article:card -->
                                 <div class="relative bg-background rounded-xl p-4 hover:shadow-xl transition-shadow">
                                     <div class="relative mb-3 z-20">
-                                        <a href="./article-detail.html" class="block">
+                                        <a href="{{route('single.blog.show',$post->slug)}}" class="block">
                                             <img src="{{asset('storage/')}}/{{$post->thumbnail}}"
                                                 class="w-full h-48 object-cover rounded-xl" alt="..." />
                                         </a>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="relative space-y-3 z-10">
                                         <h2 class="font-bold text-sm">
-                                            <a href="./article-detail.html"
+                                            <a href="{{route('single.blog.show',$post->slug)}}"
                                                 class="line-clamp-2 text-foreground transition-colors hover:text-primary">
                                                {{$post->title}}
                                             </a>
@@ -56,10 +56,10 @@
                                                     <img src="{{ asset('storage') }}/{{$post->user->avatar}}"
                                                         class="w-full h-full object-cover" alt="...">
                                                 </div>
-                                                <a href="./lecturer.html"
+                                                <div href=""
                                                     class="line-clamp-1 font-bold text-xs text-foreground transition-colors hover:text-primary">
                                                 {{$post->user->name}}
-                                                </a>
+                                                </div>
                                             </div>
                                             <a href="./article-category.html"
                                                 class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
