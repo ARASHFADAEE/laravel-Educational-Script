@@ -71,9 +71,9 @@ class LoginController extends Controller
                 if ($user->role=='admin') {
                     return redirect()->intended(route('admin.dashboard'))->with('success','ورود با موفقیت انجام شد');
                 } elseif ($user->role=='user') {
-                    return redirect()->intended(route('home'))->with('success','ورود با موفقیت انجام شد');
+                    return redirect()->back()->with('success','ورود با موفقیت انجام شد');
                 } else {
-                    return redirect()->intended(route('home'))->with('success','ورود با موفقیت انجام شد');
+                    return redirect()->back()->with('success','ورود با موفقیت انجام شد');
                 }
                 
             } else {
