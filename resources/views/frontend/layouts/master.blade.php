@@ -61,33 +61,40 @@
 @endif
 
 <script>
-    jQuery("#SearchKey").on('keyup', function () { 
-    let query = jQuery(this).val();
-
-    if(query.length < 2) return; 
-
-
-    jQuery.ajax({
-        url: '/Search', 
-        method: 'GET',
-        data: { q: query },
-        success: function(response) {
-
-            let html = '';
-
-            if(response.length > 0){
-                response.forEach(item => {
-                    html += `<div class="p-7 ">
-                                <a href="/blog/${item.slug}">${item.title}</a>
-                             </div>`;
-                });
-            } else {
-                html = '<div>هیچ نتیجه‌ای یافت نشد</div>';
-            }
-
-            jQuery('#search-results').html(html);
+document.addEventListener('alpine:init', () => {
+    // تعریف یک تابع جستجو
+    window.searchProducts = function(searchTerm) {
+        if(searchTerm.length < 2) {
+            document.getElementById('search-results').innerHTML = '';
+            return;
         }
-    });
+        
+        fetch(`/Search?q=${encodeURIComponent(searchTerm)}`)
+            .then(response => response.json())
+            .then(data => {
+                let html = '';
+                
+                if(data.length > 0) {
+                    data.forEach(item => {
+                        html += `
+                            <div class="p-4 border-b hover:bg-gray-50">
+                                <a href="/blog/${item.slug}" class="text-blue-600 hover:underline">
+                                    ${item.title}
+                                </a>
+                            </div>`;
+                    });
+                } else {
+                    html = '<div class="p-4 text-center text-gray-500">هیچ نتیجه‌ای یافت نشد</div>';
+                }
+                
+                document.getElementById('search-results').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Search error:', error);
+                document.getElementById('search-results').innerHTML = 
+                    '<div class="p-4 text-center text-red-500">خطا در جستجو</div>';
+            });
+    };
 });
 </script>
 

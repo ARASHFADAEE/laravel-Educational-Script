@@ -389,7 +389,7 @@
                         </button>
                         <!-- end openSearchBox:button -->
 
-                        <a href="{{route('cart.index')}}"
+                        <a href="{{ route('cart.index') }}"
                             class="inline-flex items-center justify-center relative w-10 h-10 bg-secondary rounded-full text-foreground cart-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -511,28 +511,170 @@
 
                 <!-- searchBox -->
                 <div class="absolute inset-x-4 hidden lg:flex flex-col h-full bg-background transition-all"
-                    x-bind:class="openSearchBox ? 'top-0' : '-top-full'">
-                    <form class="h-full">
+                    x-bind:class="openSearchBox ? 'top-0' : '-top-full'" x-data="searchBox()">
+                    <form class="h-full" @submit.prevent="performSearch()">
                         <div class="flex items-center h-full relative">
-                            <input type="text" id="SearchKey"
+                            <input id="SearchKey" x-model="query" x-on:keyup.debounce.300ms="performSearch()"
+                                x-ref="searchInput" type="text"
                                 class="form-input w-full !ring-0 !ring-offset-0 bg-background border-0 focus:border-0 text-foreground"
-                                placeholder="نام دوره،مقاله و یا دسته بندی را وارد نمایید.." />
+                                placeholder="نام دوره، مقاله و یا دسته بندی را وارد نمایید.." :disabled="isLoading" />
+
+                            <!-- دکمه بستن -->
                             <button type="button"
                                 class="absolute left-0 inline-flex items-center justify-center w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500"
-                                x-on:click="openSearchBox = false">
+                                x-on:click="openSearchBox = false; clearSearch()">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
                             </button>
+
+                            <!-- نمایش وضعیت لودینگ -->
+                            <div x-show="isLoading" class="absolute left-12">
+                                <svg class="animate-spin w-5 h-5 text-primary" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10"
+                                        stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                            </div>
                         </div>
                     </form>
-                    <div id=search-results style="
-    background: #ebf9fe;
-    padding: 10px;
-"></div>
 
+                    <!-- نتایج جستجو -->
+                    <div id="search-results"
+                        class="bg-[#ebf9fe] p-4 rounded-lg max-h-96 overflow-y-auto absolute w-full "
+                        style="margin-top: 5rem" x-show="query.length >= 2 && (results.length > 0 || noResults)"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform -translate-y-2"
+                        x-transition:enter-end="opacity-100 transform translate-y-0">
+
+                        <!-- هنگام لودینگ -->
+                        <div x-show="isLoading" class="text-center py-4">
+                            <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-primary">
+                            </div>
+                            <p class="mt-2 text-sm text-muted-foreground">در حال جستجو...</p>
+                        </div>
+
+                        <!-- نتایج -->
+                        <template x-if="!isLoading && results.length > 0">
+                            <div>
+                                <div class="mb-3 text-sm text-muted-foreground">
+                                    <span x-text="results.length"></span> نتیجه یافت شد
+                                </div>
+                                <div class="space-y-2">
+                                    <template x-for="item in results" :key="item.id">
+                                        <a :href="`/blog/${item.slug}`"
+                                            class="block p-3 bg-white rounded-lg border border-border hover:border-primary hover:shadow-sm transition-all group">
+                                            <div class="font-medium text-foreground group-hover:text-primary"
+                                                x-text="item.title"></div>
+                                            <template x-if="item.category">
+                                                <div class="mt-1 text-xs text-muted-foreground">
+                                                    <span x-text="item.category.name"></span>
+                                                </div>
+                                            </template>
+                                            <template x-if="item.excerpt">
+                                                <p class="mt-2 text-sm text-muted-foreground line-clamp-2"
+                                                    x-text="item.excerpt"></p>
+                                            </template>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- بدون نتیجه -->
+                        <div x-show="!isLoading && noResults && query.length >= 2" class="text-center py-6">
+                            <svg class="w-12 h-12 mx-auto text-muted-foreground/50 mb-3" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                </path>
+                            </svg>
+                            <p class="text-muted-foreground">نتیجه‌ای برای "<span x-text="query"
+                                    class="font-medium"></span>" یافت نشد</p>
+                        </div>
+                    </div>
                 </div>
+
+                <script>
+                    document.addEventListener('alpine:init', () => {
+                        Alpine.data('searchBox', () => ({
+                            query: '',
+                            results: [],
+                            isLoading: false,
+                            noResults: false,
+                            minLength: 2,
+
+                            init() {
+                                // وقتی سرچ باکس باز می‌شود، فوکوس روی اینپوت
+                                this.$watch('openSearchBox', (value) => {
+                                    if (value) {
+                                        setTimeout(() => {
+                                            this.$refs.searchInput.focus();
+                                        }, 100);
+                                    } else {
+                                        this.clearSearch();
+                                    }
+                                });
+                            },
+
+                            async performSearch() {
+                                // بررسی حداقل طول
+                                if (this.query.length < this.minLength) {
+                                    this.results = [];
+                                    this.noResults = false;
+                                    return;
+                                }
+
+                                this.isLoading = true;
+                                this.noResults = false;
+
+                                try {
+                                    const response = await fetch(`/Search?q=${encodeURIComponent(this.query)}`);
+
+                                    if (!response.ok) {
+                                        throw new Error('خطا در ارتباط با سرور');
+                                    }
+
+                                    const data = await response.json();
+                                    this.results = data;
+                                    this.noResults = data.length === 0;
+
+                                } catch (error) {
+                                    console.error('Search error:', error);
+                                    this.results = [];
+                                    this.noResults = true;
+
+                                    // نمایش خطا در نتایج
+                                    this.results = [{
+                                        id: 'error',
+                                        title: 'خطا در جستجو',
+                                        excerpt: 'لطفاً دوباره تلاش کنید',
+                                        slug: '#'
+                                    }];
+
+                                } finally {
+                                    this.isLoading = false;
+                                }
+                            },
+
+                            clearSearch() {
+                                this.query = '';
+                                this.results = [];
+                                this.noResults = false;
+                                this.isLoading = false;
+                            },
+
+                            selectResult(item) {
+                                // هدایت به صفحه نتیجه
+                                window.location.href = `/blog/${item.slug}`;
+                            }
+                        }));
+                    });
+                </script>
                 <!-- end searchBox -->
             </div>
             <!-- end container -->
@@ -571,19 +713,104 @@
 
                     <!-- offcanvas:content -->
                     <div class="space-y-5 p-4">
-                        <form action="#">
+                        <form action="#" @submit.prevent x-data="{
+                            query: '',
+                            results: [],
+                            isLoading: false,
+                            showResults: false
+                        }">
                             <div class="flex items-center relative">
-                                <input type="text" id="SearchKey"
-                                    class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary border border-border focus:border-border rounded-xl text-sm text-foreground pr-10"
+                                <input type="text" id="SearchKeyMobile" x-model="query"
+                                    x-on:keyup.debounce.300ms="
+                if(query.length < 2) {
+                    results = [];
+                    showResults = false;
+                    return;
+                }
+                
+                isLoading = true;
+                showResults = true;
+                
+                fetch(`/Search?q=${encodeURIComponent(query)}`)
+                    .then(r => r.json())
+                    .then(data => {
+                        results = data;
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        results = [];
+                    })
+                    .finally(() => isLoading = false);
+            "
+                                    x-on:focus="showResults = query.length >= 2"
+                                    x-on:click.outside="showResults = false"
+                                    class="form-input w-full h-10 !ring-0 !ring-offset-0 bg-secondary border border-border focus:border-primary rounded-xl text-sm text-foreground pr-10"
                                     placeholder="دنبال چی میگردی؟" />
-                                <span class="absolute right-3 text-muted">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                            d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
+
+                                <span class="absolute right-3">
+                                    <template x-if="!isLoading">
+                                        <span class="text-muted">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                fill="currentColor" class="w-5 h-5">
+                                                <path fill-rule="evenodd"
+                                                    d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z"
+                                                    clip-rule="evenodd"></path>
+                                            </svg>
+                                        </span>
+                                    </template>
+
+                                    <template x-if="isLoading">
+                                        <span class="text-primary">
+                                            <svg class="animate-spin w-5 h-5" xmlns="http://www.w3.org/2000/svg"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10"
+                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                <path class="opacity-75" fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                                </path>
+                                            </svg>
+                                        </span>
+                                    </template>
                                 </span>
+                            </div>
+
+                            <!-- نتایج برای موبایل (پاپ‌آپ) -->
+                            <div x-show="showResults && results.length > 0" x-transition
+                                class="fixed inset-x-4 top-20 z-50 bg-background border border-border rounded-xl shadow-2xl max-h-80 overflow-y-auto"
+                                x-cloak>
+
+                                <div class="p-4 border-b border-border">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm font-medium text-foreground">نتایج جستجو</span>
+                                        <button x-on:click="showResults = false; query = ''"
+                                            class="text-muted-foreground hover:text-error">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="divide-y divide-border">
+                                    <template x-for="item in results" :key="item.id">
+                                        <a :href="`/blog/${item.slug}`"
+                                            class="block p-4 hover:bg-secondary transition-colors"
+                                            x-on:click="showResults = false">
+                                            <div class="font-medium text-foreground" x-text="item.title"></div>
+                                            <template x-if="item.category">
+                                                <div class="mt-1 text-xs text-muted-foreground"
+                                                    x-text="item.category.name"></div>
+                                            </template>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- backdrop برای موبایل -->
+                            <div x-show="showResults" x-transition.opacity class="fixed inset-0 bg-black/50 z-40"
+                                x-cloak x-on:click="showResults = false">
                             </div>
                         </form>
                         <div class="h-px bg-border"></div>
