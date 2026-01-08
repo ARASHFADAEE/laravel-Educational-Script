@@ -41,6 +41,7 @@ Route::get('/blog/{slug}',[SingleBlogController::class,'show'])->name('single.bl
 
 //Search Ajax
 Route::get('/Search',[PostController::class,'search'])->name('search.ajax');
+
 //logout
 Route::post('/logout',[login::class,'logout'])->name('auth.logout');
 
@@ -54,6 +55,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     Route::get('/comments/{comment}/replies', [CommentController::class, 'replies'])->name('comments.replies');
+
+    //Cart Routes
+    Route::get('/cart',[CartController::class,'index'])->name('cart.show');
 });
 
 
@@ -66,7 +70,7 @@ Route::get('/courses/{slug}',[CourseSingleController::class,'show'])->name('cour
 //Cart System Route
 Route::middleware(['auth'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::delete('/cart/remove/{courseid}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 });
 

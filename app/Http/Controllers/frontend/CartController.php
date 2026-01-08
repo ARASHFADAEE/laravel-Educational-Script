@@ -55,11 +55,11 @@ class CartController extends Controller
      * Handle Ajax Request Remove Item in Cart Course Single
      * @return json 
      */
-    public function removeFromCart(Request $request)
+    public function removeFromCart(Request $request, $courseid)
     {
         $cartItem = Cart::where([
             'user_id' => Auth::id(),
-            'course_id' => $request->course_id
+            'course_id' => $courseid
         ])->first();
 
         if ($cartItem) {
@@ -74,5 +74,18 @@ class CartController extends Controller
             'success' => true,
             'message' => 'سبد خرید آپدیت شد'
         ]);
+    }
+
+
+    /**
+     * Show Cart Items Page 
+     * @return view
+     */
+
+    public function index(){
+        $items=Cart::query()->with('course')->where('user_id','=',Auth::id())->get();
+        $course_count=Cart::query()->where('user_id','=',Auth::id())->count();
+
+        return view('frontend.cart',compact('items','course_count'));
     }
 }
