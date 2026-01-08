@@ -130,7 +130,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-3 mt-3">
-                                                    <a href="./course-detail.html"
+                                                    <a href="{{route('course.show',$item->course->slug)}}"
                                                         class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                                         <span class="line-clamp-1 font-semibold text-sm">مشاهده
                                                             دوره</span>
