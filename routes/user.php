@@ -11,8 +11,9 @@ Route::prefix('dashboard')->group(function(){
 
     Route::get('courses',[DashboardController::class,'Courses'])->name("user.courses");
 
-
     Route::get('/payments',[DashboardController::class,'payments'])->name("user.payments");
+
+    Route::get('/profile',[DashboardController::class , 'profile'])->name('user.profile');
 
 
 

@@ -69,4 +69,23 @@ class DashboardController extends Controller
 
     }
 
+
+
+    /**
+     * view profile data user
+     * 
+     * @return view
+     */
+
+    public function profile(){
+
+
+        return view('user.profile');
+    }
+
+
+
+
+
+
 }
