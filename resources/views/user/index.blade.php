@@ -45,8 +45,11 @@
                              <div class="flex items-center gap-2">
                                  <span class="block w-1 h-1 bg-success rounded-full"></span>
                                  <span class="font-bold text-xs text-success">
-                                    {{$course->status}}
-                                     </span>
+                                    @if ($course->status == 'published')
+                                    تکمیل شده
+                                        
+                                    @endif
+                                    </span>
                              </div>
                              <h2 class="font-bold text-sm">
                                  <a href="{{Route('course.show',$course->id)}}"

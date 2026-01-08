@@ -2,19 +2,38 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\user\DashboardController;
+use App\Http\Controllers\user\UserProfileController;
 
 
 
-Route::prefix('dashboard')->group(function(){
 
+Route::prefix('dashboard')->middleware(['auth'])->group(function () {
+
+     
     Route::get('/',[DashboardController::class,'index'])->name("user.dashboard");
 
     Route::get('courses',[DashboardController::class,'Courses'])->name("user.courses");
 
     Route::get('/payments',[DashboardController::class,'payments'])->name("user.payments");
 
-    Route::get('/profile',[DashboardController::class , 'profile'])->name('user.profile');
 
 
-
+    // پروفایل کاربر
+    Route::get('/profile', [UserProfileController::class, 'profile'])->name('user.profile');
+    
+    // بروزرسانی اطلاعات
+    Route::put('/profile', [UserProfileController::class, 'updateProfile'])->name('user.profile.update');
+    
+    // بروزرسانی رمز عبور
+    Route::put('/profile/password', [UserProfileController::class, 'updatePassword'])->name('user.password.update');
+    
+    // حذف آواتار
+    Route::delete('/profile/avatar', [UserProfileController::class, 'deleteAvatar'])->name('user.avatar.delete');
+    
+    // API endpoints
+    Route::get('/profile/data', [UserProfileController::class, 'getProfileData'])->name('user.profile.data');
+    Route::post('/profile/validate-password', [UserProfileController::class, 'validateCurrentPassword'])->name('user.validate.password');
+    
+    // نوتیفیکیشن‌ها
+    Route::put('/profile/notifications', [UserProfileController::class, 'updateNotifications'])->name('user.notifications.update');
 });
