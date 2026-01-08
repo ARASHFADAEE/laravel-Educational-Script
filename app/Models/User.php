@@ -7,6 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -59,21 +60,24 @@ class User extends Authenticatable
         return $this->hasMany(Course::class);
     }
 
-public function comments()
-{
-    return $this->hasMany(Comment::class); // نه User::class!
-}
-
-    public function payments(){
-       return $this->hasMany(Payment::class);
+    public function comments()
+    {
+        return $this->hasMany(Comment::class); // نه User::class!
     }
 
-    public function carts(){
-        $this->hasMany(cart::class);
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
-    
+    public function carts()
+    {
+        return $this->hasMany(cart::class);
+    }
 
+    public function enrollments()
+    {
 
-
+        return $this->hasMany(enrollment::class);
+    }
 }
