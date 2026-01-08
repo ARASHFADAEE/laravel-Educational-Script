@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\course_categorie as category;
+use App\Models\enrollment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,6 +47,28 @@ class AppServiceProvider extends ServiceProvider
             'course_categories'=>$Course_categories_nav
         
         ]);
+
+
+
+    });
+
+
+    /**
+     * Send Data Dashbard Master User
+     * @return View
+     */
+
+    view::composer('user.dashboard',function($view){
+
+
+    $userId=Auth::id();
+    $courses_user_count = Enrollment::where('user_id', $userId)->count();
+
+        $view->with([
+            'courses_user_count'=>$courses_user_count
+        ]);
+
+
     });
 
 

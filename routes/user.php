@@ -5,5 +5,15 @@ use App\Http\Controllers\user\DashboardController;
 
 
 
+Route::prefix('dashboard')->group(function(){
 
-Route::get('/dashboard',[DashboardController::class,'index']);
+    Route::get('/',[DashboardController::class,'index'])->name("user.dashboard");
+
+    Route::get('courses',[DashboardController::class,'Courses'])->name("user.courses");
+
+
+    Route::get('/payments',[DashboardController::class,'payments'])->name("user.payments");
+
+
+
+});

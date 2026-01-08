@@ -12,8 +12,8 @@
                                 </span>
                                 <div class="flex flex-col items-start text-right space-y-1">
                                     <span class="font-bold text-xs text-muted line-clamp-1">باقیمانده اشتراک</span>
-                                    <span class="font-bold text-sm text-foreground line-clamp-1">عضو ویژه
-                                        نیستید</span>
+                                    <span class="font-bold text-sm text-foreground line-clamp-1">به زودی.....
+                                        </span>
                                 </div>
                             </div>
                             <!-- end statistics:item -->
@@ -31,7 +31,7 @@
                                 </span>
                                 <div class="flex flex-col items-start text-right space-y-1">
                                     <span class="font-bold text-xs text-muted line-clamp-1">درحال یادگیری</span>
-                                    <span class="font-bold text-sm text-foreground line-clamp-1">۷ دوره</span>
+                                    <span class="font-bold text-sm text-foreground line-clamp-1">{{$courses_user_count}} دوره</span>
                                 </div>
                             </div>
                             <!-- end statistics:item -->
@@ -49,7 +49,7 @@
                                 </span>
                                 <div class="flex flex-col items-start text-right space-y-1">
                                     <span class="font-bold text-xs text-muted line-clamp-1">امتیازات</span>
-                                    <span class="font-bold text-sm text-foreground line-clamp-1">۸۵,۴۸۰ ستاره</span>
+                                    <span class="font-bold text-sm text-foreground line-clamp-1">به زودی.....</span>
                                 </div>
                             </div>
                             <!-- end statistics:item -->

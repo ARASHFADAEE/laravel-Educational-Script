@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
+use App\Models\enrollment;
+use App\Models\payment;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -31,4 +33,40 @@ class DashboardController extends Controller
 
 
     }
+
+
+    /**
+     * view Courses User Lists
+     * 
+     * @return view
+     */
+
+    
+    public function Courses(){
+        //Get Id User Auth
+        $userId=Auth::id();
+
+        //Get List Course User Enrollment
+        $items=enrollment::query()->where('user_id','=',$userId)->with('course')->get();
+
+        return view('user.courses',compact('items'));
+        
+
+    }
+
+
+    /**
+     * view payments User Lists
+     * 
+     * @return view
+     */
+
+    public function payments(){
+        $userId=Auth::id();
+        $payments=payment::query()->where('user_id','=',$userId)->with('course')->get();
+
+        return view('user.payments',compact('payments'));
+
+    }
+
 }

@@ -26,7 +26,7 @@
                  <!-- course:card -->
                  <div class="relative">
                      <div class="relative z-10">
-                         <a href="{{Route('course.show',$course->id)}}" class="block">
+                         <a href="{{Route('course.show',$course->slug)}}" class="block">
                              <img src="{{asset('storage')}}/{{$course->thumbnail}}" class="max-w-full rounded-3xl" alt="..." />
                          </a>
                          <a href="./course-category.html"

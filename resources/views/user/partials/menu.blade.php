@@ -1,7 +1,7 @@
                     <ul class="flex flex-col space-y-3 bg-secondary rounded-2xl p-5">
                         <li>
-                            <a href="./profile.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-primary rounded-full text-primary-foreground px-4">
+                            <a href="{{route('user.dashboard')}}"
+                                class="w-full h-11 inline-flex items-center text-right gap-3 {{ request()->routeIs('user.dashboard') ? 'bg-primary text-white ' : 'bg-background text-black hover:bg-opacity-80' }} rounded-full  px-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                     class="w-5 h-5">
                                     <path fill-rule="evenodd"
@@ -12,8 +12,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./profile-courses.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
+                            <a href="{{Route('user.courses')}}"
+                                class="w-full h-11 inline-flex items-center text-right gap-3 {{ request()->routeIs('user.courses') ? 'bg-primary text-white ' : 'bg-background text-gray-700 hover:bg-opacity-80' }} rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -23,21 +23,10 @@
                                 <span class="font-semibold text-xs">دوره ها</span>
                             </a>
                         </li>
+
                         <li>
-                            <a href="./profile-wishlist.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z">
-                                    </path>
-                                </svg>
-                                <span class="font-semibold text-xs">علاقمندی ها</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./profile-financial.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
+                            <a href="{{route('user.payments')}}"
+                                class="w-full h-11 inline-flex items-center text-right gap-3 {{ request()->routeIs('user.payments') ? 'bg-primary text-white ' : 'bg-background text-gray-700 hover:bg-opacity-80' }} rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -47,40 +36,10 @@
                                 <span class="font-semibold text-xs">مالی و اشتراک</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="./profile-comments.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-                                </svg>
-                                <span class="font-semibold text-xs">دیدگاه و پرسشهای شما</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./profile-tickets.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M8.625 9.75a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 0 1 .778-.332 48.294 48.294 0 0 0 5.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
-                                </svg>
-                                <span class="font-semibold text-xs">تیکت و پشتیبانی</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./profile-notifications.html"
-                                class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0">
-                                    </path>
-                                </svg>
-                                <span class="font-semibold text-xs">اعلانات</span>
-                            </a>
-                        </li>
+
+
+
+
                         <li>
                             <a href="./profile-edit.html"
                                 class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
@@ -93,8 +52,12 @@
                                 <span class="font-semibold text-xs">ویرایش پروفایل</span>
                             </a>
                         </li>
+
                         <li>
-                            <button type="button"
+
+                            <form action="{{route('auth.logout')}}" method="POST">
+                                @csrf
+                            <button type="submit"
                                 class="w-full h-11 inline-flex items-center text-right gap-3 bg-background rounded-full text-muted transition-colors hover:bg-primary hover:text-primary-foreground px-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -104,5 +67,6 @@
                                 </svg>
                                 <span class="font-semibold text-xs">خروج از حساب</span>
                             </button>
+                            </form>
                         </li>
                     </ul>
