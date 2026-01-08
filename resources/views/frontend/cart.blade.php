@@ -27,7 +27,8 @@
                                 </span>
                                 <div class="flex flex-col space-y-2">
                                     <span class="font-black xs:text-2xl text-lg text-primary">سبد خرید شما</span>
-                                    <span class="font-semibold text-xs text-muted">{{$course_count}} دوره به سبد اضافه کرده
+                                    <span class="font-semibold text-xs text-muted">{{ $course_count }} دوره به سبد اضافه
+                                        کرده
                                         اید</span>
                                 </div>
                             </div>
@@ -130,7 +131,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex gap-3 mt-3">
-                                                    <a href="{{route('course.show',$item->course->slug)}}"
+                                                    <a href="{{ route('course.show', $item->course->slug) }}"
                                                         class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                                         <span class="line-clamp-1 font-semibold text-sm">مشاهده
                                                             دوره</span>
@@ -170,62 +171,49 @@
                                     </div>
                                 </div>
                                 <div class="space-y-5">
-                                    <form action="#">
-                                        <div class="flex items-center gap-3 relative">
-                                            <span class="absolute right-3 text-muted">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd"
-                                                        d="M4.5 2A2.5 2.5 0 0 0 2 4.5v3.879a2.5 2.5 0 0 0 .732 1.767l7.5 7.5a2.5 2.5 0 0 0 3.536 0l3.878-3.878a2.5 2.5 0 0 0 0-3.536l-7.5-7.5A2.5 2.5 0 0 0 8.38 2H4.5ZM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                            </span>
-                                            <input type="text"
-                                                class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-background border-0 focus:border-border rounded-xl text-sm text-foreground pr-10"
-                                                placeholder="کد تخفیف" />
-                                            <button type="submit"
-                                                class="h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-xl text-primary-foreground transition-all hover:opacity-80 px-4">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                    class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99">
-                                                    </path>
-                                                </svg>
-                                            </button>
+
+                                    <div class="space-y-5">
+                                        <div class="flex flex-col space-y-2">
+                                            <!-- جمع قیمت عادی -->
+                                            <div class="flex items-center justify-between gap-3">
+                                                <div class="font-bold text-xs text-foreground">جمع کل</div>
+                                                <div class="flex items-center gap-1">
+                                                    <span class="font-black text-base text-foreground">
+                                                        {{ number_format($totalRegularPrice) }}
+                                                    </span>
+                                                    <span class="text-xs text-muted">تومان</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- تخفیف -->
+                                            @if ($totalDiscount > 0)
+                                                <div class="flex items-center justify-between gap-3">
+                                                    <div class="font-bold text-xs text-foreground">تخفیف</div>
+                                                    <div class="flex items-center gap-1 text-error">
+                                                        <span
+                                                            class="font-black text-base">-{{ number_format($totalDiscount) }}</span>
+                                                        <span class="text-xs text-muted">تومان</span>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
-                                    </form>
-                                    <div class="flex flex-col space-y-2">
-                                        <div class="flex items-center justify-between gap-3">
-                                            <div class="font-bold text-xs text-foreground">جمع کل</div>
+
+                                        <div class="h-px bg-secondary"></div>
+
+                                        <!-- مبلغ قابل پرداخت -->
+                                        <div class="flex items-center justify-between gap-3 text-primary">
+                                            <div class="font-bold text-sm text-foreground">مبلغ قابل پرداخت</div>
                                             <div class="flex items-center gap-1">
-                                                <span class="font-black text-base text-foreground">۱,۰۷۹,۰۰۰</span>
+                                                <span class="font-black text-xl text-foreground">
+                                                    {{ number_format($finalPrice) }}
+                                                </span>
                                                 <span class="text-xs text-muted">تومان</span>
                                             </div>
                                         </div>
-                                        <div class="flex items-center justify-between gap-3">
-                                            <div class="font-bold text-xs text-foreground">موجودی کیف پول</div>
-                                            <div class="flex items-center gap-1">
-                                                <span class="font-black text-base text-foreground">۵۲۰,۰۰۰</span>
-                                                <span class="text-xs text-muted">تومان</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center justify-between gap-3">
-                                            <div class="font-bold text-xs text-foreground">تخفیف</div>
-                                            <div class="flex items-center gap-1">
-                                                <span class="font-black text-base text-foreground">۱۸۵,۰۰۰</span>
-                                                <span class="text-xs text-muted">تومان</span>
-                                            </div>
-                                        </div>
+
+
                                     </div>
-                                    <div class="h-px bg-secondary"></div>
-                                    <div class="flex items-center justify-between gap-3 text-primary">
-                                        <div class="font-bold text-sm text-foreground">مبلغ قابل پرداخت</div>
-                                        <div class="flex items-center gap-1">
-                                            <span class="font-black text-xl text-foreground">۱,۰۷۹,۰۰۰</span>
-                                            <span class="text-xs text-muted">تومان</span>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <button type="submit"

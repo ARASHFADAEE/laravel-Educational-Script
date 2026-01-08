@@ -41,4 +41,37 @@ class Cart extends Model
             ]
         );
     }
+
+    //method for price cart
+    public static function calculateCartTotals($userId)
+    {
+        $items = self::with('course')->where('user_id', $userId)->get();
+        
+        $totals = [
+            'items' => $items,
+            'course_count' => $items->count(),
+            'totalRegularPrice' => 0,
+            'totalSalePrice' => 0,
+            'totalDiscount' => 0,
+        ];
+        
+        foreach ($items as $item) {
+            $course = $item->course;
+            $regularPrice = $course->regular_price;
+            $salePrice = $course->sale_price;
+            
+            // بررسی تخفیف
+            $hasValidDiscount = $salePrice && $salePrice > 0 && $salePrice < $regularPrice;
+            $itemPrice = $hasValidDiscount ? $salePrice : $regularPrice;
+            $itemDiscount = $hasValidDiscount ? ($regularPrice - $salePrice) : 0;
+            
+            $totals['totalRegularPrice'] += $regularPrice;
+            $totals['totalSalePrice'] += $itemPrice;
+            $totals['totalDiscount'] += $itemDiscount;
+        }
+        
+        $totals['finalPrice'] = $totals['totalSalePrice'];
+        
+        return $totals;
+    }
 }

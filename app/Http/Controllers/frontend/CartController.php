@@ -82,10 +82,34 @@ class CartController extends Controller
      * @return view
      */
 
-    public function index(){
-        $items=Cart::query()->with('course')->where('user_id','=',Auth::id())->get();
-        $course_count=Cart::query()->where('user_id','=',Auth::id())->count();
+public function index()
+{
+    $items = Cart::with('course')
+                ->where('user_id', Auth::id())
+                ->get();
 
-        return view('frontend.cart',compact('items','course_count'));
-    }
+    // محاسبات با collection
+        $calculations = $items->reduce(function ($carry, $item) {
+        $regularPrice = $item->course->regular_price;
+        $salePrice = $item->course->sale_price;
+        
+        // بررسی وجود تخفیف معتبر
+        $hasDiscount = $salePrice && $salePrice > 0 && $salePrice < $regularPrice;
+        $itemFinalPrice = $hasDiscount ? $salePrice : $regularPrice;
+        $itemDiscount = $hasDiscount ? ($regularPrice - $salePrice) : 0;
+        
+        return [
+            'totalRegularPrice' => $carry['totalRegularPrice'] + $regularPrice,
+            'totalSalePrice' => $carry['totalSalePrice'] + $itemFinalPrice,
+            'totalDiscount' => $carry['totalDiscount'] + $itemDiscount,
+            'course_count' => $carry['course_count'] + 1
+        ];
+    }, ['totalRegularPrice' => 0, 'totalSalePrice' => 0, 'totalDiscount' => 0, 'course_count' => 0]);
+
+    return view('frontend.cart', array_merge(
+        ['items' => $items],
+        $calculations,
+        ['finalPrice' => $calculations['totalSalePrice']]
+    ));
+}
 }
