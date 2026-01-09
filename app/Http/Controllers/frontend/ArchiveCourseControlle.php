@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\course;
 use Illuminate\Http\Request;
 
 class ArchiveCourseControlle extends Controller
@@ -13,6 +14,9 @@ class ArchiveCourseControlle extends Controller
      */
 
     public function index(){
-        return view('frontend.ArchiveCourses');
+
+        $courses=course::query()->withCount('lessons')->latest()->paginate(10);
+
+        return view('frontend.ArchiveCourses',compact('courses'));
     }
 }
