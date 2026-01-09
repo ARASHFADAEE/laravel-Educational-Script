@@ -1,6 +1,6 @@
 @extends('frontend.layouts.master')
 
-@section('title', '- صفحه اصلی ض')
+@section('title', 'صفحه اصلی ')
 @section('content')
     <main class="flex-auto py-5">
 

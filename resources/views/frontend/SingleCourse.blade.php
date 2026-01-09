@@ -483,7 +483,7 @@
                                     </svg>
                                 </button>
 
-                                @elseif(Auth()->check() && $has_accsess->course_id == $course->id )
+                                @elseif(Auth()->check() && $has_accsess->course_id === $course->id  )
                                     
                                     <a href="{{route('lesson.show',$lesson_one->slug)}}"
                                     class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">

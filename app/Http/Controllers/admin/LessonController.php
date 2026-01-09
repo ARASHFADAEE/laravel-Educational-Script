@@ -96,7 +96,7 @@ public function index(Request $request)
         $validated = $request->validate([
             'course_id' => 'required|exists:courses,id',
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:lessons,slug,' . $lesson->id,
+            'slug' => 'required|string|max:255' . $lesson->id,
             'content' => 'nullable|string',
             'video_url' => 'nullable|url|max:500',
             'position' => 'nullable|integer|min:0',

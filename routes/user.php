@@ -45,7 +45,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 });
 
 //Lesson Route
-Route::middleware(['user'])->group(function () {
+Route::middleware(['user'])->middleware('LessonAccsess')->group(function () {
     Route::get('/lesson/{slug}',[LessonController::class,'index'])->name('lesson.show');
 
 });

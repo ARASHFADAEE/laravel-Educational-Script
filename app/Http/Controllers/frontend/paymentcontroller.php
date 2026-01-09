@@ -17,16 +17,24 @@ class PaymentController extends Controller
         $userId = Auth::id();
 
         if (!Cart::where('user_id', $userId)->exists()) {
+
             return back()->with('error', 'سبد خرید شما خالی است!');
         }
+
+
 
         $totals = Cart::calculateCartTotals($userId);
 
         $amountInRials = $totals['finalPrice'] * 10; // تومان به ریال
+        
 
         if ($amountInRials <= 0) {
             return back()->with('error', 'مبلغ پرداخت معتبر نیست!');
         }
+
+        
+
+
 
         $response = Http::post('https://gateway.zibal.ir/v1/request', [
             'merchant'    => 'zibal', // در پروداکشن merchant واقعی بذار
