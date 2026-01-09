@@ -21,6 +21,7 @@
             @if($purchasedCourses->count() > 0)
 
              @foreach ($purchasedCourses as $course )
+
                 
              <div class="swiper-slide">
                  <!-- course:card -->
@@ -62,7 +63,7 @@
 
                              <div class="space-y-3 mt-3">
 
-                                 <a href="./course-episodes.html"
+                                 <a href="{{}}"
                                      class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                      <span class="font-semibold text-sm">ادامه یادگیری</span>
                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"

@@ -42,7 +42,7 @@
                     </div>
                     <div class="text-sm text-muted space-y-3">
                         <p>درود 👋</p>
-                        <p>لطفا برای ورود مقادیر زیر را وارد کنید</p>
+                        <p>لطفا برای ثبت نام مقادیر زیر را وارد کنید</p>
                     </div>
 
                     <!-- form:field:wrapper -->
@@ -75,6 +75,10 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
+                                        <div class="flex item-center justify-center">
+                    <p>اکانت دارید؟</p>
+                    <a class="text-blue-400 " href="{{route('auth.login')}}">ورود</a>
+                    </div>
                     <!-- end form:submit button -->
                 </form>
                 <!-- end auth:verification:form -->

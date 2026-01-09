@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         /**
-         * send Count Cart Item  end course category Items In frontend
+         * send Count Cart Item  and course category Items In frontend
          * @return view
          */
         View::composer('frontend.layouts.master', function ($view) {
@@ -38,13 +38,16 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $Course_categories_nav=category::all();
+        
+
+
 
 
         
 
         $view->with([
             'cart_count'=> $cart_count,
-            'course_categories'=>$Course_categories_nav
+            'course_categories'=>$Course_categories_nav,
         
         ]);
 
@@ -70,6 +73,8 @@ class AppServiceProvider extends ServiceProvider
 
 
     });
+
+    
 
 
 

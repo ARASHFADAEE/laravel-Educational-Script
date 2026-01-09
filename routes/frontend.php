@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController as login;
 use App\Http\Controllers\Auth\RegisterController as register;
@@ -10,6 +9,10 @@ use App\Http\Controllers\frontend\CartController;
 use App\Http\Controllers\frontend\Homecontroller;
 use App\Http\Controllers\frontend\SingleBlogController;
 use App\Http\Controllers\frontend\paymentcontroller;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
+
 
 //use Post Controller For Ajax Search
 use App\Http\Controllers\admin\PostController;
@@ -74,4 +77,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/pay/zibal', [PaymentController::class, 'request_zibal'])->name('pay.zibal');
     Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
+
+
+    //show episodes
+
 });
+
+
+

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\course;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use App\Models\payment;
 
 
 class Homecontroller extends Controller
@@ -17,7 +18,7 @@ class Homecontroller extends Controller
     {
         $courses = Course::with('course_categorie:id,name')
             ->withCount('lessons')->with('user')
-            ->paginate(3);
+            ->paginate(12);
 
 
         $posts = Post::with([
@@ -27,15 +28,20 @@ class Homecontroller extends Controller
             ->select('id', 'title', 'slug', 'thumbnail', 'created_at', 'user_id', 'category_id')
             ->paginate(4);
 
+
         return [
             'courses' => $courses,
             'posts' => $posts
 
         ];
+
+
     }
 
     public function index()
     {
+
+
 
 
         return view('frontend.index', $this->home_data());

@@ -7,6 +7,7 @@ use App\Models\enrollment;
 use App\Models\payment;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\lesson;
 use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
@@ -22,11 +23,13 @@ class DashboardController extends Controller
         
         //Courses Payment User
         $purchasedCourses = $user->payments()
-            ->with('course') 
+            ->with('course')
             ->where('status', 'completed')
             ->latest()
             ->get()
             ->pluck('course'); 
+
+
 
         return view('user.index', compact('purchasedCourses'));
 

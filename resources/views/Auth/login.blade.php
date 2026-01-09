@@ -68,6 +68,11 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
+                    <div class="flex item-center justify-center">
+                    <p>اکانت ندارید؟</p>
+                    <a class="text-blue-400 " href="{{route('auth.register')}}">ثبت نام</a>
+                    </div>
+
                     <!-- end form:submit button -->
                 </form>
                 <!-- end auth:verification:form -->

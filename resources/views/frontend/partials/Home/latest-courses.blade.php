@@ -39,7 +39,7 @@
                                     <div class="relative">
                                         <div class="relative z-10">
                                             <a href="{{route('course.show',$course->slug)}}" class="block">
-                                                <img src="{{ asset('storage') }}/{{ $course->thumbnail }}"
+                                                <img width="100%" height="233px" src="{{ asset('storage') }}/{{ $course->thumbnail }}"
                                                     class="max-w-full rounded-3xl" alt="..." />
                                             </a>
                                             <a href="{{route('course.show',$course->slug)}}"

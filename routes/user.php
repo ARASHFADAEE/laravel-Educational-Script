@@ -5,6 +5,7 @@ use App\Http\Controllers\user\DashboardController;
 use App\Http\Controllers\user\UserProfileController;
 
 
+use App\Http\Controllers\frontend\LessonController;
 
 
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
@@ -36,4 +37,16 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     
     // نوتیفیکیشن‌ها
     Route::put('/profile/notifications', [UserProfileController::class, 'updateNotifications'])->name('user.notifications.update');
+
+
+
+
+
 });
+
+//Lesson Route
+Route::middleware(['user'])->group(function () {
+    Route::get('/lesson/{slug}',[LessonController::class,'index'])->name('lesson.show');
+
+});
+
