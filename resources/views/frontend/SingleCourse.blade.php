@@ -292,13 +292,14 @@
 
                                                         <div class="space-y-1">
                                                             @php
-                                                                $i=1;
+                                                                $i = 1;
                                                             @endphp
                                                             @foreach ($lessons as $lesson)
                                                                 <!-- episode -->
                                                                 <div
                                                                     class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                    <span class="text-xs text-muted">{{$i++}}</span>
+                                                                    <span
+                                                                        class="text-xs text-muted">{{ $i++ }}</span>
                                                                     <div class="w-1 h-1 bg-muted-foreground rounded-full">
                                                                     </div>
                                                                     <div
@@ -320,18 +321,17 @@
                                                                             </svg>
                                                                         </span>
                                                                         @if ($lesson->is_free)
-                                                                            
-                                                                        <a href="{{Route('lesson.show',$lesson->slug)}}"
-                                                                            class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                            <span class="text-xs">مشاهده</span>
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                viewBox="0 0 20 20" fill="currentColor"
-                                                                                class="w-5 h-5">
-                                                                                <path fill-rule="evenodd"
-                                                                                    d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                    clip-rule="evenodd"></path>
-                                                                            </svg>
-                                                                        </a>
+                                                                            <a href="{{ Route('lesson.show', $lesson->slug) }}"
+                                                                                class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
+                                                                                <span class="text-xs">مشاهده</span>
+                                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                    viewBox="0 0 20 20"
+                                                                                    fill="currentColor" class="w-5 h-5">
+                                                                                    <path fill-rule="evenodd"
+                                                                                        d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                                                                        clip-rule="evenodd"></path>
+                                                                                </svg>
+                                                                            </a>
                                                                         @endif
 
                                                                     </div>
@@ -482,10 +482,8 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </button>
-
-                                @elseif(Auth()->check() && $has_accsess->course_id === $course->id  )
-                                    
-                                    <a href="{{route('lesson.show',$lesson_one->slug)}}"
+                            @elseif(Auth()->check() && $has_accsess->course_id === $course->id)
+                                <a href="{{ route('lesson.show', $lesson_one->slug) }}"
                                     class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                     <span class="font-semibold text-sm">مشاهده دوره</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -495,7 +493,6 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </a>
-
                             @else
                                 <a href="{{ route('auth.login') }}"
                                     class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">

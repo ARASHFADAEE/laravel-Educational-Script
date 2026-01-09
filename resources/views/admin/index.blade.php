@@ -52,7 +52,7 @@
                         <span class="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">+24%</span>
                     </div>
                     <h3 class="text-sm font-medium mb-1 opacity-90">پرداخت‌های موفق</h3>
-                    <p class="text-3xl font-bold">{{$payment_count}}</p>
+                    <p class="text-3xl font-bold">{{number_format($payment_count)}}</p>
                 </div>
 
                 <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg card-hover animate-fade-in" style="animation-delay: 0.3s">
@@ -65,7 +65,7 @@
                         <span class="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">+18%</span>
                     </div>
                     <h3 class="text-sm font-medium mb-1 opacity-90">درآمد کل</h3>
-                    <p class="text-3xl font-bold">{{$payment_sum}} تومان</p>
+                    <p class="text-3xl font-bold">{{number_format($payment_sum)}} تومان</p>
                 </div>
             </div>
 
