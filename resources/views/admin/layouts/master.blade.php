@@ -47,7 +47,7 @@
                     </button>
                     
                     <div class="flex items-center gap-3 pr-3 border-r border-gray-200 dark:border-gray-700">
-                        <img src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff" class="w-10 h-10 rounded-full ring-2 ring-indigo-500" alt="Avatar">
+                        <img src="{{asset('storage')}}/{{ Auth()->user()->avatar }}" class="w-10 h-10 rounded-full ring-2 ring-indigo-500" alt="Avatar">
                         <div class="text-right">
                             <p class="text-sm font-semibold">آرش فدایی</p>
                             <p class="text-xs text-gray-500">مدیر سیستم</p>

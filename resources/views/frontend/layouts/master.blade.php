@@ -10,8 +10,54 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/toastify.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
-
+    <meta name="theme-color" content="#22C55E">
     <title>@yield('title')</title>
+    <meta name="description"
+        content="آموزش برنامه&zwnj;نویسی، کاربردی و پروژه محور | با دوره&zwnj;های متنوع و پشتیبانی قوی | سبزلرن در کنار شما از صفر تا استخدام">
+    <meta name="robots" content="follow, index, max-snippet:-1, max-video-preview:-1, max-image-preview:large">
+    <link rel="canonical" href="https://sabzlearn.ir/">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="آکادمی آموزش برنامه نویسی سبزلرن {از صفر تا استخدام} | Sabzlearn">
+    <meta property="og:description"
+        content="آموزش برنامه&zwnj;نویسی، کاربردی و پروژه محور | با دوره&zwnj;های متنوع و پشتیبانی قوی | سبزلرن در کنار شما از صفر تا استخدام">
+    <meta property="og:url" content="https://sabzlearn.ir/">
+    <meta property="og:site_name" content="سبز لرن">
+    <meta property="og:updated_time" content="2024-12-30T19:54:25+03:30">
+    <meta property="og:image"
+        content="https://sabzlearn.ir/wp-content/uploads/2025/07/erasebg-transformed-1024x1024.png">
+    <meta property="og:image:secure_url"
+        content="https://sabzlearn.ir/wp-content/uploads/2025/07/erasebg-transformed-1024x1024.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:image:alt" content="صفحه اصلی">
+    <meta property="og:image:type" content="image/png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="آکادمی آموزش برنامه نویسی سبزلرن {از صفر تا استخدام} | Sabzlearn">
+    <meta name="twitter:description"
+        content="آموزش برنامه&zwnj;نویسی، کاربردی و پروژه محور | با دوره&zwnj;های متنوع و پشتیبانی قوی | سبزلرن در کنار شما از صفر تا استخدام">
+    <meta name="twitter:image"
+        content="https://sabzlearn.ir/wp-content/uploads/2025/07/erasebg-transformed-1024x1024.png">
+
+
+
+    <link rel="alternate" type="application/json+oembed"
+        href="https://sabzlearn.ir/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsabzlearn.ir%2F">
+    <link rel="alternate" type="text/xml+oembed"
+        href="https://sabzlearn.ir/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsabzlearn.ir%2F&amp;format=xml">
+    <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-32x32.png"
+        sizes="32x32">
+    <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-192x192.png"
+        sizes="192x192">
+    <link rel="apple-touch-icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-180x180.png">
+    <meta name="msapplication-TileImage"
+        content="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-270x270.png">
+
+
+
+
+
+
 </head>
 
 <body>
@@ -52,7 +98,7 @@
             }).showToast();
         </script>
     @endif
-        @if (session('error'))
+    @if (session('error'))
         <script>
             Toastify({
                 text: "{{ session('error') }}", // یا متن ثابت: "ورود موفقیت آمیز بود"
