@@ -82,7 +82,16 @@
                             
                         <div class="flex items-center justify-between p-4 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
                             <div class="flex items-center gap-3">
-                                <img src="https://ui-avatars.com/api/?name=Arash&background=6366f1&color=fff" class="w-12 h-12 rounded-full" alt="">
+                                @if ($user->avatar)
+                                    
+                                <img src="{{asset('storage')}}/{{$user->avatar}}" class="w-12 h-12 rounded-full" alt="">
+
+                                @else
+
+                                <img src="{{asset('image/avatar/avatar.png')}}" class="w-12 h-12 rounded-full" alt="">
+
+                                @endif
+
                                 <div>
                                     <p class="font-semibold text-gray-800 dark:text-gray-100">{{$user->name}}</p>
                                     <p class="text-sm text-gray-500">{{$user->email}}</p>
