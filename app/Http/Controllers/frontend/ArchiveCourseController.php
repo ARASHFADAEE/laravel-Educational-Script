@@ -252,4 +252,17 @@ class ArchiveCourseController extends Controller
             }
         }
     }
+
+
+
+    public function ShowCategory($slug){
+
+        $category_id=Category::query()->where('slug','=',$slug)->select('id');
+        $courses=course::query()->where('category_id','=',$category_id)->paginate(10);
+        $categories = Category::all();
+
+
+        return view('frontend.CouresCategories',compact('courses','categories'));
+
+    }
 }

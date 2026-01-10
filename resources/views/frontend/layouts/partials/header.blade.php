@@ -49,7 +49,7 @@
                                     @foreach ($course_categories as $category )
                                         
                                     <li >
-                                        <a href="#"
+                                        <a href="{{route('show.courses.category',$category->slug)}}"
                                             class="flex items-center relative text-foreground transition-colors hover:text-primary p-3">
                                             <span class="font-semibold text-sm">{{$category->name}}</span>
                                             <span class="absolute left-3">
