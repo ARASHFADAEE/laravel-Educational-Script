@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 //use Post Controller For Ajax Search
 use App\Http\Controllers\admin\PostController;
-use App\Http\Controllers\frontend\ArchiveCourseControlle;
+use App\Http\Controllers\frontend\ArchiveCourseController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -87,4 +87,4 @@ Route::middleware(['auth'])->group(function () {
 //Archive Courses Route
 
 
-Route::get('/courses',[ArchiveCourseControlle::class,'index']);
+Route::get('/courses',[ArchiveCourseController::class,'index']);

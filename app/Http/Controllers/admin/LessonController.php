@@ -27,7 +27,7 @@ public function index(Request $request)
         })
         ->orderBy('position')
         ->orderBy('created_at', 'desc')
-        ->paginate(10);
+        ->paginate(30);
 
     // اگر نیاز به لیست دوره‌ها برای dropdown دارید
     $courses = Course::all();

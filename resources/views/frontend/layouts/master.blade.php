@@ -8,8 +8,13 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/toastify.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
+    <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('frontend/js/ajax.js')}}">
+
+
+    </script>
+
     <meta name="theme-color" content="#22C55E">
     <title>@yield('title')</title>
     <meta name="description"
@@ -79,7 +84,6 @@
 
     </div>
 
-    <script src="{{ asset('frontend/js/toastify.js') }}"></script>
 
     <script src="{{ asset('frontend/js/alpinejs.min.js') }}"></script>
     <script src="{{ asset('frontend/js/swiper-bundle.min.js') }}"></script>
@@ -150,6 +154,12 @@
             };
         });
     </script>
+
+
+
+
+
+
 
 </body>
 

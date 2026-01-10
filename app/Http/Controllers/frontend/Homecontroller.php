@@ -17,7 +17,7 @@ class Homecontroller extends Controller
     public function home_data()
     {
         $courses = Course::with('course_categorie:id,name')
-            ->withCount('lessons')->with('user')
+            ->withCount('lessons')->with('user')->latest()
             ->paginate(12);
 
 
