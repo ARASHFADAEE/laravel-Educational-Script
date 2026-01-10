@@ -270,32 +270,17 @@
                                                 <!-- accordion:content -->
                                                 <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                                     <div class="space-y-2">
+                                                        @foreach ($categories as $category )
+                                                            
+                                                        
                                                         <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" id="laravel" name="category"
+                                                            <input type="radio" id="{{$category->slug}}" name="category"
                                                                 
                                                                 class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">لاراول</span>
+                                                            <span class="text-sm text-muted">{{$category->name}}</span>
                                                         </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="category"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">وردپرس</span>
-                                                        </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="category"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">جاوااسکریپت</span>
-                                                        </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="category"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">اندروید</span>
-                                                        </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="category"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">پایتون</span>
-                                                        </label>
+                                                        @endforeach
+
                                                     </div>
                                                 </div><!-- end accordion:content -->
                                             </div><!-- accordion -->
@@ -449,6 +434,7 @@
         let Result=$("#result_ajax");
 
 
+
             SearchInput.keyup(function () { 
 
                 if(SearchInput.val().length > 3){
@@ -458,6 +444,7 @@
                     url: "/search/ajax",
                     data:{
                         title:SearchInput.val()
+
                     } ,
 
 
@@ -481,9 +468,53 @@
                 });
 
                 }
+
+                
             
                 
             });      
+            
+        });
+
+        $(document).ready(function () {
+
+            $("#form-vategory-filter").submit(function (e) { 
+                e.preventDefault();
+                let el=$("#form-vategory-filter")
+
+                let data_form=el.serialize();
+                
+                let Result=$("#result_ajax");
+
+                
+
+
+
+
+                $.ajax({
+                    method: "get",
+                    url: "/category/ajax",
+                    data: data_form,
+
+                    beforeSend: function (){
+
+                        Result.css('opacity',0.5);
+                    },
+                    
+
+
+                    success: function (response) {
+
+                        Result.html(response);
+                        Result.css('opacity',1);
+                        
+                        
+                        
+                        
+                    }
+                });
+                
+            });
             
         });
 

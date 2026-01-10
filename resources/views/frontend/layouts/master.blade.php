@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('frontend/js/ajax.js')}}">
 
 
     </script>

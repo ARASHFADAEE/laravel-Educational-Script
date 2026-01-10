@@ -59,8 +59,9 @@
                                         x-on:click="open = !open">
                                         <span class="flex items-center gap-x-2">
                                             <span class="flex-shrink-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                    class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
                                                 </svg>
@@ -79,31 +80,32 @@
                                     <!-- accordion:content -->
                                     <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                         <div class="space-y-2">
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">لاراول</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">وردپرس</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">جاوااسکریپت</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">اندروید</span>
-                                            </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="category"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">پایتون</span>
-                                            </label>
+
+                                            <form id="form-vategory-filter" name="form-category" action="{{Route('category.ajax')}}">
+                                            @foreach ($categories as $category)
+
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input value="{{$category->slug}}" id="cat-name" type="radio"  name="category"
+                                                        class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
+                                                    <span class="text-sm text-muted">{{$category->name}}</span>
+                                                </label>
+                                                @endforeach
+
+                                                <button class="bg-blue-300 p-4 rounded" type="submit" style="
+
+
+    margin-top: 12px;
+    background: #2ea1e2;
+    color: #fff;
+    padding: 4px;
+    font-size: 14px;
+
+                                                
+                                                
+                                                
+                                                ">فیلتر</button>
+                                                </form>
+
                                         </div>
                                     </div><!-- end accordion:content -->
                                 </div><!-- accordion -->
