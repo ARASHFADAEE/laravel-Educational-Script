@@ -11,22 +11,29 @@ use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
-    // نمایش کامنت‌های یک پست (فقط کامنت‌های approved)
+    /**
+     * Show Comment approved In Single Post
+     * @return view
+     */
     public function index($postId)
     {
         $post = Post::findOrFail($postId);
-        
+
         $comments = Comment::with(['user', 'replies.user'])
             ->where('post_id', $postId)
             ->whereNull('parent_id')
             ->approved() // فقط کامنت‌های تایید شده
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        
+
         return view('frontend.partials.single-blog.comments', compact('comments', 'post'));
     }
 
-    // ذخیره کامنت جدید
+    /**
+     * Handle Comment Create In Single Post
+     * @return object
+     */
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -66,13 +73,16 @@ class CommentController extends Controller
         ]);
     }
 
-    // افزایش تعداد لایک‌ها
+    /**
+     * Handle Like Request Comment In Single Post
+     * @return object
+     */
     public function like(Comment $comment)
     {
         // جلوگیری از لایک خود کامنت
         if ($comment->user_id !== Auth::id()) {
             $comment->increment('likes_count');
-            
+
             return response()->json([
                 'success' => true,
                 'likes_count' => $comment->likes_count
@@ -85,7 +95,11 @@ class CommentController extends Controller
         ], 403);
     }
 
-    // حذف کامنت
+
+    /**
+     * Handle Destroy  Comment In Single Post With Auth
+     * @return object
+     */
     public function destroy(Comment $comment)
     {
         // بررسی مالکیت کامنت
@@ -109,7 +123,10 @@ class CommentController extends Controller
         ]);
     }
 
-    // دریافت پاسخ‌های یک کامنت
+    /**
+     * Handle Get replies Comment In Single Post
+     * @return object
+     */
     public function replies(Comment $comment)
     {
         $replies = $comment->replies()

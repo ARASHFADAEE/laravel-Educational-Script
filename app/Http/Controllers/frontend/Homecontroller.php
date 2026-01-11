@@ -14,6 +14,7 @@ use App\Models\payment;
 class Homecontroller extends Controller
 {
 
+
     public function home_data()
     {
         $courses = Course::with('course_categorie:id,name')
@@ -47,5 +48,5 @@ class Homecontroller extends Controller
         return view('frontend.index', $this->home_data());
     }
 
-    
+
 }
