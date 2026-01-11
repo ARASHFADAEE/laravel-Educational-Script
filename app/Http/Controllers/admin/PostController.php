@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-
+    /**
+     * Show List Posts in Admin Panel
+     *
+     * @return view
+     */
     public function index()
     {
         $posts = Post::paginate(10);
@@ -21,12 +25,24 @@ class PostController extends Controller
     }
 
 
+    /**
+     * Show Create Post Form Page in Admin Panel
+     *
+     * @return view
+     */
     public function create()
     {
 
         $categories = category::all();
         return view('admin.posts.create', compact('categories'));
     }
+
+
+    /**
+     *  Handle Store Post in Admin Panel
+     *
+     * @return Redirect(Posts Lists) with message
+     */
 
     public function store(Request $request)
     {
@@ -84,7 +100,11 @@ class PostController extends Controller
             ->with('success', 'مقاله با موفقیت ایجاد شد.');
     }
 
-
+    /**
+     * Show Edit Post Form Page in Admin Panel
+     *
+     * @return view
+     */
     public function edit($id)
     {
         $post = Post::query()->findOrFail($id);
@@ -93,6 +113,13 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post', 'categories'));
     }
 
+
+
+    /**
+     * Handle Update Post Form in Admin Panel
+     *
+     * @return Redirect(Posts Lists) with message
+     */
     public function update(Request $request)
     {
         // دریافت post_id از درخواست
@@ -173,6 +200,13 @@ class PostController extends Controller
             ->with('success', 'مقاله با موفقیت به‌روزرسانی شد.');
     }
 
+
+
+    /**
+     * Handle Destroy Post Form in Admin Panel
+     *
+     * @return Redirect(Posts Lists) with message
+     */
     public function destroy($id)
     {
         $post = Post::query()->findOrFail($id);
@@ -182,8 +216,10 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'مقاله با موفقیت حذف شد');
     }
 
+
+
     /**
-     * Handle Search Ajax FrontEnd 
+     * Handle Search Ajax FrontEnd
      */
     public function Search(Request $request){
     $q = $request->query('q');
