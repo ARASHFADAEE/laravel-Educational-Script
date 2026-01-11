@@ -478,7 +478,7 @@
 
         $(document).ready(function () {
 
-            $("#form-vategory-filter").submit(function (e) { 
+            $("#form-vategory-filter").change(function (e) { 
                 e.preventDefault();
                 let el=$("#form-vategory-filter")
 

@@ -91,19 +91,6 @@
                                                 </label>
                                                 @endforeach
 
-                                                <button class="bg-blue-300 p-4 rounded" type="submit" style="
-
-
-    margin-top: 12px;
-    background: #2ea1e2;
-    color: #fff;
-    padding: 4px;
-    font-size: 14px;
-
-                                                
-                                                
-                                                
-                                                ">فیلتر</button>
                                                 </form>
 
                                         </div>

@@ -17,7 +17,7 @@
                                 <span class="font-semibold xs:text-base text-sm text-foreground">منتشر شده</span>
                             </div>
                         </div>
-                        <div
+                        <a href="{{Route('courses.show')}}"
                             class="sm:w-auto w-11 h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-foreground transition-colors hover:text-primary sm:px-4">
                             <span class="font-semibold text-sm sm:block hidden">مشاهده همه</span>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -26,7 +26,7 @@
                                     d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                        </div>
+                        </a>
                     </div>
                     <!-- end section:title -->
 

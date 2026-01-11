@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+    @if (!request()->routeIs('courses.show'))
+    <script src="{{asset('frontend/js/toastify.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
+    @endif
+
 
 
     </script>

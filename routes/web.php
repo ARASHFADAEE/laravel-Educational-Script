@@ -17,7 +17,7 @@ require __DIR__.'/user.php';
 
 
 
-
+//Ajax Data Archive Course
 Route::get('/search/ajax',[ArchiveCourseController::class,'search'])->name('search.ajax');
 Route::get('/category/ajax',[ArchiveCourseController::class,'category_ajax'])->name('category.ajax');
 

@@ -87,6 +87,6 @@ Route::middleware(['auth'])->group(function () {
 //Archive Courses Route
 
 
-Route::get('/courses',[ArchiveCourseController::class,'index']);
+Route::get('/courses',[ArchiveCourseController::class,'index'])->name('courses.show');
 
 Route::get('/course-cat/{slug}',[ArchiveCourseController::class,'ShowCategory'])->name('show.courses.category');
