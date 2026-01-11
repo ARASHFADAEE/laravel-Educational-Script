@@ -17,17 +17,17 @@ class DashboardController extends Controller
      */
 
     public function index(){
-        
+
         //Get Data User Loggined
         $user = Auth::user();
-        
+
         //Courses Payment User
         $purchasedCourses = $user->payments()
             ->with('course')
             ->where('status', 'completed')
             ->latest()
             ->get()
-            ->pluck('course'); 
+            ->pluck('course');
 
 
 
@@ -40,11 +40,11 @@ class DashboardController extends Controller
 
     /**
      * view Courses User Lists
-     * 
+     *
      * @return view
      */
 
-    
+
     public function Courses(){
         //Get Id User Auth
         $userId=Auth::id();
@@ -53,14 +53,14 @@ class DashboardController extends Controller
         $items=enrollment::query()->where('user_id','=',$userId)->with('course')->get();
 
         return view('user.courses',compact('items'));
-        
+
 
     }
 
 
     /**
      * view payments User Lists
-     * 
+     *
      * @return view
      */
 
@@ -76,7 +76,7 @@ class DashboardController extends Controller
 
     /**
      * view profile data user
-     * 
+     *
      * @return view
      */
 
@@ -85,8 +85,6 @@ class DashboardController extends Controller
 
         return view('user.profile');
     }
-
-
 
 
 
