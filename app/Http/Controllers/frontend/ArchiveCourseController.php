@@ -24,6 +24,12 @@ class ArchiveCourseController extends Controller
         return view('frontend.ArchiveCourses', compact('courses', 'categories'));
     }
 
+
+    /**
+     * Handle  Search Request Ajax Archive Courses
+     * @return view
+     */
+
     public function search(Request $request)
     {
         $q = $request->query('title');
@@ -140,6 +146,11 @@ class ArchiveCourseController extends Controller
     }
 
 
+
+    /**
+     * Handle  Category Request Ajax Archive Courses
+     * @return view
+     */
     public function category_ajax(Request $request)
     {
 
@@ -254,7 +265,10 @@ class ArchiveCourseController extends Controller
     }
 
 
-
+    /**
+     * Show Category Archive Page
+     * @return view
+     */
     public function ShowCategory($slug){
 
         $category_id=Category::query()->where('slug','=',$slug)->select('id');
