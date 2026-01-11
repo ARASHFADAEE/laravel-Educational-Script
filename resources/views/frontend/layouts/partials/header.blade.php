@@ -47,7 +47,7 @@
                                 <ul
                                     class="flex flex-col relative w-56 min-h-[300px] bg-background border border-border shadow-2xl shadow-black/5">
                                     @foreach ($course_categories as $category )
-                                        
+
                                     <li >
                                         <a href="{{route('show.courses.category',$category->slug)}}"
                                             class="flex items-center relative text-foreground transition-colors hover:text-primary p-3">
@@ -74,54 +74,24 @@
                         <!-- menu -->
                         <ul class="flex items-center gap-5">
                             <li>
-                                <a href="./blog.html"
+                                <a href="#"
                                     class="inline-flex text-muted transition-colors hover:text-foreground">
                                     <span class="font-semibold text-sm">مقالات آموزشی</span>
                                 </a>
                             </li>
-                            <li class="relative group/submenu">
+                            <li>
                                 <a href="#"
-                                    class="inline-flex items-center gap-1 text-muted transition-colors hover:text-foreground">
-                                    <span class="font-semibold text-sm">لینکهای مفید</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor"
-                                        class="w-5 h-5 transition-transform group-hover/submenu:rotate-180">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                                    </svg>
+                                   class="inline-flex text-muted transition-colors hover:text-foreground">
+                                    <span class="font-semibold text-sm"> درباره ما</span>
                                 </a>
-                                <ul
-                                    class="absolute top-full right-0 w-56 bg-background border border-border rounded-xl shadow-2xl shadow-black/5 opacity-0 invisible transition-all group-hover/submenu:opacity-100 group-hover/submenu:visible p-3 mt-2">
-                                    <li>
-                                        <a href="./profile.html"
-                                            class="flex items-center gap-2 w-full text-foreground transition-colors hover:text-primary px-3 py-2">
-                                            <span class="font-semibold text-xs">مشاهده پروفایل</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{route('user.courses')}}"
-                                            class="flex items-center gap-2 w-full text-foreground transition-colors hover:text-primary px-3 py-2">
-                                            <span class="font-semibold text-xs">دوره ها</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="{{route('user.payments')}}"
-                                            class="flex items-center gap-2 w-full text-foreground transition-colors hover:text-primary px-3 py-2">
-                                            <span class="font-semibold text-xs">مالی</span>
-                                        </a>
-                                    </li>
-
-                                    <li>
-                                        <form action="{{ route('auth.logout') }}" method="post">
-                                            @csrf
-                                            <button type="submit"
-                                                class="flex items-center gap-2 w-full text-red-500 transition-colors hover:text-red-700 px-3 py-2">
-                                                <span class="font-semibold text-xs">خروج از حساب</span>
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
                             </li>
+                            <li>
+                                <a href="#"
+                                   class="inline-flex text-muted transition-colors hover:text-foreground">
+                                    <span class="font-semibold text-sm"> تماس با ما</span>
+                                </a>
+                            </li>
+
                         </ul>
                         <!-- end menu -->
                     </div>
@@ -489,10 +459,10 @@
                     showResults = false;
                     return;
                 }
-                
+
                 isLoading = true;
                 showResults = true;
-                
+
                 fetch(`/Search?q=${encodeURIComponent(query)}`)
                     .then(r => r.json())
                     .then(data => {

@@ -13,7 +13,7 @@ class ArchiveCourseController extends Controller
 {
     /**
      * view All Courses Archive
-     * @return view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
 
     public function index()
@@ -27,7 +27,7 @@ class ArchiveCourseController extends Controller
 
     /**
      * Handle  Search Request Ajax Archive Courses
-     * @return view
+     * @return void
      */
 
     public function search(Request $request)
@@ -149,7 +149,7 @@ class ArchiveCourseController extends Controller
 
     /**
      * Handle  Category Request Ajax Archive Courses
-     * @return view
+     * @return void
      */
     public function category_ajax(Request $request)
     {
@@ -267,7 +267,7 @@ class ArchiveCourseController extends Controller
 
     /**
      * Show Category Archive Page
-     * @return view
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function ShowCategory($slug){
 
