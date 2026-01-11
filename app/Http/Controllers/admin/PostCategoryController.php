@@ -5,19 +5,27 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\post_categorie as category;
+use Illuminate\Support\Facades\Redirect;
 
 class PostCategoryController extends Controller
 {
 
-
+    /**
+     * Show List Posts Categories in Admin Panel
+     *
+     * @return view
+     */
     public function index(){
 
          $categories_blog=category::paginate(15);
         return view('admin.postcategories.index',compact('categories_blog'));
     }
-    
 
-
+    /**
+     * Show  Post Category Ceate Page in Admin Panel
+     *
+     * @return view
+     */
     public function create(){
         return view('admin.postcategories.create');
     }
@@ -25,7 +33,11 @@ class PostCategoryController extends Controller
 
 
 
-
+    /**
+     * Handle Post Category Create Form in Admin Panel
+     *
+     * @return Redirect(Posts Categories Lists) with message
+     */
     public function store(Request $request){
 
         $data=$request->validate([
@@ -48,12 +60,25 @@ class PostCategoryController extends Controller
 
     }
 
+
+    /**
+     * Show Post Category Edit Page in Admin Panel
+     *
+     * @return view
+     */
     public function edit($id){
         $category=category::query()->findOrFail($id);
 
         return view('admin.postcategories.edit', compact('category'));
     }
 
+
+
+    /**
+     * Handle Post Category Update in Admin Panel
+     *
+     * @return Redirect(Posts Categories Lists) with message
+     */
     public function update(Request $request ,$id){
         $category=category::query()->findOrFail($id);
 
@@ -67,6 +92,13 @@ class PostCategoryController extends Controller
         return redirect()->route("admin.post.categories.index")->with('success','آپدیت با موفقیت انجام شد');
     }
 
+
+
+    /**
+     * Handle Post Category Destroy in Admin Panel
+     *
+     * @return Redirect(Posts Categories Lists) with message
+     */
     public function destroy($id){
 
         $category_post=category::query()->findOrFail($id);

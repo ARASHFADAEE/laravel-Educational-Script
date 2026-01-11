@@ -103,7 +103,7 @@ class CourseController extends Controller
      *
      * Course Update  Data
      * @return  Redirect
-     *  @return Message
+     * @return Message
      *
      **/
 
