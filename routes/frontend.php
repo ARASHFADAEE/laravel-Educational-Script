@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController as login;
 use App\Http\Controllers\Auth\RegisterController as register;
@@ -31,7 +32,7 @@ Route::prefix('auth')->middleware('guest')->group(function () {
 
 /**
  * Front End Route
- * 
+ *
  * @return Route
  */
 
@@ -90,3 +91,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/courses',[ArchiveCourseController::class,'index'])->name('courses.show');
 
 Route::get('/course-cat/{slug}',[ArchiveCourseController::class,'ShowCategory'])->name('show.courses.category');
+
+
+
+
+Route::get('/Setting',[SettingController::class,'index'])->name('setting.index');
