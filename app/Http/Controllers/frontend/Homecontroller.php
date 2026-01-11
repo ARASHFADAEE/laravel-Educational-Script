@@ -14,7 +14,13 @@ use App\Models\payment;
 class Homecontroller extends Controller
 {
 
-
+    /**
+     *
+     * Data Home Page and Query
+     *
+     * @return Array
+     *
+     **/
     public function home_data()
     {
         $courses = Course::with('course_categorie:id,name')
@@ -39,12 +45,17 @@ class Homecontroller extends Controller
 
     }
 
+
+    /**
+     *
+     * Show Home Page
+     *
+     * @return View
+     *
+     **/
+
     public function index()
     {
-
-
-
-
         return view('frontend.index', $this->home_data());
     }
 
