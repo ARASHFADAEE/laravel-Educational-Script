@@ -13,6 +13,11 @@ use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
+
+    /**
+     * Course Lists Page View
+     * @return  view
+     **/
     public function index()
     {
         $courses = course::orderBy('id', 'desc')->paginate(10);
@@ -20,12 +25,28 @@ class CourseController extends Controller
     }
 
 
+
+    /**
+     * Course Create Page View
+     * @return  view
+     **/
     public function create()
     {
         $categories = course_categorie::all();
 
         return view('admin.courses.create', compact('categories'));
     }
+
+
+
+
+    /**
+     * Course Store Data
+     * @return  Redirect
+     * @return Message
+     *
+     *
+     **/
 
     public function store(Request $request)
     {
@@ -63,6 +84,13 @@ class CourseController extends Controller
         return redirect()->route('admin.courses.index')->with('success', 'دوره با موفقیت ایجاد شد.');
     }
 
+
+
+    /**
+     * Course Edit Page View
+     * @return  view
+     *
+     **/
     public function edit($id)
     {
         $course = course::findOrFail($id);
@@ -70,9 +98,18 @@ class CourseController extends Controller
         return view('admin.courses.edit', compact('course', 'categories'));
     }
 
+
+    /**
+     *
+     * Course Update  Data
+     * @return  Redirect
+     *  @return Message
+     *
+     **/
+
     public function update(Request $request, $id)
 {
-    $course = Course::findOrFail($id); 
+    $course = Course::findOrFail($id);
 
     $validated = $request->validate([
         'title'         => 'required|string|max:255',
@@ -105,13 +142,23 @@ class CourseController extends Controller
     return redirect()->route('admin.courses.index')->with('success', 'دوره با موفقیت بروزرسانی شد.');
 }
 
-public function destroy($id){
 
-    course::query()->findOrFail($id)->delete();
 
-    return redirect()->route('admin.courses.index')->with('success','دوره با موفقیت حذف شد');
 
-}
+    /**
+     *
+     * Course Destroy  Data
+     * @return  Redirect
+     * @return Message
+     *
+     **/
+    public function destroy($id){
+
+            course::query()->findOrFail($id)->delete();
+
+            return redirect()->route('admin.courses.index')->with('success','دوره با موفقیت حذف شد');
+
+        }
 
 
 }

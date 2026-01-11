@@ -8,16 +8,41 @@ use App\Models\course_categorie as CourseCategory;
 
 class CourseCategoriesController extends Controller
 {
+
+    /**
+     * Course Category Lists
+     * @return  view
+     **/
     public function index()
     {
         $courseCategories = CourseCategory::all()->sortBy('name');
         return view('admin.CourseCategories.index', compact('courseCategories'));
     }
+
+
+
+
+    /**
+     *
+     * Course Category Show Create Page
+     *
+     * @return view
+     *
+     **/
     public function create()
     {
         return view('admin.CourseCategories.create');
     }
 
+
+
+    /**
+     *
+     * Course Category Store Data
+     *
+     * @return Store
+     *
+     **/
     public function store(Request $request)
     {
         $request->validate([
@@ -33,11 +58,32 @@ class CourseCategoriesController extends Controller
         return redirect()->route('admin.course_categories.index')->with('success', 'ذخیره دسته بندی با موفقیت انجام شد');
     }
 
+
+
+
+    /**
+     *
+     * Course Category Show Edit Page
+     *
+     * @return view
+     *
+     **/
+
     public function edit($id)
     {
         $category = CourseCategory::findOrFail($id);
         return view('admin.CourseCategories.edit', compact('category'));
     }
+
+
+
+    /**
+     *
+     * Course Category Update
+     *
+     * @return update
+     *
+     **/
 
     public function update(Request $request, $id)
     {
@@ -54,6 +100,17 @@ class CourseCategoriesController extends Controller
 
         return redirect()->route('admin.course_categories.index')->with('success', 'آپدیت دسته بندی با موفقیت انجام شد');
     }
+
+
+
+    /**
+     *
+     * Course Category destroy
+     *
+     * @return update
+     *
+     **/
+
 
     public function destroy($id)
     {
