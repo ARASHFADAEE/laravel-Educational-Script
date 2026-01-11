@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    
 
+    /**
+     * Show Index Episodes
+     *
+     * @return view
+    */
     public function index($slug){
 
         $lesson=lesson::query()->where('slug','=',$slug)->with('course')->first();
@@ -19,4 +23,5 @@ class LessonController extends Controller
         return view('frontend.ShowEpisodes',compact('lesson','lessons'));
 
     }
+
 }

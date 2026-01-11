@@ -9,9 +9,16 @@ use App\Models\Cart;
 use App\Models\enrollment;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller
 {
+    /**
+     *
+     * Handle Request Zibal Payment
+     * @return Redirect (Online Payment)
+     *
+    */
     public function request_zibal()
     {
         $userId = Auth::id();
@@ -26,13 +33,13 @@ class PaymentController extends Controller
         $totals = Cart::calculateCartTotals($userId);
 
         $amountInRials = $totals['finalPrice'] * 10; // تومان به ریال
-        
+
 
         if ($amountInRials <= 0) {
             return back()->with('error', 'مبلغ پرداخت معتبر نیست!');
         }
 
-        
+
 
 
 
@@ -61,7 +68,12 @@ class PaymentController extends Controller
         return back()->with('error', 'خطا در اتصال به درگاه پرداخت: ' . ($result['message'] ?? 'نامشخص'));
     }
 
-    // متد کال‌بک زیبال
+    /**
+     *
+     * Handle Call Back Zibal
+     * @return  redirect(Dashboard) With Message
+     *
+     */
     public function callback()
     {
         $trackId = request('trackId');
