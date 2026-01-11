@@ -7,7 +7,15 @@ use Illuminate\Http\Request;
 
 class TinymceController extends Controller
 {
-    
+
+
+    /**
+     *
+     *Handle Upload File TinyMce Editor
+     *
+     * @return json
+     *
+     */
     public function upload(Request $request)
 {
     $file = $request->file('file');
