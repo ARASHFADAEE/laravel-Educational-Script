@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    
+
 
     /**
-     * نمایش فرم ثبت‌نام
+     *
+     * Show Register Form
+     * @return view
+     *
      */
     public function show()
     {
@@ -24,6 +27,13 @@ class RegisterController extends Controller
     }
 
 
+
+    /**
+     *
+     * Handle Register Form
+     * @return view(home)
+     *
+     */
     public function register(Request $request)
     {
         // اعتبارسنجی ورودی‌ها
