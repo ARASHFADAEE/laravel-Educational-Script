@@ -1,6 +1,12 @@
 @extends('frontend.layouts.master')
 
 @section('title', $course->title)
+
+
+@section('canonical',url()->current())
+
+
+
 @section('content')
 
 
@@ -408,7 +414,7 @@
                             isLoading=true,
                             $el.disabled = true,
                             $el.innerHTML = 'در حال افزودن...',
-                            
+
 
                                     fetch('/cart/add', {
             method: 'POST',
@@ -428,7 +434,7 @@
                 if(cartCount) {
                     cartCount.textContent = data.cart_count;
                 }
-                
+
                 Toastify({
                     text: data.message,
                     duration: 2000,

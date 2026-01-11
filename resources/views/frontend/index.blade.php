@@ -1,8 +1,12 @@
 @extends('frontend.layouts.master')
 
 @section('title', 'صفحه اصلی ')
+
+@section('canonical',url()->current())
+
 @section('content')
     <main class="flex-auto py-5">
+
 
 
         <div class="space-y-14">

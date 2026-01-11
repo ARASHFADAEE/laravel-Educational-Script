@@ -2,6 +2,8 @@
 
 
 @section('title', 'همه دوره ها')
+@section('canonical',url()->current())
+
 
 @section('content')
 

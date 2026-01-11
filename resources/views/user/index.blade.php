@@ -1,9 +1,10 @@
  @extends('user.dashboard')
- 
- 
+
+
 
  @section('content-dashboard')
- 
+
+
  <div class="space-y-5">
      <!-- section:title -->
      <div class="flex items-center gap-3">
@@ -22,7 +23,7 @@
 
              @foreach ($purchasedCourses as $course )
 
-                
+
              <div class="swiper-slide">
                  <!-- course:card -->
                  <div class="relative">
@@ -48,7 +49,7 @@
                                  <span class="font-bold text-xs text-success">
                                     @if ($course->status == 'published')
                                     تکمیل شده
-                                        
+
                                     @endif
                                     </span>
                              </div>
@@ -80,7 +81,7 @@
                  <!-- end course:card -->
              </div>
              @endforeach
-             
+
              @endif
 
          </div>
