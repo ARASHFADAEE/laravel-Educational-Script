@@ -10,8 +10,10 @@ class LessonController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return view
      */
-public function index(Request $request)
+     public function index(Request $request)
 {
     $lessons = Lesson::query()
         ->with('course') // eager loading برای رابطه course
@@ -37,15 +39,21 @@ public function index(Request $request)
 
     /**
      * Show the form for creating a new resource.
+     *
+     *
+     * @return view
      */
-    // نمایش فرم ایجاد
     public function create()
     {
         $courses = Course::all();
         return view('admin.lessons.create', compact('courses'));
     }
+
+
+
     /**
      * Store a newly created resource in storage.
+     *
      */
     public function store(Request $request)
     {
@@ -68,6 +76,8 @@ public function index(Request $request)
             ->with('success', 'درس با موفقیت ایجاد شد.');
     }
 
+
+
     /**
      * Display the specified resource.
      */
@@ -75,6 +85,8 @@ public function index(Request $request)
     {
         //
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -86,6 +98,8 @@ public function index(Request $request)
         $courses = Course::all();
         return view('admin.lessons.edit', compact('lesson', 'courses'));
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -110,6 +124,8 @@ public function index(Request $request)
         return redirect()->route('admin.lessons.index')
             ->with('success', 'درس با موفقیت بروزرسانی شد.');
     }
+
+
     /**
      * Remove the specified resource from storage.
      */
