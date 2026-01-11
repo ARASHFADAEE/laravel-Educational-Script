@@ -81,7 +81,7 @@
                                     <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                         <div class="space-y-2">
 
-                                            <form id="form-vategory-filter" name="form-category" action="{{Route('category.ajax')}}">
+                                            <form id="form-category-filter" name="form-category" action="{{Route('category.ajax')}}">
                                             @foreach ($categories as $category)
 
                                                 <label class="flex items-center gap-2 cursor-pointer">

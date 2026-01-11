@@ -270,16 +270,18 @@
                                                 <!-- accordion:content -->
                                                 <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
                                                     <div class="space-y-2">
+                                                        <form id="form-category-filter-mobile" name="form-category" action="{{Route('category.ajax')}}" >
                                                         @foreach ($categories as $category )
-                                                            
-                                                        
+
+
                                                         <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" id="{{$category->slug}}" name="category"
-                                                                
+                                                            <input type="radio" value="{{$category->slug}}"  name="category"
+
                                                                 class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
                                                             <span class="text-sm text-muted">{{$category->name}}</span>
                                                         </label>
                                                         @endforeach
+                                                        </form>
 
                                                     </div>
                                                 </div><!-- end accordion:content -->
@@ -310,7 +312,7 @@
                                             <img src="{{ asset('storage') }}/{{ $course->thumbnail }}"
                                                 class="max-w-full rounded-3xl" alt="{{ $course->title }}" />
                                         </a>
-                                        <div id="category-name" 
+                                        <div id="category-name"
                                             class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                 fill="currentColor" class="w-6 h-6">
@@ -389,13 +391,13 @@
                                                     </div>
                                                 @endif
                                             </div>
-   
+
                                         </div>
                                     </div>
                                 </div>
-                                
 
-                                
+
+
                                 <!-- end course:card -->
                             @endforeach
 
@@ -429,13 +431,13 @@
 
         $(document).ready(function () {
 
-             
+
         let SearchInput=$("#SearchCourse");
         let Result=$("#result_ajax");
 
 
 
-            SearchInput.keyup(function () { 
+            SearchInput.keyup(function () {
 
                 if(SearchInput.val().length > 3){
 
@@ -452,16 +454,16 @@
 
                         Result.css('opacity',0.5);
                     },
-                    
-                    
+
+
 
                     success: function (response) {
 
                         Result.html(response)
                         Result.css('opacity',1);
 
-  
-                        
+
+
                     },
 
 
@@ -469,24 +471,24 @@
 
                 }
 
-                
-            
-                
-            });      
-            
+
+
+
+            });
+
         });
 
         $(document).ready(function () {
 
-            $("#form-vategory-filter").change(function (e) { 
+            $("#form-category-filter").change(function (e) {
                 e.preventDefault();
-                let el=$("#form-vategory-filter")
+                let el=$("#form-category-filter")
 
                 let data_form=el.serialize();
-                
+
                 let Result=$("#result_ajax");
 
-                
+
 
 
 
@@ -500,22 +502,63 @@
 
                         Result.css('opacity',0.5);
                     },
-                    
+
 
 
                     success: function (response) {
 
                         Result.html(response);
                         Result.css('opacity',1);
-                        
-                        
-                        
-                        
+
+
+
+
                     }
                 });
-                
+
             });
-            
+
+
+
+            $("#form-category-filter-mobile").change(function (e) {
+                e.preventDefault();
+                let el=$("#form-category-filter-mobile")
+
+                let data_form=el.serialize();
+
+                let Result=$("#result_ajax");
+
+
+
+
+
+
+                $.ajax({
+                    method: "get",
+                    url: "/category/ajax",
+                    data: data_form,
+
+                    beforeSend: function (){
+
+                        Result.css('opacity',0.5);
+                    },
+
+
+
+                    success: function (response) {
+
+                        Result.html(response);
+                        Result.css('opacity',1);
+
+
+
+
+                    }
+                });
+
+            });
+
+
         });
 
 
