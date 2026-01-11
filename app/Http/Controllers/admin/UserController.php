@@ -8,8 +8,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 class UserController extends Controller
 {
-
-
+    /**
+     * Show Users List in Admin Panel
+     *
+     * @return view
+     */
 
     public function index()
     {
@@ -20,10 +23,22 @@ class UserController extends Controller
         return view('admin.users.index',compact('users'));
     }
 
+    /**
+     * Show Create User Form Page  in Admin Panel
+     *
+     * @return view
+     */
     public function create()
     {
         return view('admin.users.create');
     }
+
+
+    /**
+     * Handle Create User in Admin Panel
+     *
+     * @return redirect(Users.index) With Message
+     */
 
     public function store(Request $request)
     {
@@ -52,14 +67,24 @@ class UserController extends Controller
     }
 
 
+
+    /**
+     * Show Edit User Form Page in Admin Panel
+     *
+     * @return view
+     */
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('admin.users.edit', compact('user'));
     }
 
-
-public function update(Request $request, $id)
+    /**
+     * Handle Update User in Admin Panel
+     *
+     * @return redirect(Users.index) With Message
+     */
+    public function update(Request $request, $id)
 {
     $user = User::findOrFail($id);
 
@@ -98,6 +123,13 @@ public function update(Request $request, $id)
              ->with('success', 'آپدیت کاربر با موفقیت انجام شد');
 }
 
+
+
+    /**
+     * Handle Destroy User in Admin Panel
+     *
+     * @return redirect(Users.index) With Message
+     */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -105,10 +137,6 @@ public function update(Request $request, $id)
 
         return redirect()->route('admin.users.index')->with('success', 'کاربر با موفقیت حذف شد');
     }
-
-
-
-
 
 
 }
