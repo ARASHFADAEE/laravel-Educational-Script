@@ -13,7 +13,7 @@ class CartController extends Controller
 
     /**
      * Handle Ajax Request Add Item in Cart Course Single
-     * @return json 
+     * @return json
      */
     public function addToCart(Request $request)
     {
@@ -53,7 +53,7 @@ class CartController extends Controller
 
     /**
      * Handle Ajax Request Remove Item in Cart Course Single
-     * @return json 
+     * @return json
      */
     public function removeFromCart(Request $request, $courseid)
     {
@@ -78,11 +78,11 @@ class CartController extends Controller
 
 
     /**
-     * Show Cart Items Page 
+     * Show Cart Items Page
      * @return view
      */
 
-public function index()
+    public function index()
 {
     $items = Cart::with('course')
                 ->where('user_id', Auth::id())
@@ -92,12 +92,12 @@ public function index()
         $calculations = $items->reduce(function ($carry, $item) {
         $regularPrice = $item->course->regular_price;
         $salePrice = $item->course->sale_price;
-        
+
         // بررسی وجود تخفیف معتبر
         $hasDiscount = $salePrice && $salePrice > 0 && $salePrice < $regularPrice;
         $itemFinalPrice = $hasDiscount ? $salePrice : $regularPrice;
         $itemDiscount = $hasDiscount ? ($regularPrice - $salePrice) : 0;
-        
+
         return [
             'totalRegularPrice' => $carry['totalRegularPrice'] + $regularPrice,
             'totalSalePrice' => $carry['totalSalePrice'] + $itemFinalPrice,
@@ -112,4 +112,4 @@ public function index()
         ['finalPrice' => $calculations['totalSalePrice']]
     ));
 }
-}
+    }
