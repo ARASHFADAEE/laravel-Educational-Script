@@ -10,12 +10,19 @@ use App\Models\User;
 
 
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Array_;
 
 
 class dashboard extends Controller
 {
 
-
+    /**
+     *
+     * Data Dashboard Componnent
+     *
+     * @return Array
+     *
+     **/
     public function bag(){
 
         $user_count = User::count();
@@ -33,6 +40,16 @@ class dashboard extends Controller
             'users_lastest' => $users_lastest
         ];
     }
+
+
+
+    /**
+     *
+     * Show Dashboard Page
+     *
+     * @return view
+     *
+     **/
     public function index()
     {
         return view('admin.index',$this->bag());
