@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chapter;
+use App\Models\Course;
 use App\Models\lesson;
 use Illuminate\Http\Request;
 
@@ -16,11 +18,16 @@ class LessonController extends Controller
     */
     public function index($slug){
 
-        $lesson=lesson::query()->where('slug','=',$slug)->with('course')->first();
+        $lesson=lesson::query()->where('slug',$slug)->with('chapter')->first();
+        $course=Course::query()->where('id',$lesson->chapter->course_id)->first();
+        $chapters=Chapter::query()->where('course_id',$course->id)->with('lessons')->get();
 
-        $lessons=Lesson::query()->where('course_id','=',$lesson->course->id)->get();
 
-        return view('frontend.ShowEpisodes',compact('lesson','lessons'));
+
+
+
+
+        return view('frontend.ShowEpisodes',compact('lesson','course','chapters'));
 
     }
 

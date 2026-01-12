@@ -16,7 +16,7 @@
                     <!-- section:title -->
                     <div class="flex items-center gap-5 mb-5">
                         <!-- back to course -->
-                        <a href="{{ Route('course.show', $lesson->course->slug) }}"
+                        <a href="{{ Route('course.show', $course->slug) }}"
                             class="flex items-center justify-center w-12 h-12 bg-primary text-primary-foreground rounded-full">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-5 h-5">
@@ -28,7 +28,7 @@
                             <!-- episode:title -->
                             <span class="font-black text-2xl text-primary">{{ $lesson->title }}</span>
                             <!-- course:title -->
-                            <span class="font-semibold text-xs text-muted">{{ $lesson->course->name }}</span>
+                            <span class="font-semibold text-xs text-muted">{{ $course->name }}</span>
                         </div>
                     </div>
                     <!-- end section:title -->
@@ -56,15 +56,15 @@
                         <div class="flex flex-col space-y-1">
                             <!-- course:section:accordion -->
                             <div class="w-full space-y-1" x-data="{ open: true }">
+                                @foreach($chapters as $chapter)
                                 <!-- accordion:button -->
                                 <button type="button"
                                     class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
                                     x-bind:class="open ? 'text-foreground' : 'text-muted'" x-on:click="open = !open">
                                     <span class="flex items-center gap-3 text-right">
                                         <span class="font-semibold text-xs line-clamp-1">
-                                            فصل اول</span>
+                                            {{$chapter->title}}</span>
                                         <div class="w-1 h-1 bg-muted-foreground rounded-full"></div>
-                                        <span class="font-semibold text-xs"> معرفی</span>
                                     </span>
                                     <span class="" x-bind:class="open ? 'rotate-180' : ''">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -83,7 +83,7 @@
                                         @php
                                             $i=1
                                         @endphp
-                                        @foreach ($lessons as $lesson)
+                                        @foreach ($chapter->lessons as $lesson)
                                             <div
                                                 class="flex sm:flex-nowrap flex-wrap items-center @if (request()->slug == $lesson->slug) bg-primary text-primary-foreground text-white @endif  gap-3 sm:h-12 p-5 " >
                                                 <span class="text-xs text-muted">{{$i++}}</span>
@@ -123,7 +123,9 @@
                                     </div>
                                     <!-- end course:section:episodes:wrapper -->
                                 </div>
+
                                 <!-- end accordion:content -->
+                                @endforeach
                             </div>
                             <!-- end course:section:accordion -->
 

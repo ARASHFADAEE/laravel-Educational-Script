@@ -74,7 +74,7 @@
                                             <span class="font-bold text-xs text-muted line-clamp-1">تعداد
                                                 جلسات</span>
                                             <span
-                                                class="font-bold text-sm text-foreground line-clamp-1">{{ $course->lessons_count }}</span>
+                                                class="font-bold text-sm text-foreground line-clamp-1"></span>
                                         </div>
                                     </div>
                                     <div
@@ -268,6 +268,7 @@
                                                 <!-- course:section:accordion -->
                                                 <div class="w-full" x-data="{ open: true }">
                                                     <!-- accordion:button -->
+                                                    @foreach( $chapters as $chapter)
                                                     <button type="button"
                                                         class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
                                                         x-bind:class="open ? 'text-foreground' : 'text-muted'"
@@ -275,7 +276,7 @@
                                                         <span class="flex items-center gap-3 text-right">
                                                             <span
                                                                 class="font-semibold text-xs text-foreground line-clamp-1">
-                                                                لیست ویدیو ها
+                                                                {{$chapter->title}}
                                                             </span>
                                                             <div class="w-1 h-1 bg-muted-foreground rounded-full">
                                                             </div>
@@ -297,20 +298,25 @@
                                                         <!-- course:section:episodes:wrapper -->
 
                                                         <div class="space-y-1">
-                                                            @php
-                                                                $i = 1;
-                                                            @endphp
-                                                            @foreach ($lessons as $lesson)
+
+                                                                @foreach($chapter->lessons as $lesson)
                                                                 <!-- episode -->
+                                                            @php
+
+                                                            $i=1;
+
+
+                                                            @endphp
                                                                 <div
                                                                     class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
                                                                     <span
                                                                         class="text-xs text-muted">{{ $i++ }}</span>
                                                                     <div class="w-1 h-1 bg-muted-foreground rounded-full">
                                                                     </div>
+
                                                                     <div
                                                                         class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                        {{ $lesson->title }}
+                                                                        {{ $lesson->title  }}
                                                                     </div>
                                                                     <div
                                                                         class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
@@ -353,6 +359,8 @@
                                                     <!-- end accordion:content -->
                                                 </div>
                                                 <!-- end course:sections:accordion -->
+
+                                                @endforeach
 
 
                                             </div>

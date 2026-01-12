@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Chapter;
 use App\Models\enrollment;
 use App\Models\lesson;
 use Closure;
@@ -21,19 +22,20 @@ class LessonacsessMiddalware
     {
         $UserId=Auth::id();
         $course=lesson::query()
-        ->where('slug','=',$request->slug)->select('course_id','is_free')
+        ->where('slug','=',$request->slug)->select('chapter_id','is_free')
         ->first();
+        $Chapter=Chapter::query()->where('id','=',$course->chapter_id)->firstOrFail();
 
 
 
-        $HasAccsess=enrollment::query()->where('user_id','=',$UserId)->where('course_id','=',$course->course_id)->count();
+        $HasAccsess=Enrollment::query()->where('user_id','=',$UserId)->where('course_id','=',$Chapter->course_id)->count();
 
-         
+
 
         if($HasAccsess || $course->is_free ){
 
         return $next($request);
-        
+
         }else{
 
         return redirect()->back()->with('error','برای دسترسی باید دوره را خریداری کنید');

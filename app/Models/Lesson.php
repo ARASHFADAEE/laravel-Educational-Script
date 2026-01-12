@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class lesson extends Model
+class Lesson extends Model
 {
     //
 
     protected $fillable = [
-        'course_id',
+        'chapter_id',
         'title',
         'slug',
         'content',
@@ -20,7 +20,11 @@ class lesson extends Model
     ];
 
 
-    public function course(){
-        return $this->belongsTo(course::class,'course_id');
+
+
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class, 'chapter_id');
     }
+
 }

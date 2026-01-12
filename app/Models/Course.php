@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class course extends Model
+class Course extends Model
 {
     protected $fillable = [
         'category_id',
@@ -37,6 +37,10 @@ return $this->belongsTo(course_categorie::class, 'category_id', 'id');
     public function lessons(){
         return $this->hasMany(lesson::class);
     }
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
+    }
 
     public function payments()
 {
@@ -46,5 +50,11 @@ return $this->belongsTo(course_categorie::class, 'category_id', 'id');
     public function carts(){
         $this->hasMany(cart::class);
     }
+
+
+
+
+
+
 
 }

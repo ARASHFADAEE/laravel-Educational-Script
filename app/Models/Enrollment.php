@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class enrollment extends Model
+class Enrollment extends Model
 {
     protected $fillable = [
         'user_id',
@@ -23,5 +23,5 @@ class enrollment extends Model
         return $this->belongsTo(course::class);
     }
 
-    
+
 }
