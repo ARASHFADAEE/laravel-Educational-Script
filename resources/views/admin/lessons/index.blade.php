@@ -12,7 +12,7 @@
                     مدیریت تمام دروس سایت
                 </p>
             </div>
-            <a href="{{ route('admin.lessons.create') }}" 
+            <a href="{{ route('admin.lessons.create') }}"
                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg shadow-sm inline-flex items-center transition-colors">
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
@@ -36,7 +36,7 @@
                 <tr>
                     <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">شناسه</th>
                     <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">عنوان درس</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">دوره</th>
+                    <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">نام سرفصل</th>
                     <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">اسلاگ</th>
                     <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">موقعیت</th>
                     <th class="px-6 py-4 text-right text-sm font-medium text-gray-700 dark:text-gray-300">وضعیت</th>
@@ -45,7 +45,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                @forelse($lessons as $lesson)
+                @foreach($lessons as $lesson)
                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                     <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-300">
                         {{ $lesson->id }}
@@ -59,11 +59,8 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-300">
-                        @if($lesson->course)
-                            {{ $lesson->course->title ?? 'بدون دوره' }}
-                        @else
-                            <span class="text-gray-400">بدون دوره</span>
-                        @endif
+
+                            {{ $lesson->chapter->title ?? 'بدون دوره' }}
                     </td>
                     <td class="px-6 py-4 text-sm text-gray-800 dark:text-gray-300">
                         <code class="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
@@ -92,7 +89,7 @@
                     <td class="px-6 py-4 text-sm font-medium">
                         <div class="flex items-center space-x-3 space-x-reverse">
                             @if($lesson->video_url)
-                                <a href="{{ $lesson->video_url }}" target="_blank" 
+                                <a href="{{ $lesson->video_url }}" target="_blank"
                                    class="text-purple-600 hover:text-purple-900 dark:text-purple-400 dark:hover:text-purple-300"
                                    title="مشاهده ویدیو">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,7 +98,7 @@
                                     </svg>
                                 </a>
                             @endif
-                            <a href="" 
+                            <a href=""
                                class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                title="مشاهده">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +106,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                                 </svg>
                             </a>
-                            <a href="{{ route('admin.lessons.edit', $lesson->id) }}" 
+                            <a href="{{ route('admin.lessons.edit', $lesson->id) }}"
                                class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
                                title="ویرایش">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +116,7 @@
                             <form action="{{ route('admin.lessons.destroy', $lesson->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" 
+                                <button type="button"
                                         onclick="if(confirm('آیا از حذف این درس مطمئن هستید؟')) this.form.submit();"
                                         class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                                         title="حذف">
@@ -131,16 +128,7 @@
                         </div>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                        درسی یافت نشد. اولین درس را ایجاد کنید.
-                    </td>
-                </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -182,8 +170,8 @@
 <div class="mt-6 bg-white dark:bg-gray-800 rounded-xl shadow p-4">
     <form action="{{ route('admin.lessons.index') }}" method="GET" class="flex flex-wrap gap-4 items-center">
         <div class="flex-1 min-w-[200px]">
-            <input type="text" 
-                   name="search" 
+            <input type="text"
+                   name="search"
                    value="{{ request('search') }}"
                    placeholder="جستجو بر اساس عنوان یا محتوا..."
                    class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
@@ -206,11 +194,11 @@
             </select>
         </div>
         <div class="flex space-x-2 space-x-reverse">
-            <button type="submit" 
+            <button type="submit"
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
                 جستجو
             </button>
-            <a href="{{ route('admin.lessons.index') }}" 
+            <a href="{{ route('admin.lessons.index') }}"
                class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 dark:border-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                 پاک کردن فیلتر
             </a>

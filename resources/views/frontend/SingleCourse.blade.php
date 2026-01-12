@@ -22,7 +22,9 @@
 
 
                                 <video class="js-player" data-poster="{{ asset('storage') }}/{{ $course->thumbnail }}"
-                                    src="{{ $lesson_one->video_url }}"></video>
+                                    src="{{ $lesson_one->video_url }}">
+
+                                </video>
 
                             </div>
                             <!-- end course:thumbnail -->
@@ -266,9 +268,10 @@
                                             <!-- course:sections:wrapper -->
                                             <div class="flex flex-col space-y-3">
                                                 <!-- course:section:accordion -->
+                                                @foreach( $chapters as $chapter)
+
                                                 <div class="w-full" x-data="{ open: true }">
                                                     <!-- accordion:button -->
-                                                    @foreach( $chapters as $chapter)
                                                     <button type="button"
                                                         class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
                                                         x-bind:class="open ? 'text-foreground' : 'text-muted'"
@@ -298,15 +301,16 @@
                                                         <!-- course:section:episodes:wrapper -->
 
                                                         <div class="space-y-1">
-
-                                                                @foreach($chapter->lessons as $lesson)
-                                                                <!-- episode -->
                                                             @php
 
-                                                            $i=1;
+                                                                $i=1;
 
 
                                                             @endphp
+
+                                                                @foreach($chapter->lessons as $lesson)
+                                                                <!-- episode -->
+
                                                                 <div
                                                                     class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
                                                                     <span
@@ -360,10 +364,11 @@
                                                 </div>
                                                 <!-- end course:sections:accordion -->
 
-                                                @endforeach
 
 
                                             </div>
+                                            @endforeach
+
                                             <!-- end course:sections:wrapper -->
                                         </div>
                                         <!-- end tabs:contents:tabTwo -->
@@ -375,50 +380,47 @@
                                 <!-- end tabs container -->
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="md:w-4/12 w-full md:sticky md:top-24 space-y-8">
-                    <!-- course:registering -->
-                    <div class="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
-                        <div class="bg-background rounded-b-3xl space-y-2 p-5 mb-5">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center gap-1">
-                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                        <div class="md:w-4/12 w-full md:sticky md:top-24 space-y-8">
+                            <!-- course:registering -->
+                            <div class="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
+                                <div class="bg-background rounded-b-3xl space-y-2 p-5 mb-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                                            <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                        </div>
+                                        <div class="font-black text-foreground">نام نویسی در دوره</div>
+                                    </div>
                                 </div>
-                                <div class="font-black text-foreground">نام نویسی در دوره</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-5">
-                            <span class="font-bold text-base text-muted">هزینه ثبت نام:</span>
-                            <div class="flex flex-col items-end justify-center h-14">
+                                <div class="flex items-center justify-between gap-5">
+                                    <span class="font-bold text-base text-muted">هزینه ثبت نام:</span>
+                                    <div class="flex flex-col items-end justify-center h-14">
 
-                                @if ($course->sale_price)
-                                    <span
-                                        class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
-                                    <div class="flex items-center gap-1">
+                                        @if ($course->sale_price)
+                                            <span
+                                                class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
+                                            <div class="flex items-center gap-1">
                                         <span
                                             class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
-                                        <span class="text-xs text-muted">تومان</span>
-                                    </div>
-                                @else
-                                    <div class="flex items-center gap-1">
+                                                <span class="text-xs text-muted">تومان</span>
+                                            </div>
+                                        @else
+                                            <div class="flex items-center gap-1">
                                         <span
                                             class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
-                                        <span class="text-xs text-muted">تومان</span>
-                                    </div>
-                                @endif
+                                                <span class="text-xs text-muted">تومان</span>
+                                            </div>
+                                        @endif
 
-                            </div>
-                        </div>
-                        <div class="flex gap-3 mt-3">
-                            @if (Auth()->check() & !$has_accsess)
-                                <button id="add_to_cart" x-data="{
+                                    </div>
+                                </div>
+                                <div class="flex gap-3 mt-3">
+                                    @if (Auth()->check() & !$has_accsess)
+                                        <button id="add_to_cart" x-data="{
                                     courseId: {{ $course->id }},
                                     isLoading: false
                                 }"
-                                    x-on:click="
+                                                x-on:click="
                             isLoading=true,
                             $el.disabled = true,
                             $el.innerHTML = 'در حال افزودن...',
@@ -485,76 +487,82 @@
             $el.innerHTML = 'اضافه به سبد';
         });
                             "
-                                    x-bind:disabled="isLoading" type="button"
-                                    class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm" x-show="!isLoading">افزودن به سبد خرید</span>
-                                    <span class="font-semibold text-sm" x-show="isLoading">در حال افزودن...</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                            d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            @elseif(Auth()->check() && $has_accsess->course_id === $course->id)
-                                <a href="{{ route('lesson.show', $lesson_one->slug) }}"
-                                    class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">مشاهده دوره</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                            d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            @else
-                                <a href="{{ route('auth.login') }}"
-                                    class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">برای یادگیری وارد سایت شوید</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                        class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                            d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            @endif
+                                                x-bind:disabled="isLoading" type="button"
+                                                class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                            <span class="font-semibold text-sm" x-show="!isLoading">افزودن به سبد خرید</span>
+                                            <span class="font-semibold text-sm" x-show="isLoading">در حال افزودن...</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                 class="w-5 h-5">
+                                                <path fill-rule="evenodd"
+                                                      d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </button>
+                                    @elseif(Auth()->check() && $has_accsess->course_id === $course->id)
+                                        <a href="{{ route('lesson.show', $lesson_one->slug) }}"
+                                           class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                            <span class="font-semibold text-sm">مشاهده دوره</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                 class="w-5 h-5">
+                                                <path fill-rule="evenodd"
+                                                      d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('auth.login') }}"
+                                           class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
+                                            <span class="font-semibold text-sm">برای یادگیری وارد سایت شوید</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                                 class="w-5 h-5">
+                                                <path fill-rule="evenodd"
+                                                      d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
+                                                      clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    @endif
 
-
-                        </div>
-                    </div>
-                    <!-- end course:registering -->
-
-                    <!-- course:lecturer -->
-                    <div class="space-y-5">
-                        <div class="flex items-center gap-3">
-                            <div class="flex items-center gap-1">
-                                <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                            </div>
-                            <div class="font-black text-sm text-foreground">مدرس دوره</div>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                    <img src="{{ asset('storage') }}/{{ $course->user->avatar }}"
-                                        class="w-full h-full object-cover" alt="{{ $course->user->name }}" />
-                                </div>
-                                <div class="flex flex-col items-start space-y-1">
-                                    <div class="line-clamp-1 font-bold text-sm text-foreground hover:text-primary">
-                                        {{ $course->user->name }}</div>
 
                                 </div>
-                            </div>
-                            <div class="bg-secondary rounded-tl-3xl rounded-b-3xl text-sm text-muted p-5">
+                                <div class="space-y-5">
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex items-center gap-1">
+                                            <div class="w-1 h-1 bg-foreground rounded-full"></div>
+                                            <div class="w-2 h-2 bg-foreground rounded-full"></div>
+                                        </div>
+                                        <div class="font-black text-sm text-foreground">مدرس دوره</div>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
+                                                <img src="{{ asset('storage') }}/{{ $course->user->avatar }}"
+                                                     class="w-full h-full object-cover" alt="{{ $course->user->name }}" />
+                                            </div>
+                                            <div class="flex flex-col items-start space-y-1">
+                                                <div class="line-clamp-1 font-bold text-sm text-foreground hover:text-primary">
+                                                    {{ $course->user->name }}</div>
 
-                                {{ $course->user->bio }}
+                                            </div>
+                                        </div>
+                                        <div class="bg-secondary rounded-tl-3xl rounded-b-3xl text-sm text-muted p-5">
+
+                                            {{ $course->user->bio }}
+
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
+                            <!-- end course:registering -->
+
+                            <!-- course:lecturer -->
+                            <!-- end course:lecturer -->
                         </div>
+
                     </div>
-                    <!-- end course:lecturer -->
+
                 </div>
+
             </div>
         </div>
         <!-- end container -->

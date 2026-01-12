@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Chapter;
 use Illuminate\Http\Request;
 use App\Models\lesson;
 use App\Models\course;
@@ -16,7 +17,7 @@ class LessonController extends Controller
      public function index(Request $request)
 {
     $lessons = Lesson::query()
-        ->with('course') // eager loading برای رابطه course
+        ->with('chapter')
         ->when($request->search, function($query, $search) {
             $query->where('title', 'like', "%{$search}%")
                   ->orWhere('content', 'like', "%{$search}%");
@@ -30,6 +31,9 @@ class LessonController extends Controller
         ->orderBy('position')
         ->orderBy('created_at', 'desc')
         ->paginate(30);
+
+
+
 
     // اگر نیاز به لیست دوره‌ها برای dropdown دارید
     $courses = Course::all();
@@ -45,8 +49,8 @@ class LessonController extends Controller
      */
     public function create()
     {
-        $courses = Course::all();
-        return view('admin.lessons.create', compact('courses'));
+        $chapters=Chapter::all() ;
+        return view('admin.lessons.create', compact('chapters'));
     }
 
 
@@ -58,12 +62,13 @@ class LessonController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'course_id' => 'required|exists:courses,id',
             'title' => 'required|string|max:255',
+            'chapter_id' => 'required|exists:chapters,id',
             'slug' => 'required|string|max:255|unique:lessons,slug',
             'content' => 'nullable|string',
             'video_url' => 'nullable|url|max:500',
             'position' => 'nullable|integer|min:0',
+            'File_link' => 'nullable|url|max:500',
             'is_free' => 'boolean'
         ]);
 
@@ -95,8 +100,8 @@ class LessonController extends Controller
     public function edit($id)
 
     {   $lesson=lesson::query()->findOrFail($id);
-        $courses = Course::all();
-        return view('admin.lessons.edit', compact('lesson', 'courses'));
+        $chapters = Chapter::all();
+        return view('admin.lessons.edit', compact('lesson', 'chapters'));
     }
 
 
@@ -108,18 +113,29 @@ class LessonController extends Controller
     public function update(Request $request, Lesson $lesson)
     {
         $validated = $request->validate([
-            'course_id' => 'required|exists:courses,id',
             'title' => 'required|string|max:255',
+            'chapter_id' => 'required|exists:chapters,id',
             'slug' => 'required|string|max:255' . $lesson->id,
             'content' => 'nullable|string',
             'video_url' => 'nullable|url|max:500',
             'position' => 'nullable|integer|min:0',
+            'File_link' => 'nullable|url|max:500',
             'is_free' => 'boolean'
         ]);
 
+
+
         $validated['is_free'] = $request->has('is_free') ? 1 : 0;
 
-        $lesson->update($validated);
+        Lesson::query()->update([
+            'title' => $validated['title'],
+            'chapter_id' => $validated['chapter_id'],
+            'slug' => $validated['slug'],
+            'content' => $validated['content'],
+            'video_url' => $validated['video_url'],
+            'is_free' => $validated['is_free'],
+            'position' => $validated['position'],
+        ]);
 
         return redirect()->route('admin.lessons.index')
             ->with('success', 'درس با موفقیت بروزرسانی شد.');
