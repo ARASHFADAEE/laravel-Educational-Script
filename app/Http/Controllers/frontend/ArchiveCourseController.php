@@ -19,7 +19,7 @@ class ArchiveCourseController extends Controller
     public function index()
     {
 
-        $courses = course::query()->withCount('lessons')->latest()->paginate(10);
+        $courses = course::query()->withCount('chapters')->latest()->paginate(10);
         $categories = Category::all();
         return view('frontend.ArchiveCourses', compact('courses', 'categories'));
     }

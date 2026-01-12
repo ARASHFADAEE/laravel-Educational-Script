@@ -28,15 +28,22 @@
         <!-- دوره -->
         <div>
             <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                سرفصل  <span class="text-red-500">*</span>
+                انتخاب دوره  <span class="text-red-500">*</span>
             </label>
-            <select name="chapter_id" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+            <select id="Select_Course" name="course_id" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
                 <option value="">انتخاب دوره</option>
-                @foreach($chapters as $chapter)
-                    <option value="{{ $chapter->id }}" {{ old('course_id') == $chapter->id ? 'selected' : '' }}>
-                        {{ $chapter->title }}
+                @foreach($courses as $course)
+                    <option name="{{ $course->id }}" value="{{ $course->id }}" {{ old('course_id') == $course->id ? 'selected' : '' }}>
+                        {{ $course->title }}
                     </option>
                 @endforeach
+            </select>
+            <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                سرفصل  <span class="text-red-500">*</span>
+            </label>
+            <select id="Result_chapters" name="chapter_id" class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" required>
+                <option value="">انتخاب فصل</option>
+
             </select>
             @error('course_id')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -138,7 +145,48 @@
         </div>
     </form>
 </div>
+
+
+    <script>
+
+        $(document).ready(function() {
+            $('#Select_Course').on('change', function(e) {
+                e.preventDefault();
+
+
+                let course_id =$('#Select_Course').val();
+
+                $.ajax(
+                    {
+                        url: '{{route('course.ajax.admin')}}',
+                        method: 'GET',
+                        data: {
+                            course_id: course_id,
+                        },
+
+
+                        success: function (response) {
+
+                            let Result_chapters = $('#Result_chapters');
+                            console.log(response);
+
+                            Result_chapters.html(response);
+
+
+
+                        },
+
+                    }
+                );
+
+            })
+
+        })
+
+        </script>
 @endsection
+
+
 
 @push('styles')
 <!-- اضافه کردن ویرایشگر متن -->
@@ -178,5 +226,7 @@
             }
         });
     });
+
+
 </script>
 @endpush

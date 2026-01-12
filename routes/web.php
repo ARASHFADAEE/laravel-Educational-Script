@@ -25,6 +25,12 @@ Route::get('/category/ajax',[ArchiveCourseController::class,'category_ajax'])->n
 
 
 
+Route::get('/course/ajax',[App\Http\Controllers\Admin\LessonController::class,'course_ajax'])->middleware('admin')->name('course.ajax.admin');
+
+
+
+
+
 
 
 

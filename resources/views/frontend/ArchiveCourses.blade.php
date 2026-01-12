@@ -351,8 +351,8 @@
                                                             d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
                                                         </path>
                                                     </svg>
-                                                    <span class="font-semibold text-xs">{{ $course->lessons_count }}
-                                                        درس</span>
+                                                    <span class="font-semibold text-xs">{{ $course->chapters_count }}
+                                                         فصل</span>
                                                 </div>
                                                 <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
                                                 <div class="flex items-center gap-1 text-muted">

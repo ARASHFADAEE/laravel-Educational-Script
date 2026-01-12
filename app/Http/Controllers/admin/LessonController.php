@@ -35,10 +35,9 @@ class LessonController extends Controller
 
 
 
-    // اگر نیاز به لیست دوره‌ها برای dropdown دارید
-    $courses = Course::all();
 
-    return view('admin.lessons.index', compact('lessons', 'courses'));
+
+    return view('admin.lessons.index', compact('lessons'));
 }
 
     /**
@@ -50,7 +49,8 @@ class LessonController extends Controller
     public function create()
     {
         $chapters=Chapter::all() ;
-        return view('admin.lessons.create', compact('chapters'));
+        $courses = Course::all();
+        return view('admin.lessons.create', compact('chapters','courses'));
     }
 
 
@@ -100,8 +100,8 @@ class LessonController extends Controller
     public function edit($id)
 
     {   $lesson=lesson::query()->findOrFail($id);
-        $chapters = Chapter::all();
-        return view('admin.lessons.edit', compact('lesson', 'chapters'));
+        $courses = Course::all();
+        return view('admin.lessons.edit', compact('lesson', 'courses'));
     }
 
 
@@ -152,5 +152,32 @@ class LessonController extends Controller
 
         return redirect()->route('admin.lessons.index')
             ->with('success', 'درس با موفقیت حذف شد.');
+    }
+
+
+
+    public  function course_ajax(Request $request)
+    {
+
+
+        $chapters=Chapter::query()->where('course_id',$request->course_id)->get();
+        foreach($chapters as $chapter):
+
+        ?>
+        <option value="<?= $chapter->id ?>" <?= old('course_id') == $chapter->id ? 'selected' : '' ?>>
+        <?= $chapter->title ?>
+        </option>
+        <?php
+        endforeach;
+
+        ?>
+
+
+
+
+<?php
+
+
+
     }
 }
