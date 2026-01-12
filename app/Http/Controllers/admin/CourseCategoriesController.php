@@ -107,7 +107,7 @@ class CourseCategoriesController extends Controller
      *
      * Course Category destroy
      *
-     * @return update
+     * @return destroy
      *
      **/
 

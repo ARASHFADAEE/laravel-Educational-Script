@@ -15,7 +15,8 @@ class lesson extends Model
         'content',
         'video_url',
         'position',
-        'is_free'
+        'is_free',
+        'File_link'
     ];
 
 

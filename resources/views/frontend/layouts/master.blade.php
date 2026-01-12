@@ -8,8 +8,13 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
+    @if (request()->routeIs('lesson.show') || request()->routeIs('course.show'))
+
     <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
+    @endif
+    @if (request()->routeIs('courses.show'))
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
+    @endif
     @if (!request()->routeIs('courses.show'))
     <script src="{{asset('frontend/js/toastify.js')}}"></script>
     <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
@@ -87,7 +92,11 @@
 
     <script src="{{ asset('frontend/js/alpinejs.min.js') }}"></script>
     <script src="{{ asset('frontend/js/swiper-bundle.min.js') }}"></script>
-    <script src="{{ asset('frontend/js/plyr.min.js') }}"></script>
+    @if (request()->routeIs('lesson.show') || request()->routeIs('course.show') )
+
+        <script src="{{ asset('frontend/js/plyr.min.js') }}"></script>
+
+    @endif
     @if (session('success'))
         <script>
             Toastify({

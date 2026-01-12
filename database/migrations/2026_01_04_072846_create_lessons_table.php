@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('video_url')->nullable();
             $table->integer('position')->nullable();
             $table->boolean('is_free')->default(false);
+            $table->string('File_link')->nullable();
             $table->timestamps();
         });
     }
