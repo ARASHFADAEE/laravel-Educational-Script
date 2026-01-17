@@ -35,7 +35,7 @@
 
                     <!-- episode:video:wrapper -->
                     <div class="relative max-w-full rounded-3xl overflow-hidden z-10">
-                        <video class="js-player" playsinline controls data-poster="./assets/images/courses/01.jpg">
+                        <video class="js-player" playsinline controls data-poster="{{asset('storage')}}/{{$course->thumbnail}}">
                             <source src="{{ $lesson->video_url }}" type="video/mp4" />
 
                         </video>
@@ -46,9 +46,10 @@
                     <div class="bg-background rounded-2xl">
                         <!-- course:sections:wrapper -->
                         <div class="flex flex-col space-y-1">
+                            @foreach($chapters as $chapter)
+
                             <!-- course:section:accordion -->
                             <div class="w-full space-y-1" x-data="{ open: true }">
-                                @foreach($chapters as $chapter)
                                 <!-- accordion:button -->
                                 <button type="button"
                                     class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
@@ -117,8 +118,9 @@
                                 </div>
 
                                 <!-- end accordion:content -->
-                                @endforeach
                             </div>
+                            @endforeach
+
                             <!-- end course:section:accordion -->
 
                         </div>

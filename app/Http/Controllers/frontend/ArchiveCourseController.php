@@ -19,7 +19,7 @@ class ArchiveCourseController extends Controller
     public function index()
     {
 
-        $courses = course::query()->withCount('chapters')->latest()->paginate(10);
+        $courses = course::query()->withCount('chapters')->latest()->where('status', 'published')->paginate(10);
         $categories = Category::all();
         return view('frontend.ArchiveCourses', compact('courses', 'categories'));
     }
@@ -35,7 +35,7 @@ class ArchiveCourseController extends Controller
         $q = $request->query('title');
         $category = $request->query('cat-name');
 
-        $Courses = Course::where('title', 'LIKE', "%{$q}%")->get();
+        $Courses = Course::where('title', 'LIKE', "%{$q}%")->where('status', 'published')->get();
 
 
 
@@ -158,7 +158,7 @@ class ArchiveCourseController extends Controller
 
         $category = Category::query()->where('slug', '=', $q)->firstOrFail();
         if ($category) {
-            $courses = course::query()->where('category_id', '=', $category->id)->get();
+            $courses = course::query()->where('category_id', '=', $category->id)->where('status', 'published')->get();
             foreach ($courses as $course) {
             ?>
 
