@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
     public function payments(){
         $userId=Auth::id();
-        $payments=payment::query()->where('user_id','=',$userId)->with('course')->get();
+        $payments=payment::query()->where('user_id','=',$userId)->with('course')->orderBy('created_at','desc')->get();
 
         return view('user.payments',compact('payments'));
 
