@@ -40,12 +40,7 @@
                                                 <span class="text-sm text-muted">فقط نقدی</span>
                                                 <span class="text-sm text-muted mr-auto">۹</span>
                                             </label>
-                                            <label class="flex items-center gap-2 cursor-pointer">
-                                                <input type="radio" name="type"
-                                                    class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                <span class="text-sm text-muted">نقدی و اعضای ویژه</span>
-                                                <span class="text-sm text-muted mr-auto">۴۳</span>
-                                            </label>
+
                                         </div>
                                     </div><!-- end accordion:content -->
                                 </div><!-- accordion -->

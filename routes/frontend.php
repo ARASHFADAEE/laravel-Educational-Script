@@ -51,7 +51,7 @@ Route::post('/logout', [login::class, 'logout'])->name('auth.logout');
 Route::get('/posts/{post}/comments', [CommentController::class, 'index'])->name('posts.comments');
 
 //Comments Route
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['user'])->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
@@ -69,7 +69,7 @@ Route::get('/courses/{slug}', [CourseSingleController::class, 'show'])->name('co
 
 
 //Cart System Route
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['user'])->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::delete('/cart/remove/{courseid}', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

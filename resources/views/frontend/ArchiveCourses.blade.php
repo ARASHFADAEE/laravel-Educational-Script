@@ -46,15 +46,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3">
-                            <label class="relative w-full flex items-center justify-between cursor-pointer">
-                                <span class="font-bold text-sm text-foreground">در حال برگزاری</span>
-                                <input type="checkbox" value="" class="sr-only peer" />
-                                <div
-                                    class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
-                                </div>
-                            </label>
-                        </div>
+
                         <!-- accordion:container -->
                         @include('frontend.partials.ArchiveCourses.accordion')
 
