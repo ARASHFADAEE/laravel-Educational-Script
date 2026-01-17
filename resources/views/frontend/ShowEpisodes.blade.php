@@ -49,7 +49,7 @@
                             @foreach($chapters as $chapter)
 
                             <!-- course:section:accordion -->
-                            <div class="w-full space-y-1" x-data="{ open: true }">
+                            <div class="w-full space-y-1" x-data="{ open: false }">
                                 <!-- accordion:button -->
                                 <button type="button"
                                     class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
