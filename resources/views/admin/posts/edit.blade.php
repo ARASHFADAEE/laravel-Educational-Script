@@ -3,6 +3,8 @@
 @section('title', 'ویرایش مقاله ')
 
 @section('main')
+
+
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 max-w-5xl mx-auto">
         <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">ایجاد مقاله جدید</h2>
 
