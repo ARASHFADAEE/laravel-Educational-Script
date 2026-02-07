@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Course_categorie extends Model
+class CourseCategory extends Model
 {
     //
 

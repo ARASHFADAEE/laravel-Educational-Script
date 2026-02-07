@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\course;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use PhpParser\Node\Expr\Include_;
-use App\Models\course_categorie as Category;
+use App\Models\CourseCategory as Category;
 
 class ArchiveCourseController extends Controller
 {
@@ -19,7 +19,7 @@ class ArchiveCourseController extends Controller
     public function index()
     {
 
-        $courses = course::query()->withCount('chapters')->latest()->where('status', 'published')->paginate(10);
+        $courses = Course::query()->withCount('chapters')->latest()->where('status', 'published')->paginate(10);
         $categories = Category::all();
         return view('frontend.ArchiveCourses', compact('courses', 'categories'));
     }

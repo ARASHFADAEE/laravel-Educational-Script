@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\frontend\ArchiveCourseController;
+use App\Http\Controllers\Frontend\ArchiveCourseController;
 
 
 

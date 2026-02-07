@@ -1,23 +1,23 @@
 <?php
 
-use App\Http\Controllers\admin\SettingController;
+use App\Http\Controllers\Admin\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController as login;
 use App\Http\Controllers\Auth\RegisterController as register;
-use App\Http\Controllers\frontend\CommentController;
-use App\Http\Controllers\frontend\CourseSingleController;
-use App\Http\Controllers\frontend\CartController;
-use App\Http\Controllers\frontend\Homecontroller;
-use App\Http\Controllers\frontend\SingleBlogController;
-use App\Http\Controllers\frontend\paymentcontroller;
+use App\Http\Controllers\Frontend\CommentController;
+use App\Http\Controllers\Frontend\CourseSingleController;
+use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\SingleBlogController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
 
 //use Post Controller For Ajax Search
-use App\Http\Controllers\admin\PostController;
-use App\Http\Controllers\frontend\ArchiveCourseController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Frontend\ArchiveCourseController;
 
 //Auth Routes
 Route::prefix('auth')->middleware('guest')->group(function () {
@@ -37,7 +37,7 @@ Route::prefix('auth')->middleware('guest')->group(function () {
  */
 
 //home and blog
-Route::get('/', [Homecontroller::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog/{slug}', [SingleBlogController::class, 'show'])->name('single.blog.show');
 
 //Search Ajax

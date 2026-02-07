@@ -3,15 +3,14 @@
 namespace App\Http\Middleware;
 
 use App\Models\Chapter;
-use App\Models\enrollment;
-use App\Models\lesson;
+use App\Models\Enrollment;
+use App\Models\Lesson;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\payment;
 
-class LessonacsessMiddalware
+class LessonAccessMiddleware
 {
     /**
      * Handle an incoming request.
@@ -21,7 +20,7 @@ class LessonacsessMiddalware
     public function handle(Request $request, Closure $next): Response
     {
         $UserId=Auth::id();
-        $course=lesson::query()
+        $course=Lesson::query()
         ->where('slug','=',$request->slug)->select('chapter_id','is_free')
         ->first();
         $Chapter=Chapter::query()->where('id','=',$course->chapter_id)->firstOrFail();

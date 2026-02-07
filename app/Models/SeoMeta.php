@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class seo_meta extends Model
+class SeoMeta extends Model
 {
     protected $fillable = [
         'meta_title',

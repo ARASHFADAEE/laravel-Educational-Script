@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
@@ -63,11 +63,7 @@ class CartController extends Controller
         ])->first();
 
         if ($cartItem) {
-            if ($cartItem->quantity > 1) {
-                $cartItem->decrement('quantity');
-            } else {
-                $cartItem->delete();
-            }
+            $cartItem->delete();
         }
 
         return response()->json([

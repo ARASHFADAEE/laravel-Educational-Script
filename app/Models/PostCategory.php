@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class post_categorie extends Model
+class PostCategory extends Model
 {
     protected $fillable = [
         'name',

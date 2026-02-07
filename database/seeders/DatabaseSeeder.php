@@ -7,8 +7,8 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use App\Models\post_categorie;
-use App\Models\course_categorie;
+use App\Models\PostCategory;
+use App\Models\CourseCategory;
 
 
 
@@ -35,12 +35,12 @@ class DatabaseSeeder extends Seeder
         );
 
 
-        post_categorie::create([
+        PostCategory::create([
             "name"=>"دسته بندی تستی",
             "slug"=>"test-category"
         ]);
 
-        course_categorie::create([
+        CourseCategory::create([
             "name"=>"دسته بندی دوره",
             "slug"=>"course-category"
         ]);

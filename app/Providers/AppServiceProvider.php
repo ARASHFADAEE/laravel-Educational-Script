@@ -6,8 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
-use App\Models\course_categorie as category;
-use App\Models\enrollment;
+use App\Models\CourseCategory as category;
+use App\Models\Enrollment;
 
 class AppServiceProvider extends ServiceProvider
 {

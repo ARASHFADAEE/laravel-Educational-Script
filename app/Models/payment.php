@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 
 
-class payment extends Model
+class Payment extends Model
 {
     //
     protected $fillable = [
         'user_id',
         'course_id',
         'amount',
+        'transaction_id',
         'payment_method',
         'status'
     ];
@@ -29,5 +30,5 @@ class payment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    
+
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\course;
-use App\Models\course_categorie;
+use App\Models\Course;
+use App\Models\CourseCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +20,7 @@ class CourseController extends Controller
      **/
     public function index()
     {
-        $courses = course::orderBy('id', 'desc')->paginate(10);
+        $courses = Course::orderBy('id', 'desc')->paginate(10);
         return view('admin.courses.index', compact('courses'));
     }
 
@@ -32,7 +32,7 @@ class CourseController extends Controller
      **/
     public function create()
     {
-        $categories = course_categorie::all();
+        $categories = CourseCategory::all();
 
         return view('admin.courses.create', compact('categories'));
     }
@@ -67,7 +67,7 @@ class CourseController extends Controller
 
 
 
-        course::create([
+        Course::create([
             'title' => $request->title,
             'description' => $request->description,
             'slug' => $request->slug,
@@ -93,8 +93,8 @@ class CourseController extends Controller
      **/
     public function edit($id)
     {
-        $course = course::findOrFail($id);
-        $categories = course_categorie::all();
+        $course = Course::findOrFail($id);
+        $categories = CourseCategory::all();
         return view('admin.courses.edit', compact('course', 'categories'));
     }
 

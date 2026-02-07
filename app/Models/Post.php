@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use App\Models\seo_meta as Seo;
-use App\Models\post_categorie as PostCategory;
+use App\Models\SeoMeta as Seo;
+use App\Models\PostCategory;
 
 class Post extends Model
 {
@@ -35,5 +35,5 @@ public function post_categorie()
 
 
     public function comments(){
-        return $this->hasMany(comment::class);    }
+        return $this->hasMany(Comment::class);    }
 }

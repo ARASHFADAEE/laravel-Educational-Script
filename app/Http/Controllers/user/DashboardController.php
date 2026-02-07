@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\enrollment;
-use App\Models\payment;
+use App\Models\Enrollment;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\lesson;
+use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
@@ -50,7 +50,7 @@ class DashboardController extends Controller
         $userId=Auth::id();
 
         //Get List Course User Enrollment
-        $items=enrollment::query()->where('user_id','=',$userId)->with('course')->get();
+        $items=Enrollment::query()->where('user_id','=',$userId)->with('course')->get();
 
         return view('user.courses',compact('items'));
 
@@ -66,7 +66,7 @@ class DashboardController extends Controller
 
     public function payments(){
         $userId=Auth::id();
-        $payments=payment::query()->where('user_id','=',$userId)->with('course')->orderBy('created_at','desc')->get();
+        $payments=Payment::query()->where('user_id','=',$userId)->with('course')->orderBy('created_at','desc')->get();
 
         return view('user.payments',compact('payments'));
 

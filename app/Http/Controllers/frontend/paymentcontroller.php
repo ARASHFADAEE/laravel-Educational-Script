@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Models\Cart;
-use App\Models\enrollment;
+use App\Models\Enrollment;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -120,10 +120,11 @@ class PaymentController extends Controller
                         'user_id'        => $userId,
                         'course_id'      => $item->course_id,
                         'amount'         => $item->course->sale_price > 0 ? $item->course->sale_price : $item->course->regular_price, // به تومان
+                        'transaction_id' => $trackId,
                         'payment_method' => 'zibal',
                         'status'         => 'completed',
                     ]);
-                    enrollment::create([
+                    Enrollment::create([
                         'user_id'=>$userId,
                         'course_id'=>$item->course_id,
                         'price'=> $item->course->sale_price > 0 ? $item->course->sale_price : $item->course->regular_price,

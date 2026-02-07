@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\post_categorie as category;
+use App\Models\PostCategory as Category;
 use Illuminate\Support\Facades\Redirect;
 
 class PostCategoryController extends Controller
@@ -17,7 +17,7 @@ class PostCategoryController extends Controller
      */
     public function index(){
 
-         $categories_blog=category::paginate(15);
+         $categories_blog=Category::paginate(15);           
         return view('admin.postcategories.index',compact('categories_blog'));
     }
 

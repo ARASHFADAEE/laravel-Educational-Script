@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\course;
-use App\Models\payment;
+use App\Models\Course;
+use App\Models\Payment;
 use App\Models\User;
 
 
@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Array_;
 
 
-class dashboard extends Controller
+class DashboardController extends Controller
 {
 
     /**
@@ -26,9 +26,9 @@ class dashboard extends Controller
     public function bag(){
 
         $user_count = User::count();
-        $course_count = course::count();
-        $payment_count = payment::query()->where('status','completed')->count();
-        $payment_sum= payment::query()->where('status','completed')->sum('amount');
+        $course_count = Course::count();
+        $payment_count = Payment::query()->where('status','completed')->count();
+        $payment_sum= Payment::query()->where('status','completed')->sum('amount');
         $users_lastest=User::latest()->take(5)->get();
 
 

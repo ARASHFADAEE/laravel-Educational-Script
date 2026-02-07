@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
@@ -103,7 +103,7 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         // بررسی مالکیت کامنت
-        if ($comment->user_id !== Auth::id() && !Auth::user()->hasRole('admin')) {
+        if ($comment->user_id !== Auth::id() && Auth::user()->role !== 'admin') {
             return response()->json([
                 'success' => false,
                 'message' => 'شما اجازه حذف این دیدگاه را ندارید.'

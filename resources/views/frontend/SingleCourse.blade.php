@@ -621,7 +621,7 @@
                             </div>
                         </div>
                         <div class="flex gap-3 mt-3">
-                            @if (Auth()->check() & !$has_accsess)
+                            @if (Auth()->check() && !$has_accsess)
                                 <button id="add_to_cart" x-data="{
                                     courseId: {{ $course->id }},
                                     isLoading: false
@@ -705,7 +705,7 @@
                                               clip-rule="evenodd"></path>
                                     </svg>
                                 </button>
-                            @elseif(Auth()->check() && $has_accsess->course_id === $course->id)
+                            @elseif(Auth()->check() && $has_accsess)
                                 <a href="{{ route('lesson.show', $lesson_one->slug) }}"
                                    class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
                                     <span class="font-semibold text-sm">مشاهده دوره</span>

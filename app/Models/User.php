@@ -73,13 +73,13 @@ class User extends Authenticatable
 
     public function carts()
     {
-        return $this->hasMany(cart::class);
+        return $this->hasMany(Cart::class);
     }
 
     public function enrollments()
     {
 
-        return $this->hasMany(enrollment::class);
+        return $this->hasMany(Enrollment::class);
     }
 
 

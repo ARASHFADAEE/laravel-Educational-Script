@@ -59,7 +59,7 @@
                                             <div class="flex items-center justify-between gap-5">
                                                 <div class="flex items-center gap-3">
                                                     <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="/strage/<?php echo $course->user->avatar ?>"
+                                                        <img src="/storage/<?php echo $course->user->avatar ?>"
                                                             class="w-full h-full object-cover" alt="..." />
                                                     </div>
                                                     <div class="flex flex-col items-start space-y-1">

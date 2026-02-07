@@ -29,13 +29,13 @@ class Course extends Model
     }
 
     public function course_categorie(){
-return $this->belongsTo(course_categorie::class, 'category_id', 'id');
+return $this->belongsTo(CourseCategory::class, 'category_id', 'id');
 
 }
 
 
     public function lessons(){
-        return $this->hasMany(lesson::class);
+        return $this->hasMany(Lesson::class);
     }
     public function chapters()
     {
@@ -48,7 +48,7 @@ return $this->belongsTo(course_categorie::class, 'category_id', 'id');
 }
 
     public function carts(){
-        $this->hasMany(cart::class);
+        return $this->hasMany(Cart::class);
     }
 
 

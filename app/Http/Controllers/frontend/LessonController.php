@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use App\Models\Course;
-use App\Models\lesson;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -18,7 +18,7 @@ class LessonController extends Controller
     */
     public function index($slug){
 
-        $lesson=lesson::query()->where('slug',$slug)->with('chapter')->first();
+        $lesson=Lesson::query()->where('slug',$slug)->with('chapter')->first();
         $course=Course::query()->where('id',$lesson->chapter->course_id)->first();
         $chapters=Chapter::query()->where('course_id',$course->id)->with('lessons')->get();
 

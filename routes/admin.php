@@ -2,15 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\admin\dashboard as adminDashboard;
+use App\Http\Controllers\Admin\DashboardController as adminDashboard;
 
-use App\Http\Controllers\admin\UserController;
-use App\Http\Controllers\admin\CourseController;
-use App\Http\Controllers\admin\LessonController;
-use App\Http\Controllers\admin\PaymentController;
-use App\Http\Controllers\admin\PostCategoryController;
-use App\Http\Controllers\admin\PostController;
-use App\Http\Controllers\admin\TinymceController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\LessonController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\TinymceController;
 
 
 
@@ -28,14 +28,14 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 
 
     // Course Categories Management
-    Route::get('/course-categories',[App\Http\Controllers\admin\CourseCategoriesController::class,'index'])->name('admin.course_categories.index');
-    Route::get('/course-categories/create',[App\Http\Controllers\admin\CourseCategoriesController::class,'create'])->name('admin.course_categories.create');
-    Route::post('/course-categories/store',[App\Http\Controllers\admin\CourseCategoriesController::class,'store'])->name('admin.course_categories.store');
-    Route::get('/course-categories/{id}/edit',[App\Http\Controllers\admin\CourseCategoriesController::class,'edit'])->name('admin.course_categories.edit');
-    Route::put('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'update'])->name('admin.course_categories.update');
-    Route::delete('/course-categories/{id}',[App\Http\Controllers\admin\CourseCategoriesController::class,'destroy'])->name('admin.course_categories.destroy');
+    Route::get('/course-categories',[App\Http\Controllers\Admin\CourseCategoriesController::class,'index'])->name('admin.course_categories.index');
+    Route::get('/course-categories/create',[App\Http\Controllers\Admin\CourseCategoriesController::class,'create'])->name('admin.course_categories.create');
+    Route::post('/course-categories/store',[App\Http\Controllers\Admin\CourseCategoriesController::class,'store'])->name('admin.course_categories.store');
+    Route::get('/course-categories/{id}/edit',[App\Http\Controllers\Admin\CourseCategoriesController::class,'edit'])->name('admin.course_categories.edit');
+    Route::put('/course-categories/{id}',[App\Http\Controllers\Admin\CourseCategoriesController::class,'update'])->name('admin.course_categories.update');
+    Route::delete('/course-categories/{id}',[App\Http\Controllers\Admin\CourseCategoriesController::class,'destroy'])->name('admin.course_categories.destroy');
 
-    //course Management Routes 
+    //course Management Routes
     Route::get('/courses',[CourseController::class,'index'])->name('admin.courses.index');
     Route::get('/courses/create',[CourseController::class,'create'])->name('admin.courses.create');
     Route::post('/courses/store',[CourseController::class,'store'])->name('admin.courses.store');
@@ -43,7 +43,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::put('/courses/{id}',[CourseController::class,'update'])->name('admin.courses.update');
     Route::delete('/courses/{id}',[CourseController::class,'destroy'])->name('admin.courses.destroy');
 
-   //lesson  Management Routes 
+   //lesson  Management Routes
    Route::get('/lessons',[LessonController::class,'index'])->name('admin.lessons.index');
    Route::get('/lessons/create',[LessonController::class,'create'])->name('admin.lessons.create');
    Route::post('/lessons/store',[LessonController::class,'store'])->name('admin.lessons.store');
@@ -52,7 +52,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
    Route::delete('/lessons/{id}/delete',[LessonController::class,'destroy'])->name('admin.lessons.destroy');
 
 
-    //Post Categories Management Routes 
+    //Post Categories Management Routes
     Route::get('/post-categories',[PostCategoryController::class,'index'])->name('admin.post.categories.index');
     Route::get('/post-category/create',[PostCategoryController::class , 'create'])->name('admin.post.category.create');
     Route::post('/post-category/create',[PostCategoryController::class , 'store'])->name('admin.post.category.store');
@@ -63,7 +63,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 
 
 
-    //Post  Management Routes 
+    //Post  Management Routes
     Route::get('/posts/create',[PostController::class,'create'])->name('admin.post.create');
     Route::post('/posts/create',[PostController::class , 'store'])->name('admin.post.store');
     Route::get('/posts',[PostController::class,'index'])->name('admin.posts.index');
@@ -74,7 +74,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 
 
 
-    //payment  Management Routes 
+    //payment  Management Routes
 
     Route::get('/payments',[PaymentController::class,'index'])->name('admin.payments.index');
     Route::get('/payments/create',[PaymentController::class,'create'])->name('admin.payments.create');
@@ -85,7 +85,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
 
 
 
-    
+
 
 
 });

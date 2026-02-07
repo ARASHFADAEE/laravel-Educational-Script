@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\frontend;
+namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use Illuminate\Http\Request;
-use App\Models\course;
+use App\Models\Course;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
-use App\Models\payment;
+use App\Models\Payment;
 
 
-class Homecontroller extends Controller
+class HomeController extends Controller
 {
 
     /**

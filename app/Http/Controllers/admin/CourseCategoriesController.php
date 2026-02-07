@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\course_categorie as CourseCategory;
+use App\Models\CourseCategory;
 
 class CourseCategoriesController extends Controller
 {

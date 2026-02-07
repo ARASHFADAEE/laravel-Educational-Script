@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\payment;
+use App\Models\Payment;
 use App\Models\User;
-use App\Models\course;
+use App\Models\Course;
 use Illuminate\Support\Facades\Redirect;
 
 class PaymentController extends Controller

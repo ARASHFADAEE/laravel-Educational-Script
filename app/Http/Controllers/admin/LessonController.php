@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
-use App\Models\lesson;
-use App\Models\course;
+use App\Models\Lesson;
+use App\Models\Course;  
 class LessonController extends Controller
 {
     /**

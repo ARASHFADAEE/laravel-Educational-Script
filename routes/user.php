@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\user\DashboardController;
-use App\Http\Controllers\user\UserProfileController;
+use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\UserProfileController;
 
 
-use App\Http\Controllers\frontend\LessonController;
+use App\Http\Controllers\Frontend\LessonController;
 
 //Start User Panel Route
 
@@ -46,7 +46,7 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
 });
 
 //Lesson Route Show
-Route::middleware(['user'])->middleware('LessonAccsess')->group(function () {
+Route::middleware(['user'])->middleware('LessonAccess')->group(function () {
     Route::get('/lesson/{slug}',[LessonController::class,'index'])->name('lesson.show');
 
 });
