@@ -5,278 +5,95 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
-use PhpParser\Node\Expr\Include_;
 use App\Models\CourseCategory as Category;
 
 class ArchiveCourseController extends Controller
 {
     /**
-     * view All Courses Archive
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * View All Courses Archive with Filters
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|string
      */
-
-    public function index()
+    public function index(Request $request)
     {
+        $query = Course::query()->where('status', 'published')->withCount('chapters');
 
-        $courses = Course::query()->withCount('chapters')->latest()->where('status', 'published')->paginate(10);
+        // Search
+        if ($request->filled('search')) {
+            $query->where('title', 'LIKE', '%' . $request->search . '%');
+        }
+
+        // Category
+        if ($request->filled('category')) {
+            $slugs = is_array($request->category) ? $request->category : [$request->category];
+            $query->whereHas('course_categorie', function ($q) use ($slugs) {
+                $q->whereIn('slug', $slugs);
+            });
+        }
+
+        // Status (completed, performing)
+        if ($request->filled('status')) {
+            // Map frontend values to DB values if necessary
+            // Frontend: 'completed', 'performing' (from view logic or potential inputs)
+            // DB: 'completed', 'performing' (assumed based on previous view code)
+            $statuses = is_array($request->status) ? $request->status : [$request->status];
+            $query->whereIn('status', $statuses);
+        }
+
+        // Type (free, cash)
+        if ($request->filled('type')) {
+            $type = $request->type;
+            if ($type == 'free') {
+                $query->where(function ($q) {
+                    $q->where('sale_price', 0)->orWhereNull('sale_price');
+                });
+            } elseif ($type == 'cash') {
+                $query->where('sale_price', '>', 0);
+            }
+        }
+
+        // Sort
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'newest':
+                    $query->latest();
+                    break;
+                case 'oldest':
+                    $query->oldest();
+                    break;
+                case 'price_asc':
+                    $query->orderBy('sale_price', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('sale_price', 'desc');
+                    break;
+                case 'most_viewed':
+                    // Assuming there is a views column, otherwise default to latest
+                    // $query->orderBy('views', 'desc');
+                    $query->latest();
+                    break;
+                default:
+                    $query->latest();
+                    break;
+            }
+        } else {
+            $query->latest();
+        }
+
+        $courses = $query->paginate(9)->withQueryString();
+
+        if ($request->ajax()) {
+            return view('frontend.partials.ArchiveCourses.course-list', compact('courses'))->render();
+        }
+
         $categories = Category::all();
         return view('frontend.ArchiveCourses', compact('courses', 'categories'));
     }
 
-
-    /**
-     * Handle  Search Request Ajax Archive Courses
-     * @return void
-     */
-
-    public function search(Request $request)
+    public function ShowCategory($slug)
     {
-        $q = $request->query('title');
-        $category = $request->query('cat-name');
-
-        $Courses = Course::where('title', 'LIKE', "%{$q}%")->where('status', 'published')->get();
-
-
-
-
-
-
-        foreach ($Courses as $course) {
-
-
-?>
-
-            <div class="relative">
-                <div class="relative z-10">
-                    <a href="/courses/<?php echo $course->slug ?>" class="block">
-                        <img src="/storage/<?php echo $course->thumbnail ?>"
-                            class="max-w-full rounded-3xl" alt="<?php echo $course->title ?>" />
-                    </a>
-                    <div id="category-name"
-                        class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                            fill="currentColor" class="w-6 h-6">
-                            <path fill-rule="evenodd"
-                                d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <span
-                            class="font-semibold text-sm"><?php echo $course->course_categorie->name ?></span>
-                    </div>
-                </div>
-                <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                    <div
-                        class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                        <div class="flex items-center gap-2">
-                            <span class="block w-1 h-1 bg-success rounded-full"></span>
-                            <span class="font-bold text-xs text-success">تکمیل شده</span>
-                        </div>
-                        <h2 class="font-bold text-sm">
-                            <a href="<?php echo Route('course.show', $course->slug) ?>"
-                                class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                <?php echo $course->title ?> </a>
-                        </h2>
-                    </div>
-                    <div class="space-y-3 p-5">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <div class="flex items-center gap-1 text-muted">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                    fill="currentColor" class="w-5 h-5">
-                                    <path
-                                        d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                    </path>
-                                    <path
-                                        d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                    </path>
-                                </svg>
-                                <span class="font-semibold text-xs"><?php echo $course->lessons_count ?>
-                                    درس</span>
-                            </div>
-                            <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                            <div class="flex items-center gap-1 text-muted">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                    fill="currentColor" class="w-5 h-5">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                <span class="font-semibold text-xs"><?php echo $course->time_course ?>
-                                    ساعت</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-5">
-                            <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                    <img src="/storage/<?php echo $course->user->avatar ?>"
-                                        class="w-full h-full object-cover" alt="..." />
-                                </div>
-                                <div class="flex flex-col items-start space-y-1">
-                                    <span class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                        دوره:</span>
-                                    <div
-                                        class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">
-                                        <?php echo $course->user->name ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                            if ($course->sale_price) { ?>
-                                <div class="flex flex-col items-end justify-center h-14">
-                                    <span
-                                        class="line-through text-muted"><?php echo number_format($course->regular_price) ?></span>
-                                    <div class="flex items-center gap-1">
-                                        <span
-                                            class="font-black text-xl text-foreground"><?php echo number_format($course->sale_price) ?></span>
-                                        <span class="text-xs text-muted">تومان</span>
-                                    </div>
-                                </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-
-            <?php
-        }
-    }
-
-
-
-    /**
-     * Handle  Category Request Ajax Archive Courses
-     * @return void
-     */
-    public function category_ajax(Request $request)
-    {
-
-        $q = $request->query('category');
-
-        $category = Category::query()->where('slug', '=', $q)->firstOrFail();
-        if ($category) {
-            $courses = course::query()->where('category_id', '=', $category->id)->where('status', 'published')->get();
-            foreach ($courses as $course) {
-            ?>
-
-                <div class="relative">
-                    <div class="relative z-10">
-                        <a href="/courses/<?php echo $course->slug ?>" class="block">
-                            <img src="/storage/<?php echo $course->thumbnail ?>"
-                                class="max-w-full rounded-3xl" alt="<?php echo $course->title ?>" />
-                        </a>
-                        <div id="category-name"
-                            class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                fill="currentColor" class="w-6 h-6">
-                                <path fill-rule="evenodd"
-                                    d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span
-                                class="font-semibold text-sm"><?php echo $course->course_categorie->name ?></span>
-                        </div>
-                    </div>
-                    <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                        <div
-                            class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                            <div class="flex items-center gap-2">
-                                <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                <span class="font-bold text-xs text-success">تکمیل شده</span>
-                            </div>
-                            <h2 class="font-bold text-sm">
-                                <a href="<?php echo Route('course.show', $course->slug) ?>"
-                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                    <?php echo $course->title ?> </a>
-                            </h2>
-                        </div>
-                        <div class="space-y-3 p-5">
-                            <div class="flex flex-wrap items-center gap-3">
-                                <div class="flex items-center gap-1 text-muted">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="w-5 h-5">
-                                        <path
-                                            d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                        </path>
-                                        <path
-                                            d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                        </path>
-                                    </svg>
-                                    <span class="font-semibold text-xs"><?php echo $course->lessons_count ?>
-                                        درس</span>
-                                </div>
-                                <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                <div class="flex items-center gap-1 text-muted">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="font-semibold text-xs"><?php echo $course->time_course ?>
-                                        ساعت</span>
-                                </div>
-                            </div>
-                            <div class="flex items-center justify-between gap-5">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                        <img src="/storage/<?php echo $course->user->avatar ?>"
-                                            class="w-full h-full object-cover" alt="..." />
-                                    </div>
-                                    <div class="flex flex-col items-start space-y-1">
-                                        <span class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                            دوره:</span>
-                                        <div
-                                            class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">
-                                            <?php echo $course->user->name ?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php
-                                if ($course->sale_price) { ?>
-                                    <div class="flex flex-col items-end justify-center h-14">
-                                        <span
-                                            class="line-through text-muted"><?php echo number_format($course->regular_price) ?></span>
-                                        <div class="flex items-center gap-1">
-                                            <span
-                                                class="font-black text-xl text-foreground"><?php echo number_format($course->sale_price) ?></span>
-                                            <span class="text-xs text-muted">تومان</span>
-                                        </div>
-                                    </div>
-                                <?php
-                                }
-                                ?>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-<?php
-
-            }
-        }
-    }
-
-
-    /**
-     * Show Category Archive Page
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function ShowCategory($slug){
-
-        $category_id=Category::query()->where('slug','=',$slug)->select('id');
-        $courses=course::query()->where('category_id','=',$category_id)->paginate(10);
+        $category = Category::where('slug', $slug)->firstOrFail();
+        $courses = Course::where('category_id', $category->id)->where('status', 'published')->paginate(10);
         $categories = Category::all();
-
-
-        return view('frontend.CouresCategories',compact('courses','categories'));
-
+        return view('frontend.CouresCategories', compact('courses', 'categories'));
     }
 }

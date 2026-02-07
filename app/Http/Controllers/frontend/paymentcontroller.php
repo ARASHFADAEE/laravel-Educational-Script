@@ -110,12 +110,19 @@ class PaymentController extends Controller
             isset($verifyResult['status']) &&
             $verifyResult['status'] == 1 && // پرداخت موفق
             $verifyResult['amount'] == $expectedAmount
+
+
         ) {
+
+
             // شروع تراکنش دیتابیس برای امنیت
             DB::transaction(function () use ($userId, $verifyResult) {
                 $cartItems = Cart::with('course')->where('user_id', $userId)->get();
+                $trackId=$verifyResult["trackId"];
+
 
                 foreach ($cartItems as $item) {
+
                     Payment::create([
                         'user_id'        => $userId,
                         'course_id'      => $item->course_id,

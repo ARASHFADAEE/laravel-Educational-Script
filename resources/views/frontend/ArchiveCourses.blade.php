@@ -2,12 +2,12 @@
 
 
 @section('title', 'همه دوره ها')
-@section('canonical',url()->current())
+@section('canonical', url()->current())
 
 
 @section('content')
 
-    <main class="flex-auto py-5">
+    <main class="flex-auto py-5" x-data="courseFilters()">
         <div class="max-w-7xl space-y-14 px-4 mx-auto">
             <div class="space-y-8">
                 <!-- section:title -->
@@ -30,9 +30,9 @@
                     <div class="md:block hidden lg:col-span-3 md:col-span-4 md:sticky md:top-24">
                         <div class="w-full flex flex-col space-y-3 mb-3">
                             <span class="font-bold text-sm text-foreground">جستجو دوره</span>
-                            <form action="#">
+                            <form action="#" @submit.prevent>
                                 <div class="flex items-center relative">
-                                    <input type="text" id="SearchCourse"
+                                    <input type="text" id="SearchCourse" x-model.debounce.500ms="search"
                                         class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
                                         placeholder="عنوان دوره..">
                                     <span class="absolute left-3 text-muted">
@@ -47,6 +47,28 @@
                             </form>
                         </div>
 
+                        <!-- status filters -->
+                        <div class="w-full flex flex-col space-y-3 mb-3">
+                            <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3">
+                                <label class="relative w-full flex items-center justify-between cursor-pointer">
+                                    <span class="font-bold text-sm text-foreground">در حال برگزاری</span>
+                                    <input type="checkbox" value="performing" x-model="status" class="sr-only peer" />
+                                    <div
+                                        class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3">
+                                <label class="relative w-full flex items-center justify-between cursor-pointer">
+                                    <span class="font-bold text-sm text-foreground">تکمیل شده</span>
+                                    <input type="checkbox" value="completed" x-model="status" class="sr-only peer" />
+                                    <div
+                                        class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
                         <!-- accordion:container -->
                         @include('frontend.partials.ArchiveCourses.accordion')
 
@@ -57,7 +79,7 @@
                         <!-- sort & filter(offcanvas) -->
                         <div class="flex items-center gap-3 mb-3" x-data="{ offcanvasOpen: false }">
                             <!-- sort -->
-                            <div x-data="{ range: function(start, end) { return Array(end - start + 1).fill().map((_, idx) => start + idx) } }">
+                            <div>
                                 <!-- form:select container -->
                                 <div class="flex items-center gap-3">
                                     <!-- form:select:label -->
@@ -71,17 +93,14 @@
                                     </label><!-- end form:select:label -->
 
                                     <!-- form:select -->
-                                    <div class="w-52 relative" x-data="{ open: false, selectedOption: 'انتخاب کنید', selectedValue: '', options: ['جدید‌ترین', 'در حال برگزاری', 'تکمیل ضبط‌', 'دوره‌های خریداری شده', 'در حال مشاهده', 'قدیمی‌ترین'] }">
-
-                                        <!-- The selected value is stored in this input. -->
-                                        <input type="hidden" x-model="selectedValue" />
+                                    <div class="w-52 relative">
 
                                         <!-- form:select:button -->
-                                        <button x-on:click="open = !open"
+                                        <button x-on:click="sortOpen = !sortOpen"
                                             class="flex items-center w-full h-11 relative bg-secondary rounded-2xl font-semibold text-xs text-foreground px-4">
-                                            <span class="line-clamp-1" x-text="selectedOption"></span>
+                                            <span class="line-clamp-1" x-text="selectedSortLabel"></span>
                                             <span class="absolute left-3 pointer-events-none transition-transform"
-                                                x-bind:class="open ? 'rotate-180' : ''">
+                                                x-bind:class="sortOpen ? 'rotate-180' : ''">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -92,13 +111,13 @@
 
                                         <!-- form:select:options container -->
                                         <div class="absolute w-full bg-background rounded-2xl shadow-lg overflow-hidden mt-2 z-30"
-                                            x-show="open" x-on:click.away="open = false">
+                                            x-show="sortOpen" x-on:click.away="sortOpen = false">
                                             <ul class="max-h-48 overflow-y-auto">
-                                                <template x-for="(month, index) in options" :key="index">
+                                                <template x-for="(opt, index) in sortOptions" :key="index">
                                                     <!-- form:select option -->
                                                     <li class="font-medium text-xs text-foreground cursor-pointer hover:bg-secondary px-4 py-3"
-                                                        x-on:click="selectedOption = month; selectedValue = (index + 1).toString(); open = false"
-                                                        x-text="month"></li><!-- end form:select:option -->
+                                                        x-on:click="sort = opt.value; sortOpen = false"
+                                                        x-text="opt.label"></li><!-- end form:select:option -->
                                                 </template>
                                             </ul>
                                         </div><!-- end form:select:options container -->
@@ -148,9 +167,9 @@
                                     <div class="p-4">
                                         <div class="w-full flex flex-col space-y-3 mb-3">
                                             <span class="font-bold text-sm text-foreground">جستجو دوره</span>
-                                            <form action="#">
+                                            <form action="#" @submit.prevent>
                                                 <div class="flex items-center relative">
-                                                    <input type="text"
+                                                    <input type="text" x-model.debounce.500ms="search"
                                                         class="form-input w-full !ring-0 !ring-offset-0 h-10 bg-secondary !border-0 rounded-xl text-sm text-foreground"
                                                         placeholder="عنوان دوره..">
                                                     <span class="absolute left-3 text-muted">
@@ -164,123 +183,31 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3">
+                                        <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3 mb-3">
                                             <label
                                                 class="relative w-full flex items-center justify-between cursor-pointer">
                                                 <span class="font-bold text-sm text-foreground">در حال
                                                     برگزاری</span>
-                                                <input type="checkbox" value="" class="sr-only peer" />
+                                                <input type="checkbox" value="performing" x-model="status" class="sr-only peer" />
                                                 <div
                                                     class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
                                                 </div>
                                             </label>
                                         </div>
+
+                                         <div class="w-full h-11 flex items-center bg-secondary rounded-2xl px-3 mb-3">
+                                            <label
+                                                class="relative w-full flex items-center justify-between cursor-pointer">
+                                                <span class="font-bold text-sm text-foreground">تکمیل شده</span>
+                                                <input type="checkbox" value="completed" x-model="status" class="sr-only peer" />
+                                                <div
+                                                    class="w-11 h-5 relative bg-background border-2 border-border peer-focus:outline-none rounded-full peer peer-checked:after:left-[26px] peer-checked:after:bg-background after:content-[''] after:absolute after:left-0.5 after:top-0.5 after:bg-border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-primary peer-checked:border-primary">
+                                                </div>
+                                            </label>
+                                        </div>
+
                                         <!-- accordion:container -->
-                                        <div class="flex flex-col divide-y divide-border">
-                                            <!-- accordion -->
-                                            <div class="w-full space-y-2 py-3" x-data="{ open: true }">
-                                                <!-- accordion:button -->
-                                                <button type="button"
-                                                    class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
-                                                    x-bind:class="open ? 'text-primary' : 'text-foreground'"
-                                                    x-on:click="open = !open">
-                                                    <span class="flex items-center gap-x-2">
-                                                        <span class="flex-shrink-0">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span class="font-semibold text-sm text-right">نوع
-                                                            دوره</span>
-                                                    </span>
-                                                    <span class="" x-bind:class="open ? 'rotate-180' : ''">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                        </svg>
-                                                    </span>
-                                                </button><!-- end accordion:button -->
-
-                                                <!-- accordion:content -->
-                                                <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
-                                                    <div class="space-y-2">
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="type"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">رایگان</span>
-                                                            <span class="text-sm text-muted mr-auto">۱۸</span>
-                                                        </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="type"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">فقط نقدی</span>
-                                                            <span class="text-sm text-muted mr-auto">۹</span>
-                                                        </label>
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" name="type"
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">نقدی و اعضای
-                                                                ویژه</span>
-                                                            <span class="text-sm text-muted mr-auto">۴۳</span>
-                                                        </label>
-                                                    </div>
-                                                </div><!-- end accordion:content -->
-                                            </div><!-- accordion -->
-
-                                            <!-- accordion -->
-                                            <div class="w-full space-y-2 py-3" x-data="{ open: false }">
-                                                <!-- accordion:button -->
-                                                <button type="button"
-                                                    class="w-full h-11 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-primary px-3"
-                                                    x-bind:class="open ? 'text-primary' : 'text-foreground'"
-                                                    x-on:click="open = !open">
-                                                    <span class="flex items-center gap-x-2">
-                                                        <span class="flex-shrink-0">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                viewBox="0 0 24 24" stroke-width="1.5"
-                                                                stroke="currentColor" class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                    d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
-                                                            </svg>
-                                                        </span>
-                                                        <span class="font-semibold text-sm text-right">دسته بندی
-                                                            دوره</span>
-                                                    </span>
-                                                    <span class="" x-bind:class="open ? 'rotate-180' : ''">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                            class="w-5 h-5">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                        </svg>
-                                                    </span>
-                                                </button><!-- end accordion:button -->
-
-                                                <!-- accordion:content -->
-                                                <div class="bg-secondary rounded-2xl relative p-3" x-show="open">
-                                                    <div class="space-y-2">
-                                                        <form id="form-category-filter-mobile" name="form-category" action="{{Route('category.ajax')}}" >
-                                                        @foreach ($categories as $category )
-
-
-                                                        <label class="flex items-center gap-2 cursor-pointer">
-                                                            <input type="radio" value="{{$category->slug}}"  name="category"
-
-                                                                class="form-radio !ring-0 !ring-offset-0 bg-border border-0" />
-                                                            <span class="text-sm text-muted">{{$category->name}}</span>
-                                                        </label>
-                                                        @endforeach
-                                                        </form>
-
-                                                    </div>
-                                                </div><!-- end accordion:content -->
-                                            </div><!-- accordion -->
-                                        </div><!-- end accordion:container -->
+                                        @include('frontend.partials.ArchiveCourses.accordion')
                                     </div>
                                     <!-- end offcanvas:content -->
                                 </div>
@@ -297,123 +224,11 @@
                         <!-- end sort & filter(offcanvas) -->
 
                         <!-- courses:wrapper -->
-                        <div id="result_ajax" class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10">
-                            @foreach ($courses as $course)
-                                <!-- course:card -->
-                                <div class="relative">
-                                    <div class="relative z-10">
-                                        <a href="{{ Route('course.show', $course->slug) }}" class="block">
-                                            <img src="{{ asset('storage') }}/{{ $course->thumbnail }}"
-                                                class="max-w-full rounded-3xl" alt="{{ $course->title }}" />
-                                        </a>
-                                        <div id="category-name"
-                                            class="absolute left-3 top-3 h-11 inline-flex items-center justify-center gap-1 bg-black/20 rounded-full text-white transition-all hover:opacity-80 px-4">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                fill="currentColor" class="w-6 h-6">
-                                                <path fill-rule="evenodd"
-                                                    d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                            <span
-                                                class="font-semibold text-sm">{{ $course->course_categorie->name }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="bg-background rounded-b-3xl -mt-12 pt-12">
-                                        <div
-                                            class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                            <div class="flex items-center gap-2">
-                                                <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                                <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                            </div>
-                                            <h2 class="font-bold text-sm">
-                                                <a href="{{ Route('course.show', $course->slug) }}"
-                                                    class="line-clamp-1 text-foreground transition-colors hover:text-primary">
-                                                    {{ $course->title }} </a>
-                                            </h2>
-                                        </div>
-                                        <div class="space-y-3 p-5">
-                                            <div class="flex flex-wrap items-center gap-3">
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" class="w-5 h-5">
-                                                        <path
-                                                            d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z">
-                                                        </path>
-                                                        <path
-                                                            d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z">
-                                                        </path>
-                                                    </svg>
-                                                    <span class="font-semibold text-xs">{{ $course->chapters_count }}
-                                                         فصل</span>
-                                                </div>
-                                                <span class="block w-1 h-1 bg-muted-foreground rounded-full"></span>
-                                                <div class="flex items-center gap-1 text-muted">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                        fill="currentColor" class="w-5 h-5">
-                                                        <path fill-rule="evenodd"
-                                                            d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                            clip-rule="evenodd"></path>
-                                                    </svg>
-                                                    <span class="font-semibold text-xs">{{ $course->time_course }}
-                                                        ساعت</span>
-                                                </div>
-                                            </div>
-                                            <div class="flex items-center justify-between gap-5">
-                                                <div class="flex items-center gap-3">
-                                                    <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                        <img src="{{ asset('storage') }}/{{ $course->user->avatar }}"
-                                                            class="w-full h-full object-cover" alt="..." />
-                                                    </div>
-                                                    <div class="flex flex-col items-start space-y-1">
-                                                        <span class="line-clamp-1 font-semibold text-xs text-muted">مدرس
-                                                            دوره:</span>
-                                                        <a href="./lecturer.html"
-                                                            class="line-clamp-1 font-bold text-xs text-foreground hover:text-primary">
-                                                            {{ $course->user->name }}
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                @if ($course->sale_price)
-                                                    <div class="flex flex-col items-end justify-center h-14">
-                                                        <span
-                                                            class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
-                                                        <div class="flex items-center gap-1">
-                                                            <span
-                                                                class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
-                                                            <span class="text-xs text-muted">تومان</span>
-                                                        </div>
-                                                    </div>
-                                                @endif
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <!-- end course:card -->
-                            @endforeach
-
-
+                        <div id="result_ajax" class="grid lg:grid-cols-3 sm:grid-cols-2 gap-x-5 gap-y-10" :class="{ 'opacity-50': isLoading }" @click="handlePagination">
+                            @include('frontend.partials.ArchiveCourses.course-list')
                         </div>
                         <!-- courses:wrapper -->
 
-                        <div class="flex justify-center mt-8">
-                            {{ $courses->render() }}
-
-                            <!-- load more:button -->
-                            {{-- <button type="button"
-                                    class="h-11 inline-flex items-center justify-center gap-1 bg-secondary rounded-full text-primary px-8">
-                                    <span class="font-semibold text-sm">در حال بارگذاری</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                        stroke-linejoin="round" class="w-5 h-5 animate-spin">
-                                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                                    </svg>
-                                </button> --}}
-                            <!-- end load more:button -->
-                        </div>
                     </div>
                 </div>
             </div>
@@ -422,144 +237,113 @@
 
 
     <script>
+        function courseFilters() {
+            return {
+                search: '',
+                category: '',
+                type: '', // free, cash, all
+                status: [], // performing, completed
+                sort: 'newest',
+                sortOpen: false,
+                sortOptions: [
+                    { label: 'جدید‌ترین', value: 'newest' },
+                    { label: 'قدیمی‌ترین', value: 'oldest' },
+                    { label: 'ارزان‌ترین', value: 'price_asc' },
+                    { label: 'گران‌ترین', value: 'price_desc' }
+                ],
+                isLoading: false,
 
-        $(document).ready(function () {
+                get selectedSortLabel() {
+                    const option = this.sortOptions.find(o => o.value === this.sort);
+                    return option ? option.label : 'جدید‌ترین';
+                },
 
+                init() {
+                    // Initialize from URL params
+                    const params = new URLSearchParams(window.location.search);
+                    if(params.has('search')) this.search = params.get('search');
+                    if(params.has('category')) this.category = params.get('category');
+                    if(params.has('type')) this.type = params.get('type');
+                    if(params.has('sort')) this.sort = params.get('sort');
+                    // Handle array for status
+                    if(params.has('status[]')) {
+                         this.status = params.getAll('status[]');
+                    }
 
-        let SearchInput=$("#SearchCourse");
-        let Result=$("#result_ajax");
+                    this.$watch('search', () => { this.page = 1; this.fetchCourses(); });
+                    this.$watch('category', () => { this.page = 1; this.fetchCourses(); });
+                    this.$watch('type', () => { this.page = 1; this.fetchCourses(); });
+                    this.$watch('status', () => { this.page = 1; this.fetchCourses(); });
+                    this.$watch('sort', () => { this.page = 1; this.fetchCourses(); });
 
+                    // Handle browser back/forward buttons
+                    window.addEventListener('popstate', () => {
+                        const params = new URLSearchParams(window.location.search);
+                        this.search = params.get('search') || '';
+                        this.category = params.get('category') || '';
+                        this.type = params.get('type') || '';
+                        this.sort = params.get('sort') || 'newest';
+                        this.status = params.getAll('status[]') || [];
+                        this.fetchCourses(window.location.href);
+                    });
+                },
 
+                handlePagination(e) {
+                    const link = e.target.closest('a.page-link') || e.target.closest('.pagination a');
+                    if (link) {
+                        e.preventDefault();
+                        this.fetchCourses(link.href);
+                        // Scroll to top of results
+                        document.getElementById('result_ajax').scrollIntoView({ behavior: 'smooth' });
+                    }
+                },
 
-            SearchInput.keyup(function () {
+                fetchCourses(url = null) {
+                    this.isLoading = true;
 
-                if(SearchInput.val().length > 3){
+                    let fetchUrl;
 
-                $.ajax({
-                    method: "Get",
-                    url: "/search/ajax",
-                    data:{
-                        title:SearchInput.val()
+                    if (url) {
+                        fetchUrl = url;
+                        // Update browser URL to match the pagination link
+                        window.history.pushState({}, '', url);
+                    } else {
+                        // Build URL from state
+                        let params = new URLSearchParams();
+                        if(this.search) params.append('search', this.search);
+                        if(this.category && this.category !== 'all') params.append('category', this.category);
+                        if(this.type && this.type !== 'all') params.append('type', this.type);
+                        if(this.status.length > 0) {
+                             this.status.forEach(s => params.append('status[]', s));
+                        }
+                        if(this.sort) params.append('sort', this.sort);
 
-                    } ,
+                        // Reset to page 1 if not paginating (already handled by watchers resetting page?)
+                        // Actually, if we are filtering, we start from scratch (page 1 implied by absence of page param)
 
+                        const queryString = params.toString();
+                        fetchUrl = '{{ route("courses.show") }}' + (queryString ? '?' + queryString : '');
 
-                    beforeSend: function (){
+                        // Update browser URL
+                        window.history.pushState({}, '', fetchUrl);
+                    }
 
-                        Result.css('opacity',0.5);
-                    },
-
-
-
-                    success: function (response) {
-
-                        Result.html(response)
-                        Result.css('opacity',1);
-
-
-
-                    },
-
-
-                });
-
+                    fetch(fetchUrl, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('result_ajax').innerHTML = html;
+                        this.isLoading = false;
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        this.isLoading = false;
+                    });
                 }
-
-
-
-
-            });
-
-        });
-
-        $(document).ready(function () {
-
-            $("#form-category-filter").change(function (e) {
-                e.preventDefault();
-                let el=$("#form-category-filter")
-
-                let data_form=el.serialize();
-
-                let Result=$("#result_ajax");
-
-
-
-
-
-
-                $.ajax({
-                    method: "get",
-                    url: "/category/ajax",
-                    data: data_form,
-
-                    beforeSend: function (){
-
-                        Result.css('opacity',0.5);
-                    },
-
-
-
-                    success: function (response) {
-
-                        Result.html(response);
-                        Result.css('opacity',1);
-
-
-
-
-                    }
-                });
-
-            });
-
-
-
-            $("#form-category-filter-mobile").change(function (e) {
-                e.preventDefault();
-                let el=$("#form-category-filter-mobile")
-
-                let data_form=el.serialize();
-
-                let Result=$("#result_ajax");
-
-
-
-
-
-
-                $.ajax({
-                    method: "get",
-                    url: "/category/ajax",
-                    data: data_form,
-
-                    beforeSend: function (){
-
-                        Result.css('opacity',0.5);
-                    },
-
-
-
-                    success: function (response) {
-
-                        Result.html(response);
-                        Result.css('opacity',1);
-
-
-
-
-                    }
-                });
-
-            });
-
-
-        });
-
-
-
-
-</script>
-
-
-
+            }
+        }
+    </script>
 @endsection
