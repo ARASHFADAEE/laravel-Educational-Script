@@ -8,763 +8,649 @@
 
 
 @section('content')
+
     <main class="flex-auto py-5">
-        <!-- container -->
-        <div class="max-w-7xl space-y-14 px-4 mx-auto">
-            <div class="flex md:flex-nowrap flex-wrap items-start gap-5">
-                <div class="md:w-8/12 w-full">
-                    <div class="relative">
-                        <div class="relative z-10">
-                            <!-- course:thumbnail -->
-                            <div>
-                                <video class="js-player" data-poster="{{ asset('storage') }}/{{ $course->thumbnail }}"
-                                       src="{{ $lesson_one->video_url }}">
 
-                                </video>
-                            </div>
-                            <!-- end course:thumbnail -->
-                        </div>
-                        <div class="-mt-12 pt-12">
-                            <div class="bg-gradient-to-b from-background to-secondary rounded-b-3xl space-y-2 p-5 mx-5">
-                                <!-- course:status -->
-                                <div class="flex items-center gap-2">
-                                    <span class="block w-1 h-1 bg-success rounded-full"></span>
-                                    <span class="font-bold text-xs text-success">تکمیل شده</span>
-                                </div>
+        <div class="flex text-gray-500 dark:text-gray-300 text-base font-normal font-iranyekan"
+            style="font-variation-settings: &quot;dots&quot; 1;-webkit-font-smoothing: antialiased">
 
-                                <!-- course:title -->
-                                <h1 class="font-bold text-xl text-foreground">{{ $course->title }}</h1>
+            <div class="container mx-auto flex flex-col lg:flex-row lg:gap-16 xl:gap-28">
+<div class="py-3 sm:py-4 fixed bottom-0 shadow-normal z-50 right-0 left-0 lg:hidden bg-white">
+    <div class="container">
+        <div class="flex items-center justify-between gap-3">
+            
+            <!-- بخش قیمت -->
+            <div class="flex items-center gap-3">
+                @if($course->sale_price)
+                    <span class="text-xs text-gray-400 line-through whitespace-nowrap">
+                        {{ number_format($course->regular_price) }}
+                    </span>
+                    <span class="text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">
+                        {{ number_format($course->sale_price) }}
+                        <span class="text-xs font-normal text-gray-500">تومان</span>
+                    </span>
+                @else
+                    <span class="text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">
+                        {{ number_format($course->regular_price) }}
+                        <span class="text-xs font-normal text-gray-500">تومان</span>
+                    </span>
+                @endif
+            </div>
 
-                                {{-- <!-- course:excerpt -->
-                                <p class="text-sm text-muted">
-                                    ساخت وبسایت فروشگاهی با React عنوان دوره پروژه محور react در
-                                    نابغه است که قصد داریم در قالب این دوره react را در قالب پروژه به
-                                    شما آموزش دهیم.
-                                </p> --}}
-                            </div>
-                            <div class="space-y-10 py-5">
-                                <div class="grid lg:grid-cols-4 grid-cols-2 gap-5">
-                                    <div
-                                        class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                                 class="w-5 h-5">
-                                                <path fill-rule="evenodd"
-                                                      d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm.75-13a.75.75 0 0 0-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 0 0 0-1.5h-3.25V5Z"
-                                                      clip-rule="evenodd"></path>
-                                            </svg>
-                                        </span>
-                                        <div class="flex flex-col items-center justify-center text-center space-y-1">
-                                            <span class="font-bold text-xs text-muted line-clamp-1">مدت دوره</span>
-                                            <span
-                                                class="font-bold text-sm text-foreground line-clamp-1">{{ $course->time_course }}:۰۰</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                                 class="w-5 h-5">
-                                                <path fill-rule="evenodd"
-                                                      d="M4.25 2A2.25 2.25 0 0 0 2 4.25v2.5A2.25 2.25 0 0 0 4.25 9h2.5A2.25 2.25 0 0 0 9 6.75v-2.5A2.25 2.25 0 0 0 6.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 2 13.25v2.5A2.25 2.25 0 0 0 4.25 18h2.5A2.25 2.25 0 0 0 9 15.75v-2.5A2.25 2.25 0 0 0 6.75 11h-2.5Zm9-9A2.25 2.25 0 0 0 11 4.25v2.5A2.25 2.25 0 0 0 13.25 9h2.5A2.25 2.25 0 0 0 18 6.75v-2.5A2.25 2.25 0 0 0 15.75 2h-2.5Zm0 9A2.25 2.25 0 0 0 11 13.25v2.5A2.25 2.25 0 0 0 13.25 18h2.5A2.25 2.25 0 0 0 18 15.75v-2.5A2.25 2.25 0 0 0 15.75 11h-2.5Z"
-                                                      clip-rule="evenodd"></path>
-                                            </svg>
-                                        </span>
-                                        <div class="flex flex-col items-center justify-center text-center space-y-1">
-                                            <span class="font-bold text-xs text-muted line-clamp-1">تعداد
-                                                جلسات</span>
-                                            <span
-                                                class="font-bold text-sm text-foreground line-clamp-1">sadasd</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                                 class="w-5 h-5">
-                                                <path fill-rule="evenodd"
-                                                      d="M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Zm-7-4a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM9 9a.75.75 0 0 0 0 1.5h.253a.25.25 0 0 1 .244.304l-.459 2.066A1.75 1.75 0 0 0 10.747 15H11a.75.75 0 0 0 0-1.5h-.253a.25.25 0 0 1-.244-.304l.459-2.066A1.75 1.75 0 0 0 9.253 9H9Z"
-                                                      clip-rule="evenodd"></path>
-                                            </svg>
-                                        </span>
-                                        <div class="flex flex-col items-center justify-center text-center space-y-1">
-                                            <span class="font-bold text-xs text-muted line-clamp-1">نوع دوره</span>
-                                            <span class="font-bold text-sm text-foreground line-clamp-1">ویژه /
-                                                نقدی</span>
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="flex flex-col items-center justify-center gap-3 bg-secondary border border-border rounded-2xl cursor-default p-3">
-                                        <span
-                                            class="flex items-center justify-center w-12 h-12 bg-background rounded-full text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                                 class="w-5 h-5">
-                                                <path
-                                                    d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM1.49 15.326a.78.78 0 0 1-.358-.442 3 3 0 0 1 4.308-3.516 6.484 6.484 0 0 0-1.905 3.959c-.023.222-.014.442.025.654a4.97 4.97 0 0 1-2.07-.655ZM16.44 15.98a4.97 4.97 0 0 0 2.07-.654.78.78 0 0 0 .357-.442 3 3 0 0 0-4.308-3.517 6.484 6.484 0 0 1 1.907 3.96 2.32 2.32 0 0 1-.026.654ZM18 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0ZM5.304 16.19a.844.844 0 0 1-.277-.71 5 5 0 0 1 9.947 0 .843.843 0 0 1-.277.71A6.975 6.975 0 0 1 10 18a6.974 6.974 0 0 1-4.696-1.81Z">
-                                                </path>
-                                            </svg>
-                                        </span>
-                                        <div class="flex flex-col items-center justify-center text-center space-y-1">
-                                            <span class="font-bold text-xs text-muted line-clamp-1">شرکت‌کنندگان</span>
-                                            <span
-                                                class="font-bold text-sm text-foreground line-clamp-1">{{ random_int(1000, 9999) }}
-                                                دانشجو</span>
-                                        </div>
-                                    </div>
-                                </div>
+            <!-- دکمه‌ها -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                
+                @if($has_access)
+                    <a href="{{ $lesson_one ? route('lesson.show', $lesson_one->slug) : '#' }}"
+                        class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 transition-all whitespace-nowrap">
+                        <span>مشاهده دوره</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
 
-                                <!-- tabs container -->
-                                <div class="space-y-5" x-data="{ activeTab: 'tabOne', scroll: function() { document.getElementById(this.activeTab).scrollIntoView({ behavior: 'smooth' }) } }">
-                                    <div class="sticky top-24 z-10">
-                                        <!-- tabs:list-container -->
-                                        <div class="relative overflow-x-auto">
-                                            <!-- tabs:list -->
-                                            <ul
-                                                class="inline-flex gap-2 bg-secondary border border-border rounded-full p-1">
-                                                <!-- tabs:list:item -->
-                                                <li>
-                                                    <button type="button"
-                                                            class="flex items-center gap-x-2 relative rounded-full py-2 px-4"
-                                                            x-bind:class="activeTab === 'tabOne' ? 'text-foreground bg-background' :
-                                                            'text-muted'"
-                                                            x-on:click="activeTab = 'tabOne'; scroll();">
-                                                        <!-- active icon -->
-                                                        <span x-show="activeTab === 'tabOne'">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                                 fill="currentColor" class="w-5 h-5">
-                                                                <path
-                                                                    d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z">
-                                                                </path>
-                                                            </svg>
-                                                        </span><!-- end active icon -->
+                @elseif($in_cart)
+                    <a href="{{ route('cart.index') }}"
+                        class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all whitespace-nowrap">
+                        <span>سبد خرید</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+                        </svg>
+                    </a>
 
-                                                        <!-- inactive icon -->
-                                                        <span x-show="activeTab !== 'tabOne'">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                                 class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125">
-                                                                </path>
-                                                            </svg>
-                                                        </span><!-- end inactive icon -->
+                @else
+                    @auth
+                        <button x-data="{ loading: false }" style="background: #1e4ed8"
+                            @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
+                            :disabled="loading"
+                            :class="loading ? 'opacity-70 cursor-not-allowed' : ''"
+                            class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
+                            
+                            <span x-show="!loading">ثبت‌نام</span>
+                            <span x-show="loading" class="flex items-center gap-1">
+                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                صبر کنید...
+                            </span>
+                        </button>
+                    @endauth
 
-                                                        <span class="font-semibold text-sm whitespace-nowrap">معرفی</span>
-                                                    </button>
-                                                </li><!-- end tabs:list:item -->
+                    @guest
+                        <a href="{{ route('auth.login') }}?redirect={{ url()->current() }}"
+                            class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
+                            <span>ورود و ثبت‌نام</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+                            </svg>
+                        </a>
+                    @endguest
+                @endif
 
-                                                <!-- tabs:list:item -->
-                                                <li>
-                                                    <button type="button"
-                                                            class="flex items-center gap-x-2 relative rounded-full py-2 px-4"
-                                                            x-bind:class="activeTab === 'tabTwo' ? 'text-foreground bg-background' :
-                                                            'text-muted'"
-                                                            x-on:click="activeTab = 'tabTwo'; scroll();">
-                                                        <!-- active icon -->
-                                                        <span x-show="activeTab === 'tabTwo'">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                                 fill="currentColor" class="w-5 h-5">
-                                                                <path fill-rule="evenodd"
-                                                                      d="M6 4.75A.75.75 0 016.75 4h10.5a.75.75 0 010 1.5H6.75A.75.75 0 016 4.75zM6 10a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H6.75A.75.75 0 016 10zm0 5.25a.75.75 0 01.75-.75h10.5a.75.75 0 010 1.5H6.75a.75.75 0 01-.75-.75zM1.99 4.75a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1v-.01zM1.99 15.25a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1v-.01zM1.99 10a1 1 0 011-1H3a1 1 0 011 1v.01a1 1 0 01-1 1h-.01a1 1 0 01-1-1V10z"
-                                                                      clip-rule="evenodd"></path>
-                                                            </svg>
-                                                        </span><!-- end active icon -->
-
-                                                        <!-- inactive icon -->
-                                                        <span x-show="activeTab !== 'tabTwo'">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                                 class="w-5 h-5">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z">
-                                                                </path>
-                                                            </svg>
-                                                        </span><!-- end inactive icon -->
-
-                                                        <span
-                                                            class="font-semibold text-sm whitespace-nowrap">سرفصلها</span>
-                                                    </button>
-                                                </li><!-- end tabs:list:item -->
-
-
-                                            </ul><!-- end tabs:list -->
-                                        </div><!-- end tabs:list-container -->
-                                    </div>
-
-                                    <!-- tabs:contents -->
-                                    <div class="space-y-8">
-                                        <!-- tabs:contents:tabOne -->
-                                        <div class="bg-background rounded-3xl p-5" id="tabOne">
-                                            <div class="flex items-center gap-3 mb-5">
-                                                <div class="flex items-center gap-1">
-                                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                                                </div>
-                                                <div class="font-black text-foreground">معرفی دوره</div>
-                                            </div>
-
-                                            <!-- course:description -->
-                                            <div class="description">
-                                                {{ $course->description }}
-
-                                            </div>
-                                            <!-- end course:description -->
-                                        </div><!-- end tabs:contents:tabOne -->
-
-                                        <!-- tabs:contents:tabTwo -->
-                                        <div class="bg-background rounded-3xl p-5" id="tabTwo">
-                                            <!-- section:title -->
-                                            <div class="flex items-center gap-3 mb-5">
-                                                <div class="flex items-center gap-1">
-                                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                                                </div>
-                                                <div class="font-black text-foreground">سرفصلها</div>
-                                            </div>
-                                            <!-- end section:title -->
-
-                                            <!-- course:sections:wrapper -->
-                                            <div class="flex flex-col space-y-3">
-
-                                                @php
-
-                                                    $i = 1;
-
-                                                @endphp
-
-                                                @foreach ($chapters as $chapter)
-                                                    <!-- course:section:accordion -->
-                                                    <div class="w-full" x-data="{ open: false }">
-                                                        <!-- accordion:button -->
-                                                        <button type="button"
-                                                                class="w-full h-14 flex items-center justify-between gap-x-2 relative bg-secondary rounded-2xl transition hover:text-foreground px-5"
-                                                                x-bind:class="open ? 'text-foreground' : 'text-muted'"
-                                                                x-on:click="open = !open">
-                                                            <span class="flex items-center gap-3 text-right">
-                                                                <span
-                                                                    class="font-semibold text-xs text-foreground line-clamp-1">
-                                                                    فصل {{ $i++ }}
-                                                                </span>
-                                                                <div class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                </div>
-                                                                <span
-                                                                    class="font-semibold text-xs">{{ $chapter->title }}</span>
-                                                            </span>
-                                                            <span x-bind:class="open ? 'rotate-180' : ''">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                     viewBox="0 0 24 24" stroke-width="1.5"
-                                                                     stroke="currentColor" class="w-5 h-5">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                                                </svg>
-                                                            </span>
-                                                        </button>
-                                                        <!-- end accordion:button -->
-
-                                                        <!-- accordion:content -->
-                                                        <div class="flex flex-col relative py-3 sm:pr-8 sm:pl-16"
-                                                             x-show="open">
-                                                            <!-- course:section:episodes:wrapper -->
-                                                            <div class="space-y-1">
-                                                                @php
-
-                                                                    $l = 1;
-
-                                                                @endphp
-
-                                                                @foreach ($chapter->lessons as $lesson)
-                                                                    <!-- episode -->
-                                                                    <div
-                                                                        class="flex sm:flex-nowrap flex-wrap items-center gap-3 sm:h-12 border border-border rounded-xl p-3">
-                                                                        <span
-                                                                            class="text-xs text-muted">{{ $l++ }}</span>
-                                                                        <div
-                                                                            class="w-1 h-1 bg-muted-foreground rounded-full">
-                                                                        </div>
-                                                                        <div
-                                                                            class="font-semibold text-xs text-foreground line-clamp-1 transition-all hover:underline">
-                                                                            {{ $lesson->title }}
-                                                                        </div>
-                                                                        <div
-                                                                            class="flex items-center justify-end gap-3 sm:w-auto w-full mr-auto">
-                                                                            <span
-                                                                                class="flex items-center gap-1 text-muted">
-                                                                                <span class="text-xs">adsd</span>
-                                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                     fill="none" viewBox="0 0 24 24"
-                                                                                     stroke-width="1.5"
-                                                                                     stroke="currentColor" class="w-4 h-4">
-                                                                                    <path stroke-linecap="round"
-                                                                                          stroke-linejoin="round"
-                                                                                          d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z">
-                                                                                    </path>
-                                                                                </svg>
-                                                                            </span>
-                                                                            @if ($lesson->is_free)
-                                                                                <a href="{{ Route('lesson.show', $lesson->slug) }}"
-                                                                                   class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                                    <span class="text-xs">مشاهده</span>
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                         viewBox="0 0 20 20"
-                                                                                         fill="currentColor"
-                                                                                         class="w-5 h-5">
-                                                                                        <path fill-rule="evenodd"
-                                                                                              d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                                              clip-rule="evenodd"></path>
-                                                                                    </svg>
-                                                                                </a>
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
-                                                                    <!-- end episode -->
-                                                                @endforeach
-
-
-                                                            </div>
-                                                            <!-- end course:section:episodes:wrapper -->
-                                                        </div>
-                                                        <!-- end accordion:content -->
-                                                    </div>
-                                                    <!-- end course:sections:accordion -->
-                                                @endforeach
-
-                                            </div>
-                                            <!-- end course:sections:wrapper -->
-                                        </div>
-                                        <!-- end tabs:contents:tabTwo -->
-
-                                        {{-- <!-- tabs:contents:tabThree -->
-                                        <div class="bg-background rounded-3xl p-5" id="tabThree">
-                                            <!-- section:title -->
-                                            <div class="flex items-center gap-3 mb-5">
-                                                <div class="flex items-center gap-1">
-                                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                                                </div>
-                                                <div class="font-black text-foreground">دیدگاه و پرسش</div>
-                                            </div>
-                                            <!-- end section:title -->
-
-                                            <!-- course:comments:form:wrapper -->
-                                            <div class="bg-background border border-border rounded-3xl p-5 mb-5">
-                                                <div class="flex items-center gap-3 mb-5">
-                                                    <div class="flex items-center gap-1">
-                                                        <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                                        <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                                                    </div>
-                                                    <div class="font-black text-xs text-foreground">
-                                                        ارسال دیدگاه یا پرسش
-                                                    </div>
-                                                </div>
-                                                <div class="flex flex-wrap items-center gap-3 mb-5">
-                                                    <div class="flex items-center gap-3 sm:w-auto w-full">
-                                                        <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                            <img src="https://i.pravatar.cc/150?img=14"
-                                                                class="w-full h-full object-cover" alt="..." />
-                                                        </div>
-                                                        <div class="flex flex-col items-start space-y-1">
-                                                            <a href="#"
-                                                                class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">امید
-                                                                تاجیک</a>
-                                                            <span class="text-xs text-muted">۲ هفته پیش</span>
-                                                        </div>
-                                                    </div>
-                                                    <span class="block w-1 h-1 bg-border rounded-full"></span>
-                                                    <span class="font-semibold text-xs text-muted">در پاسخ به</span>
-                                                    <span class="block w-1 h-1 bg-border rounded-full"></span>
-                                                    <a href="#"
-                                                        class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">جلال
-                                                        بهرامی راد</a>
-                                                    <button type="button"
-                                                        class="line-clamp-1 font-semibold text-sm text-red-500 mr-auto">لغو
-                                                        پاسخ</button>
-                                                </div>
-
-                                                <!-- course:comments:form -->
-                                                <form action="#" class="flex flex-col space-y-5">
-                                                    <textarea name="text" id="text" rows="10"
-                                                        class="form-textarea w-full !ring-0 !ring-offset-0 bg-secondary border-0 focus:border-border border-border rounded-xl text-sm text-foreground p-5"
-                                                        placeholder="متن مورد نظر خود را وارد کنید ..."></textarea>
-                                                    <button type="submit"
-                                                        class="h-10 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4 mr-auto">
-                                                        <span class="font-semibold text-sm">ثبت دیدگاه یا
-                                                            پرسش</span>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                            fill="currentColor" class="w-5 h-5">
-                                                            <path fill-rule="evenodd"
-                                                                d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                                                clip-rule="evenodd"></path>
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                                <!-- end course:comments:form -->
-                                            </div>
-                                            <!-- end course:comments:form:wrapper -->
-
-                                            <!-- course:comments:wrapper -->
-                                            <div class="space-y-3">
-                                                <!-- course:comment -->
-                                                <div class="space-y-3">
-                                                    <div
-                                                        class="bg-background border border-border rounded-3xl space-y-3 p-5">
-                                                        <div
-                                                            class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
-                                                            <div class="flex items-center gap-3">
-                                                                <div
-                                                                    class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                                    <img src="https://i.pravatar.cc/150?img=14"
-                                                                        class="w-full h-full object-cover"
-                                                                        alt="..." />
-                                                                </div>
-                                                                <div class="flex flex-col items-start space-y-1">
-                                                                    <a href="#"
-                                                                        class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">امید
-                                                                        تاجیک</a>
-                                                                    <span class="text-xs text-muted">۲ هفته
-                                                                        پیش</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="flex items-center gap-3 sm:mr-0 mr-auto">
-                                                                <a href="#"
-                                                                    class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                    <span class="text-xs">پاسخ</span>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        viewBox="0 0 20 20" fill="currentColor"
-                                                                        class="w-5 h-5">
-                                                                        <path fill-rule="evenodd"
-                                                                            d="M12.207 2.232a.75.75 0 0 0 .025 1.06l4.146 3.958H6.375a5.375 5.375 0 0 0 0 10.75H9.25a.75.75 0 0 0 0-1.5H6.375a3.875 3.875 0 0 1 0-7.75h10.003l-4.146 3.957a.75.75 0 0 0 1.036 1.085l5.5-5.25a.75.75 0 0 0 0-1.085l-5.5-5.25a.75.75 0 0 0-1.06.025Z"
-                                                                            clip-rule="evenodd"></path>
-                                                                    </svg>
-                                                                </a>
-                                                                <button type="button"
-                                                                    class="flex items-center justify-center relative w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        viewBox="0 0 20 20" fill="currentColor"
-                                                                        class="w-5 h-5">
-                                                                        <path
-                                                                            d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                                        </path>
-                                                                    </svg>
-                                                                    <span
-                                                                        class="absolute -top-1 -right-1 inline-flex bg-red-500 rounded-full text-xs text-white px-1">
-                                                                        ۳
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <p class="text-sm text-muted">
-                                                            من این دوره رو خریدم و میخوام نکست هم بعدا یاد بگیرم
-                                                            چون نیاز بیشتری دارم به اموزش های این دوره میشه بدون
-                                                            اینکه دوره نکست رو ببینم این دوره رو ببینم(بخش6دوره
-                                                            بیشتر مد نظرمه)
-                                                        </p>
-                                                    </div>
-
-                                                    <!-- course:comment replies -->
-                                                    <div
-                                                        class="relative before:content-[''] before:absolute before:-top-3 before:right-8 before:w-px before:h-[calc(100%-24px)] before:bg-border after:content-[''] after:absolute after:bottom-9 after:right-8 after:w-8 after:h-px after:bg-border space-y-3 pr-16">
-                                                        <!-- course:comment reply -->
-                                                        <div
-                                                            class="bg-background border border-border rounded-3xl space-y-3 p-5">
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
-                                                                <div class="flex items-center gap-3">
-                                                                    <div
-                                                                        class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                                        <img src="./assets/images/avatars/01.jpeg"
-                                                                            class="w-full h-full object-cover"
-                                                                            alt="..." />
-                                                                    </div>
-                                                                    <div class="flex flex-col items-start space-y-1">
-                                                                        <a href="#"
-                                                                            class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">جلال
-                                                                            بهرامی راد</a>
-                                                                        <span class="text-xs text-muted">۲ هفته
-                                                                            پیش</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="flex items-center gap-3 sm:mr-0 mr-auto">
-                                                                    <a href="#"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">پاسخ</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M12.207 2.232a.75.75 0 0 0 .025 1.06l4.146 3.958H6.375a5.375 5.375 0 0 0 0 10.75H9.25a.75.75 0 0 0 0-1.5H6.375a3.875 3.875 0 0 1 0-7.75h10.003l-4.146 3.957a.75.75 0 0 0 1.036 1.085l5.5-5.25a.75.75 0 0 0 0-1.085l-5.5-5.25a.75.75 0 0 0-1.06.025Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                    <button type="button"
-                                                                        class="flex items-center justify-center relative w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path
-                                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                        <span
-                                                                            class="absolute -top-1 -right-1 inline-flex bg-red-500 rounded-full text-xs text-white px-1">
-                                                                            ۲
-                                                                        </span>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <p class="text-sm text-muted">
-                                                                درود امید جان باید next رو ببینی بدون اون که متوجه
-                                                                داستان نمیشی
-                                                            </p>
-                                                        </div>
-                                                        <!-- end course:comment reply -->
-
-                                                        <!-- course:comment reply -->
-                                                        <div
-                                                            class="bg-background border border-border rounded-3xl space-y-3 p-5">
-                                                            <div
-                                                                class="flex sm:flex-nowrap flex-wrap sm:flex-row flex-col sm:items-center sm:justify-between gap-5 border-b border-border pb-3">
-                                                                <div class="flex items-center gap-3">
-                                                                    <div
-                                                                        class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                                                        <img src="https://i.pravatar.cc/150?img=14"
-                                                                            class="w-full h-full object-cover"
-                                                                            alt="..." />
-                                                                    </div>
-                                                                    <div class="flex flex-col items-start space-y-1">
-                                                                        <a href="#"
-                                                                            class="line-clamp-1 font-semibold text-sm text-foreground hover:text-primary">امید
-                                                                            تاجیک</a>
-                                                                        <span class="text-xs text-muted">۲ هفته
-                                                                            پیش</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="flex items-center gap-3 sm:mr-0 mr-auto">
-                                                                    <a href="#"
-                                                                        class="flex items-center h-9 gap-1 bg-secondary rounded-full text-muted transition-colors hover:text-primary px-4">
-                                                                        <span class="text-xs">پاسخ</span>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M12.207 2.232a.75.75 0 0 0 .025 1.06l4.146 3.958H6.375a5.375 5.375 0 0 0 0 10.75H9.25a.75.75 0 0 0 0-1.5H6.375a3.875 3.875 0 0 1 0-7.75h10.003l-4.146 3.957a.75.75 0 0 0 1.036 1.085l5.5-5.25a.75.75 0 0 0 0-1.085l-5.5-5.25a.75.75 0 0 0-1.06.025Z"
-                                                                                clip-rule="evenodd"></path>
-                                                                        </svg>
-                                                                    </a>
-                                                                    <button type="button"
-                                                                        class="flex items-center justify-center relative w-9 h-9 bg-secondary rounded-full text-muted transition-colors hover:text-red-500">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 20 20" fill="currentColor"
-                                                                            class="w-5 h-5">
-                                                                            <path
-                                                                                d="m9.653 16.915-.005-.003-.019-.01a20.759 20.759 0 0 1-1.162-.682 22.045 22.045 0 0 1-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 0 1 8-2.828A4.5 4.5 0 0 1 18 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 0 1-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 0 1-.69.001l-.002-.001Z">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            <p class="text-sm text-muted">
-                                                                خیلی ممنون از راهنماییتون.
-                                                            </p>
-                                                        </div>
-                                                        <!-- end course:comment reply -->
-                                                    </div>
-                                                    <!-- end course:comment replies -->
-                                                </div>
-                                                <!-- end course:comment -->
-                                            </div>
-                                            <!-- course:comments:wrapper -->
-                                        </div>
-                                        <!-- end tabs:contents:tabThree --> --}}
-                                    </div>
-                                    <!-- end tabs:contents -->
-                                </div>
-                                <!-- end tabs container -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="md:w-4/12 w-full md:sticky md:top-24 space-y-8">
-                    <!-- course:registering -->
-                    <div class="bg-gradient-to-b from-secondary to-background rounded-2xl px-5 pb-5">
-                        <div class="bg-background rounded-b-3xl space-y-2 p-5 mb-5">
-                            <div class="flex items-center gap-3">
-                                <div class="flex items-center gap-1">
-                                    <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                    <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                                </div>
-                                <div class="font-black text-foreground">نام نویسی در دوره</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between gap-5">
-                            <span class="font-bold text-base text-muted">هزینه ثبت نام:</span>
-                            <div class="flex flex-col items-end justify-center h-14">
-                                @if ($course->sale_price)
-                                    <span
-                                        class="line-through text-muted">{{ number_format($course->regular_price) }}</span>
-                                    <div class="flex items-center gap-1">
-                                        <span
-                                            class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
-                                        <span class="text-xs text-muted">تومان</span>
-                                    </div>
-                                @else
-                                    <div class="flex items-center gap-1">
-                                        <span
-                                            class="font-black text-xl text-foreground">{{ number_format($course->sale_price) }}</span>
-                                        <span class="text-xs text-muted">تومان</span>
-                                    </div>
-                                @endif
-
-                            </div>
-                        </div>
-                        <div class="flex gap-3 mt-3">
-                            @if (Auth()->check() && !$has_accsess)
-                                <button id="add_to_cart" x-data="{
-                                    courseId: {{ $course->id }},
-                                    isLoading: false
-                                }"
-                                        x-on:click="
-                            isLoading=true,
-                            $el.disabled = true,
-                            $el.innerHTML = 'در حال افزودن...',
-
-
-                                    fetch('/cart/add', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name=\'csrf-token\']').content
-            },
-            body: JSON.stringify({
-                course_id: courseId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.success) {
-                // به‌روزرسانی تعداد سبد
-                const cartCount = document.querySelector('#cart_count');
-                if(cartCount) {
-                    cartCount.textContent = data.cart_count;
-                }
-
-                Toastify({
-                    text: data.message,
-                    duration: 2000,
-                    gravity: 'top',
-                    position: 'right',
-                    style: {
-                        background: 'green',
-                        borderRadius: '8px'
-                    }
-                }).showToast();
-            } else {
-                Toastify({
-                    text: data.message,
-                    duration: 2000,
-                    gravity: 'top',
-                    position: 'right',
-                    style: {
-                        background: 'red',
-                        borderRadius: '8px'
-                    }
-                }).showToast();
-            }
-        })
-        .catch(error => {
-            Toastify({
-                text: 'خطا در افزودن سبد خرید',
-                duration: 2000,
-                gravity: 'top',
-                position: 'right',
-                style: {
-                    background: 'red',
-                    borderRadius: '8px'
-                }
-            }).showToast();
-            console.error('Error:', error);
-        })
-        .finally(() => {
-            isLoading = false;
-            $el.disabled = false;
-            $el.innerHTML = 'اضافه به سبد';
-        });
-                            "
-                                        x-bind:disabled="isLoading" type="button"
-                                        class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm" x-show="!isLoading">افزودن به سبد
-                                        خرید</span>
-                                    <span class="font-semibold text-sm" x-show="isLoading">در حال افزودن...</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                              d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                              clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-                            @elseif(Auth()->check() && $has_accsess)
-                                <a href="{{ route('lesson.show', $lesson_one->slug) }}"
-                                   class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">مشاهده دوره</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                              d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                              clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            @else
-                                <a href="{{ route('auth.login') }}"
-                                   class="w-full h-11 inline-flex items-center justify-center gap-1 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
-                                    <span class="font-semibold text-sm">برای یادگیری وارد سایت شوید</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                         class="w-5 h-5">
-                                        <path fill-rule="evenodd"
-                                              d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z"
-                                              clip-rule="evenodd"></path>
-                                    </svg>
-                                </a>
-                            @endif
-
-
-                        </div>
-                    </div>
-                    <!-- end course:registering -->
-
-                    <!-- course:lecturer -->
-                    <div class="space-y-5">
-                        <div class="flex items-center gap-3">
-                            <div class="flex items-center gap-1">
-                                <div class="w-1 h-1 bg-foreground rounded-full"></div>
-                                <div class="w-2 h-2 bg-foreground rounded-full"></div>
-                            </div>
-                            <div class="font-black text-sm text-foreground">مدرس دوره</div>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="flex items-center gap-3">
-                                <div class="flex-shrink-0 w-10 h-10 rounded-full overflow-hidden">
-                                    <img src="{{asset("storage")}}/{{ $course->user->avatar }}" class="w-full h-full object-cover"
-                                         alt="{{ $course->user->name }}" />
-                                </div>
-                                <div class="flex flex-col items-start space-y-1">
-                                    <div
-                                        class="line-clamp-1 font-bold text-sm text-foreground hover:text-primary">
-                                        {{ $course->user->name }} </div>
-
-                                </div>
-                            </div>
-                            <div class="bg-secondary rounded-tl-3xl rounded-b-3xl text-sm text-muted p-5">
-                                {{ $course->user->bio }}
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end course:lecturer -->
-                </div>
             </div>
         </div>
+    </div>
+</div>
+                <div
+                    class="h-dvh py-6 sticky top-0 lg:basis-4/12 xl:basis-3/12 hidden lg:flex z-20 relative before:absolute before:w-screen before:-z-10 ">
+                    <div class="bg-gradient-to-b from-white via-gray-200 to-white h-full w-full">
+                        <div class="flex flex-col gap-4 h-full px-5 pb-16 pt-4 relative mx-0.5 ">
+                            <div class="flex flex-col gap-1">
+                                <a href="{{ route('home') }}" title="بازگشت"
+                                    class="flex items-center gap-2 group p-2 -m-2 rounded-lg transition-all hover:bg-gray-50 dark:bg-slate-800 w-fit">
+                                    <svg class="size-4 fill-gray-400 transition-all group-hover:fill-white"
+                                        viewBox="0 0 448 512">
+                                        <path
+                                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z">
+                                        </path>
+                                    </svg>
+                                </a>
+                    <img class="w-full object-cover rounded-2xl" style="margin-top: 20px"
+                        src="{{ asset('storage/' . $course->thumbnail) }}" alt="">
+
+                                <div class="flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg -mx-1 mt-4">
+                                    <span class="text-sm font-medium text-gray-400">مدرس:</span>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 448 512">
+                                            <path
+                                                d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-base font-bold">{{ $course->user->name }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg -mx-1">
+                                    <span class="text-sm font-medium text-gray-400">تعداد جلسات:</span>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 576 512">
+                                            <path
+                                                d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-base font-bold">{{ $lessons_count }} جلسه</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg -mx-1">
+                                    <span class="text-sm font-medium text-gray-400">طول دوره:</span>
+                                    <div class="flex items-center gap-2">
+                                        <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 512 512">
+                                            <path
+                                                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm24-392l0 136c0 8-4 15.5-10.7 20l-96 64c-11 7.4-25.9 4.4-33.3-6.7s-4.4-25.9 6.7-33.3L232 243.2 232 120c0-13.3 10.7-24 24-24s24 10.7 24 24z">
+                                            </path>
+                                        </svg>
+                                        <span class="text-base font-bold">{{ $course->time_course }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between gap-4 mt-auto text-black dark:text-white">
+                                @if ($course->sale_price)
+                                    <span
+                                        class="text-base font-bold text-gray-400 relative before:content-[''] before:absolute before:h-0.5 before:-right-1 before:-left-1 before:bg-black before:opacity-15 before:top-1/2">
+                                        {{ number_format($course->regular_price) }}
+                                    </span>
+                                    <span class="text-xl font-extrabold ">{{ number_format($course->sale_price) }}
+                                        تومان</span>
+                                @else
+                                    <span class="text-xl font-extrabold" >{{ number_format($course->regular_price) }}
+                                        تومان</span>
+                                @endif
+                            </div>
+                            @if ($has_access)
+                                <a href="{{ $lesson_one ? route('lesson.show', $lesson_one->slug) : '#' }}"
+                                    class="flex gap-1 justify-center text-base font-medium bg-green-500 text-white px-6 py-2.5 rounded-lg hover:bg-green-600 transition-all -mx-1">
+                                    <svg class="size-6 fill-white" viewBox="0 0 640 512" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-127.4-55.5-183.1-16.4l-6.4 4.5C368.6 68 352 92.5 352 119.5L352 144l-144 0 0-24.5c0-27-16.6-51.5-38.3-68.2l-6.4-4.5c-55.7-39-133.1-33.6-183.1 16.4c-56.5 56.5-56.5 148 0 204.5l6.4 4.5C21.4 302 64 302 96.8 271.7l1.7-1.6L128 243.6l0 24.4c0 10.1 5.3 19.4 13.9 24.3l80 46c9.8 5.6 22.4 2.8 28.7-6.2c6.3-9 3.9-21.3-4.5-27.4l-54.1-31.1L192 144l256 0 0 129.6-54.1 31.1c-8.4 6.1-10.8 18.4-4.5 27.4c6.3 9 18.9 11.8 28.7 6.2l80-46c8.6-4.9 13.9-14.2 13.9-24.3l0-24.4 29.5 26.5 1.7 1.6c32.8 30.2 75.4 30.2 110.2 3.6l6.4-4.5zM96 64a32 32 0 1 1 0 64 32 32 0 1 1 0-64zM544 128a32 32 0 1 1 0-64 32 32 0 1 1 0 64zM48 464c0-26.5 21.5-48 48-48l144 0c26.5 0 48 21.5 48 48s-21.5 48-48 48l-144 0c-26.5 0-48-21.5-48-48zm352 0c0-26.5 21.5-48 48-48l144 0c26.5 0 48 21.5 48 48s-21.5 48-48 48l-144 0c-26.5 0-48-21.5-48-48z"/>
+                                    </svg>
+                                    مشاهده دوره
+                                </a>
+                            @elseif ($in_cart)
+                                <a href="{{ route('cart.index') }}"
+                                    class="flex gap-1 justify-center text-base font-medium  text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1 " style="background: #1e4ed8">
+                                    <svg class="size-6 fill-white" viewBox="0 0 576 512">
+                                        <path
+                                            d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
+                                    </svg>
+                                    مشاهده سبد خرید
+                                </a>
+                            @else
+                                <button style="background: #1e4ed8" x-data="{ loading: false }"
+                                    @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
+                                    class="flex gap-1 justify-center text-base font-medium bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1">
+
+                                    <span x-show="!loading">ثبت&zwnj;نام </span>
+                                    <span x-show="loading">لطفا صبر کنید...</span>
+                                </button>
+                            @endif
+                            @if($course->sale_expire_at && $course->sale_expire_at->isFuture())
+                            <div class="countdown flex flex-row-reverse items-center justify-center gap-5 ltr mt-8"
+                                data-date="{{ $course->sale_expire_at->format('Y-m-d\TH:i:s') }}">
+                                <div class="flex flex-col gap-1 items-center text-center">
+                                    <span class="day text-2xl font-bold leading-none"></span>
+                                    <small class="text-xs font-medium leading-none text-gray-400">روز</small>
+                                </div>
+                                <div class="flex flex-col gap-1 items-center text-center">
+                                    <span class="hour text-2xl font-bold leading-none"></span>
+                                    <small class="text-xs font-medium leading-none text-gray-400">ساعت</small>
+                                </div>
+                                <div class="flex flex-col gap-1 items-center text-center">
+                                    <span class="minute text-2xl font-bold leading-none"></span>
+                                    <small class="text-xs font-medium leading-none text-gray-400">دقیقه</small>
+                                </div>
+                                <div class="flex flex-col gap-1 items-center text-center">
+                                    <span class="second text-2xl font-bold leading-none"></span>
+                                    <small class="text-xs font-medium leading-none text-gray-400">ثانیه</small>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 py-4 lg:hidden">
+                    <a href="{{ route('home') }}" title="بازگشت به صفحه اصلی"
+                        class="flex items-center gap-2 group transition-all hover:text-gray-500 dark:text-gray-300 w-fit">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="size-4 sm:size-5 fill-gray-400 transition-all group-hover:fill-blue-600"
+                            viewBox="0 0 448 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome  - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
+                            <path
+                                d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z">
+                            </path>
+                        </svg>
+                        <span class="text-lg sm:text-xl font-extrabold">سون لرن</span>
+                    </a>
+                    @if($in_cart)
+                    <a href="{{ route('cart.index') }}"
+                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
+                        مشاهده سبد خرید
+                    </a>
+                    @else
+                    @auth
+                    <button x-data="{ loading: false }"
+                        @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
+                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
+                        <svg x-show="!loading" xmlns="http://www.w3.org/2000/svg" class="size-6 fill-white hidden md:block"
+                            viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome  - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
+                            <path
+                                d="M192 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 7.8c0 27.7-2.4 55.3-7.1 82.5l-84.4 25.3c-40.6 12.2-68.4 49.6-68.4 92l0 71.9c0 40 32.5 72.5 72.5 72.5c26 0 50-13.9 62.9-36.5l13.9-24.3c26.8-47 46.5-97.7 58.4-150.5l94.4-28.3-12.5 37.5c-3.3 9.8-1.6 20.5 4.4 28.8s15.7 13.3 26 13.3l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-83.6 0 18-53.9c3.8-11.3 .9-23.8-7.4-32.4s-20.7-11.8-32.2-8.4L316.4 198.1c2.4-20.7 3.6-41.4 3.6-62.3l0-7.8c0-53-43-96-96-96s-96 43-96 96l0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32zm-9.2 177l49-14.7c-10.4 33.8-24.5 66.4-42.1 97.2l-13.9 24.3c-1.5 2.6-4.3 4.3-7.4 4.3c-4.7 0-8.5-3.8-8.5-8.5l0-71.9c0-14.1 9.3-26.6 22.8-30.7zM24 368c-13.3 0-24 10.7-24 24s10.7 24 24 24l40.3 0c-.2-2.8-.3-5.6-.3-8.5L64 368l-40 0zm592 48c13.3 0 24-10.7 24-24s-10.7-24-24-24l-310.1 0c-6.7 16.3-14.2 32.3-22.3 48L616 416z">
+                            </path>
+                        </svg>
+                        <span x-show="!loading">ثبت&zwnj;نام با آفر ویژه</span>
+                        <span x-show="loading">لطفا صبر کنید...</span>
+                    </button>
+                    @endauth
+                    @guest
+                    <a href="{{ route('auth.login') }}?redirect={{ url()->current() }}"
+                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="size-6 fill-white hidden md:block"
+                            viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome  - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
+                            <path
+                                d="M192 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 7.8c0 27.7-2.4 55.3-7.1 82.5l-84.4 25.3c-40.6 12.2-68.4 49.6-68.4 92l0 71.9c0 40 32.5 72.5 72.5 72.5c26 0 50-13.9 62.9-36.5l13.9-24.3c26.8-47 46.5-97.7 58.4-150.5l94.4-28.3-12.5 37.5c-3.3 9.8-1.6 20.5 4.4 28.8s15.7 13.3 26 13.3l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-83.6 0 18-53.9c3.8-11.3 .9-23.8-7.4-32.4s-20.7-11.8-32.2-8.4L316.4 198.1c2.4-20.7 3.6-41.4 3.6-62.3l0-7.8c0-53-43-96-96-96s-96 43-96 96l0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32zm-9.2 177l49-14.7c-10.4 33.8-24.5 66.4-42.1 97.2l-13.9 24.3c-1.5 2.6-4.3 4.3-7.4 4.3c-4.7 0-8.5-3.8-8.5-8.5l0-71.9c0-14.1 9.3-26.6 22.8-30.7zM24 368c-13.3 0-24 10.7-24 24s10.7 24 24 24l40.3 0c-.2-2.8-.3-5.6-.3-8.5L64 368l-40 0zm592 48c13.3 0 24-10.7 24-24s-10.7-24-24-24l-310.1 0c-6.7 16.3-14.2 32.3-22.3 48L616 416z">
+                            </path>
+                        </svg>
+                        <span>ورود و ثبت&zwnj;نام با آفر ویژه</span>
+                    </a>
+                    @endguest
+                    @endif
+                </div>
+                <div class="lg:basis-8/12 xl:basis-9/12 pt-4 md:pt-8 lg:pt-16 pb-96 lg:px-2 flex flex-col gap-20">
+
+                                <div
+                                    class="w-full video-with-overlay relative rounded-lg overflow-hidden sidebar transition-all duration-300 mt-4">
+                                    <!-- Video -->
+                                    <video  class="w-full js-player">
+                                        <source src="{{ ($lesson_one && $lesson_one->video_url) ?  $lesson_one->video_url : ($course->video_preview ? asset('storage/' . $course->video_preview) : '#') }}" type="video/mp4">
+                                        مرورگر شما از ویدیو پشتیبانی نمی&zwnj;کند.
+                                    </video>
+                                    <!-- Overlay -->
+                                    <div style="background-image: url({{ asset('storage/' . $course->thumbnail ) }});background-size: cover; background-position: center;"
+                                        class="w-full overlay absolute inset-0 flex flex-col items-center justify-center text-white cursor-pointer transition-all group">
+                                        <div
+                                            class="relative size-12 flex items-center justify-center rounded-full transition-all group-hover:scale-110 shadow-[0_0_40px_rgba(255,255,255,0.5)]">
+                                            <svg class="size-12 rounded-full" viewBox="0 0 512 512" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <g clip-path="url(#clip0_413_3210)">
+                                                    <rect x="129" y="122" width="254" height="268" fill="white">
+                                                    </rect>
+                                                    <path
+                                                        d="M0 256C0 188.105 26.9714 122.99 74.9807 74.9807C122.99 26.9714 188.105 0 256 0C323.895 0 389.01 26.9714 437.019 74.9807C485.029 122.99 512 188.105 512 256C512 323.895 485.029 389.01 437.019 437.019C389.01 485.029 323.895 512 256 512C188.105 512 122.99 485.029 74.9807 437.019C26.9714 389.01 0 323.895 0 256ZM188.3 147.1C180.7 151.3 176 159.4 176 168V344C176 352.7 180.7 360.7 188.3 364.9C195.9 369.1 205.1 369 212.6 364.4L356.6 276.4C363.7 272 368.1 264.3 368.1 255.9C368.1 247.5 363.7 239.8 356.6 235.4L212.6 147.4C205.2 142.9 195.9 142.7 188.3 146.9V147.1Z"
+                                                        class="fill-gray-500 dark:fill-gray-300"></path>
+                                                </g>
+                                                <defs>
+                                                    <clipPath id="clip0_413_3210">
+                                                        <rect width="512" height="512" fill="white"></rect>
+                                                    </clipPath>
+                                                </defs>
+                                            </svg>
+                                            <div
+                                                class="rounded-full absolute inset-0  animate-ping duration-1000 transition-all ease-in-out">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                    <div class="flex flex-wrap sm:flex-nowrap gap-2 sm:gap-4 lg:hidden -mt-16">
+                        <div class="grow sm:grow-none sm:flex-1 flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                            <span class="text-sm font-medium text-gray-400">مدرس:</span>
+                            <div class="flex items-center gap-2">
+                                <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 448 512">
+                                    <path
+                                        d="M96 128a128 128 0 1 0 256 0A128 128 0 1 0 96 128zm94.5 200.2l18.6 31L175.8 483.1l-36-146.9c-2-8.1-9.8-13.4-17.9-11.3C51.9 342.4 0 405.8 0 481.3c0 17 13.8 30.7 30.7 30.7l131.7 0c0 0 0 0 .1 0l5.5 0 112 0 5.5 0c0 0 0 0 .1 0l131.7 0c17 0 30.7-13.8 30.7-30.7c0-75.5-51.9-138.9-121.9-156.4c-8.1-2-15.9 3.3-17.9 11.3l-36 146.9L238.9 359.2l18.6-31c6.4-10.7-1.3-24.2-13.7-24.2L224 304l-19.7 0c-12.4 0-20.1 13.6-13.7 24.2z">
+                                    </path>
+                                </svg>
+                                <span class="text-base font-bold">{{ $course->user->name }}</span>
+                            </div>
+                        </div>
+                        <div class="grow sm:grow-none sm:flex-1 flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                            <span class="text-sm font-medium text-gray-400">طول دوره:</span>
+                            <div class="flex items-center gap-2">
+                                <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 512 512">
+                                    <path
+                                        d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm24-392l0 136c0 8-4 15.5-10.7 20l-96 64c-11 7.4-25.9 4.4-33.3-6.7s-4.4-25.9 6.7-33.3L232 243.2 232 120c0-13.3 10.7-24 24-24s24 10.7 24 24z">
+                                    </path>
+                                </svg>
+                                <span class="text-base font-bold">{{ $course->time_course }}</span>
+                            </div>
+                        </div>
+                        <div class="grow sm:grow-none sm:flex-1 flex flex-col gap-1 px-3 pb-2 pt-1 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                            <span class="text-sm font-medium text-gray-400">تعداد جلسات:</span>
+                            <div class="flex items-center gap-2">
+                                <svg class="size-4 fill-gray-500 dark:fill-gray-300" viewBox="0 0 576 512">
+                                    <path
+                                        d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z">
+                                    </path>
+                                </svg>
+                                <span class="text-base font-bold">{{ $lessons_count }} جلسه</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4 md:gap-6 -mt-12 sm:-mt-8 text-black dark:text-white">
+                        <span
+                            class="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-normal sm:leading-loose">{{ $course->title }}</span>
+                        <div class="truncate-js flex flex-col relative">
+                            <div class="truncate-text text-base sm:text-lg sm:font-medium line-clamp-6">
+                                {!! $course->description !!}</div>
+                            <div class="truncate-toggle">
+                                <button
+                                    class="flex items-center gap-2 w-fit text-sm font-medium border-2 border-gray-500 px-4 py-1.5 rounded-lg hover:bg-gray-50 dark:bg-slate-800 hover:text-white transition-all relative z-1 group">نمایش
+                                    بیشتر
+                                    <svg class="size-4 fill-gray-500 dark:fill-gray-300 group-hover:fill-white transition-all"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <span
+                                    class="absolute content-[''] -right-1 -left-1 h-40 bottom-0 bg-gradient-to-t from-white via-white/70 to-transparent"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-10">
+                        <div class="flex flex-col gap-10">
+                            <div
+                                class="flex flex-col sm:flex-row items-center gap-4 bg-gray-50 dark:bg-slate-800 sm:bg-transparent p-4 pt-6 sm:p-0 rounded-xl sm:rounded-none">
+                                <img src="{{ asset('storage/' . $course->user->avatar) }}"
+                                    alt="" class="rounded-full size-14 md:size-16">
+                                <div
+                                    class="flex flex-col gap-1 md:gap-2 text-center sm:text-right items-center sm:items-start">
+                                    <small class="text-sm font-medium text-gray-400">مدرس دوره</small>
+                                    <span class="text-lg md:text-xl font-bold md:font-extrabold">{{ $course->user->name }}
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex sm:flex-col justify-center items-center text-center gap-2 sm:mr-auto border-2 border-black sm:border-none p-3 mt-4 sm:p-0 sm:m-0  sm:w-fit rounded-lg sm:rounded-none">
+                                    <span class="text-xl font-black leading-none">{{ $lessons_count }}</span>
+                                    <small class="text-sm font-medium text-gray-400 leading-none">جلسه</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordions flex flex-col gap-1.5 text-black dark:text-white" x-data="{ activeAccordion: null }">
+                            @foreach($chapters as $chapter)
+                            <div class="accordion group border border-gray-200 dark:border-slate-700 rounded-lg sm:rounded-xl hover:border-gray-500 transition-all"
+                                :class="{ 'border-gray-500': activeAccordion === {{ $loop->iteration }} }">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-3 md:gap-4 px-4 py-3 sm:py-5 relative header cursor-pointer text-base sm:text-lg font-semibold sm:font-bold leading-loose transition-all"
+                                    @click="activeAccordion = (activeAccordion === {{ $loop->iteration }} ? null : {{ $loop->iteration }})">
+                                    <span class="shrink-0 rounded-full text-sm sm:text-lg px-2.5 py-0.5 bg-blue-600 text-white sm:min-w-28 text-center transition-all">
+                                        فصل {{ $loop->iteration }}
+                                    </span> {{ $chapter->title }}
+                                    <svg class="size-4 sm:size-6 absolute sm:relative left-4 sm:left-0 mr-auto transition-all shrink-0 mt-2 sm:mt-1"
+                                        :class="{ 'rotate-180': activeAccordion === {{ $loop->iteration }} }"
+                                        fill="#000000" viewBox="0 0 256 256">
+                                        <path
+                                            d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div class="content transition-all text-base leading-9 text-gray-500 dark:text-gray-300 mx-4 flex flex-col items-stretch overflow-hidden"
+                                    x-show="activeAccordion === {{ $loop->iteration }}">
+                                    <ul class="flex flex-col gap-1 pt-1 md:pt-5 mb-4 border-t border-t-gray-100">
+                                        @foreach($chapter->lessons as $lesson)
+                                        <li class="block sm:flex items-center gap-3 md:gap-6 relative rounded-lg px-2.5 sm:px-4 py-1.5 sm:py-3 text-base md:text-lg font-semibold cursor-pointer transition-all hover:bg-primary-50">
+                                            <span class="sm:ml-2 sm:min-w-20 text-xs sm:text-sm md:text-lg font-medium sm:font-bold text-blue-600">
+                                                جلسه {{ $loop->iteration }}
+                                            </span>
+                                            <div class="text-black dark:text-white">{{ $lesson->title }}</div>
+                                            @if($lesson->duration)
+                                            <small class="mr-auto text-xs sm:text-sm font-light md:font-medium text-gray-400 hidden sm:block">{{ $lesson->duration }} دقیقه</small>
+                                            @endif
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-8 text-black dark:text-white">
+                        <span class="text-4xl font-extrabold leading-normal">ضمانت کیفیت دوره</span>
+                        <div class="grid xl:grid-cols-2 gap-4">
+                            <div class="flex flex-col gap-2 py-4 px-5 border-2 border-black dark:border-slate-700 rounded-xl text-black dark:text-white">
+                                <span class="text-2xl font-extrabold leading-loose flex items-center gap-3 text-black dark:text-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-10 fill-black dark:fill-white"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M232.76,137.88A28.39,28.39,0,0,0,208.13,133L172,141.26c0-.42,0-.84,0-1.26a32,32,0,0,0-32-32H89.94a35.76,35.76,0,0,0-25.45,10.54L43,140H20A20,20,0,0,0,0,160v40a20,20,0,0,0,20,20H120a11.89,11.89,0,0,0,2.91-.36l64-16a11.4,11.4,0,0,0,1.79-.6l38.82-16.54c.23-.09.45-.19.67-.3a28.61,28.61,0,0,0,4.57-48.32ZM36,196H24V164H36Zm181.68-31.39-37.51,16L118.52,196H60V157l21.46-21.46A11.93,11.93,0,0,1,89.94,132H140a8,8,0,0,1,0,16H112a12,12,0,0,0,0,24h32a12.19,12.19,0,0,0,2.69-.3l67-15.41.47-.12a4.61,4.61,0,0,1,5.82,4.44A4.58,4.58,0,0,1,217.68,164.61ZM164,100a40.36,40.36,0,0,0,5.18-.34,40,40,0,1,0,29.67-59.32A40,40,0,1,0,164,100Zm40-36a16,16,0,1,1-16,16A16,16,0,0,1,204,64ZM164,44a16,16,0,0,1,12.94,6.58A39.9,39.9,0,0,0,164.2,76H164a16,16,0,0,1,0-32Z">
+                                        </path>
+                                    </svg>
+                                    گارانتی یک هفته&zwnj;ای</span>
+                                <small class="text-base leading-8 text-black dark:text-white">گارانتی بازگشت وجه تا یک هفته،
+                                    ثبت&zwnj;نام شما در
+                                    دوره&zwnj;های سون&zwnj;لرن بدون ریسک مالی خواهد بود.</small>
+                            </div>
+                            <div class="flex flex-col gap-2 py-4 px-5 border-2 border-black dark:border-slate-700 rounded-xl text-black dark:text-white">
+                                <span class="text-2xl font-extrabold leading-loose flex items-center gap-3 text-black dark:text-white">
+                                    <svg viewBox="0 0 24 24" fill="none" class="size-10 stroke-black dark:stroke-white"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M8.5 12.5L10.0089 14.0089C10.3526 14.3526 10.5245 14.5245 10.7198 14.5822C10.8914 14.6328 11.0749 14.6245 11.2412 14.5585C11.4305 14.4834 11.5861 14.2967 11.8973 13.9232L16 9M16.3287 4.75855C17.0676 4.77963 17.8001 5.07212 18.364 5.636C18.9278 6.19989 19.2203 6.9324 19.2414 7.67121C19.2623 8.40232 19.2727 8.76787 19.2942 8.85296C19.3401 9.0351 19.2867 8.90625 19.383 9.06752C19.428 9.14286 19.6792 9.40876 20.1814 9.94045C20.6889 10.4778 21 11.2026 21 12C21 12.7974 20.6889 13.5222 20.1814 14.0595C19.6792 14.5912 19.428 14.8571 19.383 14.9325C19.2867 15.0937 19.3401 14.9649 19.2942 15.147C19.2727 15.2321 19.2623 15.5977 19.2414 16.3288C19.2203 17.0676 18.9278 17.8001 18.364 18.364C17.8001 18.9279 17.0676 19.2204 16.3287 19.2414C15.5976 19.2623 15.2321 19.2727 15.147 19.2942C14.9649 19.3401 15.0937 19.2868 14.9325 19.3831C14.8571 19.4281 14.5912 19.6792 14.0595 20.1814C13.5222 20.6889 12.7974 21 12 21C11.2026 21 10.4778 20.6889 9.94047 20.1814C9.40874 19.6792 9.14287 19.4281 9.06753 19.3831C8.90626 19.2868 9.0351 19.3401 8.85296 19.2942C8.76788 19.2727 8.40225 19.2623 7.67121 19.2414C6.93238 19.2204 6.19986 18.9279 5.63597 18.364C5.07207 17.8001 4.77959 17.0676 4.75852 16.3287C4.73766 15.5976 4.72724 15.2321 4.70578 15.147C4.65985 14.9649 4.71322 15.0937 4.61691 14.9324C4.57192 14.8571 4.32082 14.5912 3.81862 14.0595C3.31113 13.5222 3 12.7974 3 12C3 11.2026 3.31113 10.4778 3.81862 9.94048C4.32082 9.40876 4.57192 9.14289 4.61691 9.06755C4.71322 8.90628 4.65985 9.03512 4.70578 8.85299C4.72724 8.7679 4.73766 8.40235 4.75852 7.67126C4.77959 6.93243 5.07207 6.1999 5.63597 5.636C6.19986 5.07211 6.93238 4.77963 7.67121 4.75855C8.40232 4.73769 8.76788 4.72727 8.85296 4.70581C9.0351 4.65988 8.90626 4.71325 9.06753 4.61694C9.14287 4.57195 9.40876 4.32082 9.94047 3.81863C10.4778 3.31113 11.2026 3 12 3C12.7974 3 13.5222 3.31114 14.0595 3.81864C14.5913 4.32084 14.8571 4.57194 14.9325 4.61693C15.0937 4.71324 14.9649 4.65988 15.147 4.70581C15.2321 4.72726 15.5976 4.73769 16.3287 4.75855Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+                                    ۱۸ سال تجربه و اعتماد مشتریان</span>
+                                <small class="text-base leading-8 text-black dark:text-white">با اعتماد ۵۰ هزار دانشجو در دو دهه
+                                    فعالیت، مسیر یادگیری شما را با اطمینان همراهی می&zwnj;کنیم.</small>
+                            </div>
+                            <div class="flex flex-col gap-2 py-4 px-5 border-2 border-black dark:border-slate-700 rounded-xl">
+                                <span class="text-2xl font-extrabold leading-loose flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-10 fill-black dark:fill-white"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M249,96.1l-56-64a12,12,0,0,0-9-4.1H72a12,12,0,0,0-9,4.1L7,96.1a12,12,0,0,0,.26,16.09l112,120a12,12,0,0,0,17.54,0l112-120A12,12,0,0,0,249,96.1ZM213.55,92H182L152,52h26.55ZM71.88,116l21.19,53L43.61,116Zm86.4,0L128,191.69,97.72,116ZM104,92l24-32,24,32Zm80.12,24h28.27l-49.46,53ZM77.45,52H104L74,92H42.45Z">
+                                        </path>
+                                    </svg>
+                                    یادگیری از بهترین&zwnj;&zwnj;ها</span>
+                                <small class="text-base leading-8 text-black dark:text-white">از مدرسین متخصص در بهترین شرکت&zwnj;های
+                                    ایران مهارت
+                                    مورد نیاز بازار کار را یاد می&zwnj;گیرید.</small>
+                            </div>
+                            <div class="flex flex-col gap-2 py-4 px-5 border-2 border-black dark:border-slate-700 rounded-xl">
+                                <span class="text-2xl font-extrabold leading-loose flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="size-10 fill-black dark:fill-white"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M204.73,51.85A108.07,108.07,0,0,0,20,128v56a28,28,0,0,0,28,28H64a28,28,0,0,0,28-28V144a28,28,0,0,0-28-28H44.84A84.05,84.05,0,0,1,128,44h.64a83.7,83.7,0,0,1,82.52,72H192a28,28,0,0,0-28,28v40a28,28,0,0,0,28,28h19.6A20,20,0,0,1,192,228H136a12,12,0,0,0,0,24h56a44.05,44.05,0,0,0,44-44V128A107.34,107.34,0,0,0,204.73,51.85ZM64,140a4,4,0,0,1,4,4v40a4,4,0,0,1-4,4H48a4,4,0,0,1-4-4V140Zm124,44V144a4,4,0,0,1,4-4h20v48H192A4,4,0,0,1,188,184Z">
+                                        </path>
+                                    </svg>
+                                    مشاوره اختصاصی</span>
+                                <small class="text-base leading-8 text-black dark:text-white">برای شروع یادگیری و یافتن بهترین مسیر
+                                    شغلی،
+                                    مشاوره اختصاصی دریافت خواهید کرد.</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="flex flex-col gap-4 sm:gap-8" id="pay">
+                        <div class="flex justify-between gap-8 flex-col xl:flex-row">
+                            <div class="flex flex-col gap-2 md:gap-4">
+                                <span
+                                    class="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-normal sm:leading-loose text-black dark:text-white">
+                                    ثبت نام / پرداخت اینترنتی
+                                </span>
+                                <small class="text-lg font-medium text-black dark:text-white">جهت شرکت در دوره، لطفا ثبت نام کنید</small>
+                            </div>
+                            <div
+                                class="flex flex-col gap-2 md:gap-4 items-center xl:items-end text-center xl:text-left -mb-5 sm:-mb-8 xl:mb-0 p-6 xl:p-0 bg-gray-50 dark:bg-slate-800 xl:bg-transparent border xl:border-none border-gray-100 dark:border-slate-700 rounded-xl sm:rounded-2xl xl:rounded-none">
+                                @if($course->sale_price)
+                                <span
+                                    class="text-gray-400 text-lg md:text-xl lg:text-2xl font-medium md:font-bold leading-normal sm:leading-loose relative before:content-[''] before:absolute before:h-0.5 before:bg-gray-400/50 before:rotate-[-10deg] before:top-1/2 before:-left-2 before:-right-2 before:transform before:-translate-y-1/2">
+                                    {{ number_format($course->regular_price) }} تومان
+                                </span>
+                                <span class="text-2xl lg:text-3xl font-extrabold leading-normal sm:leading-loose">
+                                    {{ number_format($course->sale_price) }} تومان
+                                </span>
+                                @else
+                                <span class="text-2xl lg:text-3xl font-extrabold leading-normal sm:leading-loose">
+                                    {{ number_format($course->regular_price) }} تومان
+                                </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2 mt-3 p-6 sm:p-8 bg-gray-50 dark:bg-slate-800 border border-gray-100 dark:border-slate-700 rounded-xl sm:rounded-2xl">
+                            <h3 class="block text-2xl font-black">
+                                <span class="text-blue-600">{{ Auth::check() ? Auth::user()->name : 'کاربر عزیز' }}</span>،
+                                سلام
+                            </h3>
+                            <span class="text-lg font-medium text-gray-400 mt-6 mb-3">برای دسترسی به محتوای دوره، روی دکمه زیر کلیک کنید</span>
+
+                            <div class="flex gap-4 flex-col">
+                                @if($has_access)
+                                <a href="{{ $lesson_one ? route('lesson.show', $lesson_one->slug) : '#' }}"
+                                    class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-green-500 border border-green-500 px-6 py-4 text-xl font-bold text-white hover:bg-green-600 hover:border-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 transition-all">
+                                    مشاهده دوره و شروع یادگیری
+                                </a>
+                                @elseif($in_cart)
+                                <a href="{{ route('cart.index') }}"
+                                    class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-4 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
+                                    مشاهده سبد خرید و تکمیل سفارش
+                                </a>
+                                @else
+                                <button style="background: #1e4ed8" type="button" x-data="{ loading: false }"
+                                    @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}'; loading = false; })"
+                                    class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-4 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
+                                    <span x-show="!loading">افزودن به سبد خرید</span>
+                                    <span x-show="loading">لطفا صبر کنید...</span>
+                                </button>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function resetAllVideos() {
+                    document.querySelectorAll('video').forEach((videoElement) => {
+                        if (!videoElement.paused) {
+                            videoElement.pause();
+                        }
+                    });
+                    document.querySelectorAll('.video-with-overlay').forEach((container) => {
+                        const video = container.querySelector('video');
+                        const overlay = container.querySelector('.overlay');
+                        if (overlay) {
+                            video.removeAttribute('controls');
+                            overlay.style.display = 'flex';
+                        }
+                    });
+                }
+
+                document.querySelectorAll('.video-with-overlay').forEach((container) => {
+                    const video = container.querySelector('video');
+                    const overlay = container.querySelector('.overlay');
+                    if (!overlay || !video) return;
+                    overlay.addEventListener('click', () => {
+                        resetAllVideos();
+                        video.play();
+                        video.setAttribute('controls', true);
+                        overlay.style.display = 'none';
+                    });
+                    video.addEventListener('pause', () => {
+                        video.removeAttribute('controls');
+                        overlay.style.display = 'flex';
+                    });
+                    video.addEventListener('play', () => {
+                        overlay.style.display = 'none';
+                    });
+                });
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Sticky Sidebar
+                    const baseElement = document.querySelector('.video-with-overlay.base');
+                    const sidebarElement = document.querySelector('.video-with-overlay.sidebar');
+                    if (baseElement && sidebarElement) {
+                        window.addEventListener('scroll', function() {
+                            const scrollTop = window.scrollY;
+                            const baseOffset = baseElement.getBoundingClientRect().top + window.scrollY;
+                            if (scrollTop > baseOffset + 200) {
+                                sidebarElement.classList.remove('opacity-0', 'invisible');
+                            } else {
+                                sidebarElement.classList.add('opacity-0', 'invisible');
+                            }
+                        });
+                    }
+
+                    // Countdown
+                    function toPersianNumber(num) {
+                        const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                        return num.toString().replace(/\d/g, (digit) => persianNumbers[digit]);
+                    }
+
+                    function updateCountdown() {
+                        const countdownElement = document.querySelector('.countdown');
+                        if (!countdownElement) return;
+
+                        const countdownDate = new Date(countdownElement.dataset.date).getTime();
+                        const now = new Date().getTime();
+                        const distance = countdownDate - now;
+
+                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        const dayEl = document.querySelector('.day');
+                        const hourEl = document.querySelector('.hour');
+                        const minuteEl = document.querySelector('.minute');
+                        const secondEl = document.querySelector('.second');
+
+                        if (dayEl && !isNaN(days)) dayEl.textContent = toPersianNumber(days);
+                        if (hourEl && !isNaN(hours)) hourEl.textContent = toPersianNumber(hours);
+                        if (minuteEl && !isNaN(minutes)) minuteEl.textContent = toPersianNumber(minutes);
+                        if (secondEl && !isNaN(seconds)) secondEl.textContent = toPersianNumber(seconds);
+
+                        if (days == 0 && dayEl) {
+                            dayEl.parentElement.classList.add('hidden');
+                            // Handle separators if they exist (custom logic needed if separators are separate elements)
+                        } else if (dayEl) {
+                            dayEl.parentElement.classList.remove('hidden');
+                        }
+
+                        if (distance < 0) {
+                            clearInterval(x);
+                            countdownElement.classList.add('hidden');
+                        }
+                    }
+
+                    const x = setInterval(updateCountdown, 1000);
+                    updateCountdown();
+
+                    // Video Controls Click
+                    document.querySelectorAll('video').forEach(video => {
+                        video.addEventListener('click', function() {
+                            if (!this.hasAttribute('controls')) {
+                                this.setAttribute('controls', 'controls');
+                                this.play();
+                            }
+                        });
+                    });
+
+                    // Truncate Toggle
+                    document.querySelectorAll('.truncate-toggle').forEach(toggle => {
+                        toggle.addEventListener('click', function() {
+                            const wrapper = this.closest('.truncate-js');
+                            const text = wrapper.querySelector('.truncate-text');
+                            if (text) {
+                                // Find class starting with line-clamp-
+                                const classes = text.className.split(' ');
+                                const lineClampClass = classes.find(c => c.startsWith('line-clamp-'));
+                                if (lineClampClass) {
+                                    text.classList.remove(lineClampClass);
+                                    this.classList.add('hidden');
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+        </div>
+
         <!-- end container -->
     </main>
 

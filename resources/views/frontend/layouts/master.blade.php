@@ -15,10 +15,8 @@
     @if (request()->routeIs('courses.show'))
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
     @endif
-    @if (!request()->routeIs('courses.show'))
     <script src="{{asset('frontend/js/toastify.js')}}"></script>
     <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
-    @endif
 
 
 
@@ -112,7 +110,7 @@
         </script>
     @endif
     @if (session('error'))
-        <script>
+        <script >
             Toastify({
                 text: "{{ session('error') }}", // یا متن ثابت: "ورود موفقیت آمیز بود"
                 duration: 2000, // اختیاری: زمان نمایش (میلی‌ثانیه)

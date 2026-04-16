@@ -51,7 +51,7 @@ Route::post('/logout', [login::class, 'logout'])->name('auth.logout');
 Route::get('/posts/{post}/comments', [CommentController::class, 'index'])->name('posts.comments');
 
 //Comments Route
-Route::middleware(['user'])->group(function () {
+Route::middleware(['user','admin'])->group(function () {
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::post('/comments/{comment}/like', [CommentController::class, 'like'])->name('comments.like');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');

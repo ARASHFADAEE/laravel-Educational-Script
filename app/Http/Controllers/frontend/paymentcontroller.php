@@ -18,7 +18,7 @@ class PaymentController extends Controller
      * Handle Request Zibal Payment
      * @return Redirect (Online Payment)
      *
-    */
+     */
     public function request_zibal()
     {
         $userId = Auth::id();
@@ -77,17 +77,16 @@ class PaymentController extends Controller
     public function callback()
     {
         $trackId = request('trackId');
-        $success = request('success'); // 1 = موفق، 0 = ناموفق یا کنسل
-        $statusCode = request('status'); // کد وضعیت زیبال
-
+        $success = request('success');
+        $statusCode = request('status');
         $userId = Auth::id();
 
-        // اگر کاربر پرداخت رو کنسل کرده یا خطا داده
+        // بررسی کنسل یا ناموفق بودن
         if ($success != 1 || empty($trackId)) {
             return redirect('/cart')->with('error', 'پرداخت کنسل شد یا ناموفق بود.');
         }
 
-        // گرفتن اطلاعات ذخیره شده از سشن
+        // بررسی تطابق trackId سشن
         $expectedTrackId = session('zibal_trackId');
         $expectedAmount = session('zibal_expected_amount');
 
@@ -108,50 +107,46 @@ class PaymentController extends Controller
             isset($verifyResult['result']) &&
             $verifyResult['result'] == 100 &&
             isset($verifyResult['status']) &&
-            $verifyResult['status'] == 1 && // پرداخت موفق
+            $verifyResult['status'] == 1 &&
             $verifyResult['amount'] == $expectedAmount
-
-
         ) {
-
-
-            // شروع تراکنش دیتابیس برای امنیت
-            DB::transaction(function () use ($userId, $verifyResult) {
+            // شروع تراکنش دیتابیس
+            DB::transaction(function () use ($userId, $trackId, $verifyResult) {
                 $cartItems = Cart::with('course')->where('user_id', $userId)->get();
-                $trackId=$verifyResult["trackId"];
 
-
+                // ✅ از $trackId ورودی استفاده کن، نه از verifyResult
                 foreach ($cartItems as $item) {
-
                     Payment::create([
                         'user_id'        => $userId,
                         'course_id'      => $item->course_id,
-                        'amount'         => $item->course->sale_price > 0 ? $item->course->sale_price : $item->course->regular_price, // به تومان
-                        'transaction_id' => $trackId,
+                        'amount'         => $item->course->sale_price > 0
+                            ? $item->course->sale_price
+                            : $item->course->regular_price,
+                        'transaction_id' => $trackId,   // ← همینجا
                         'payment_method' => 'zibal',
                         'status'         => 'completed',
                     ]);
+
                     Enrollment::create([
-                        'user_id'=>$userId,
-                        'course_id'=>$item->course_id,
-                        'price'=> $item->course->sale_price > 0 ? $item->course->sale_price : $item->course->regular_price,
-                        'status'=>'completed'
+                        'user_id'   => $userId,
+                        'course_id' => $item->course_id,
+                        'price'     => $item->course->sale_price > 0
+                            ? $item->course->sale_price
+                            : $item->course->regular_price,
+                        'status'    => 'completed',
                     ]);
                 }
 
-                // خالی کردن سبد خرید
                 Cart::where('user_id', $userId)->delete();
             });
 
-            // پاک کردن سشن
             session()->forget(['zibal_trackId', 'zibal_expected_amount']);
 
-
-
-            return redirect('/dashboard')->with('success', 'پرداخت با موفقیت انجام شد! دوره‌ها به حساب شما اضافه شدند.');
+            return redirect('/dashboard')
+                ->with('success', 'پرداخت با موفقیت انجام شد! دوره‌ها به حساب شما اضافه شدند.');
         }
 
-        // اگر verify ناموفق بود (تقلب، مبلغ تغییر کرده و ...)
-        return redirect('/cart')->with('error', 'پرداخت تأیید نشد. لطفاً مجدد تلاش کنید یا با پشتیبانی تماس بگیرید.');
+        return redirect('/cart')
+            ->with('error', 'پرداخت تأیید نشد. لطفاً مجدد تلاش کنید یا با پشتیبانی تماس بگیرید.');
     }
 }

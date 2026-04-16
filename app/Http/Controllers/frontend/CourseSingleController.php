@@ -30,19 +30,40 @@ class CourseSingleController extends Controller
          *
          * @return object
          */
-        $course=Course::query()->where('slug','=',$slug)->with(['user:id,name,avatar,bio'])->first();
-        $lesson_one=Lesson::query()->where('chapter_id','=',$course->chapters()->first()->id)->first();
-        $chapters=Chapter::query()->where('course_id','=',$course->id)->withCount('lessons')->get();
+        $course = Course::query()->where('slug', $slug)->with(['user:id,name,avatar,bio'])->firstOrFail();
 
-        $has_accsess = false;
+        $chapters = Chapter::query()
+            ->where('course_id', $course->id)
+            ->with('lessons')
+            ->orderBy('position', 'asc')
+            ->get();
+
+        $lessons_count = 0;
+        $lesson_one = null;
+
+        foreach ($chapters as $chapter) {
+            $lessons_count += $chapter->lessons->count();
+            if (!$lesson_one && $chapter->lessons->isNotEmpty()) {
+                $lesson_one = $chapter->lessons->sortBy('position')->first();
+            }
+        }
+
+        $students_count = Enrollment::where('course_id', $course->id)->count();
+
+        $has_access = false;
+        $in_cart = false;
         if(Auth::check()){
-            $has_accsess = Enrollment::where('user_id', Auth::id())
+            $has_access = Enrollment::where('user_id', Auth::id())
+                ->where('course_id', $course->id)
+                ->exists();
+
+            $in_cart = \App\Models\Cart::where('user_id', Auth::id())
                 ->where('course_id', $course->id)
                 ->exists();
         }
 
 
-        return view('frontend.SingleCourse',compact('course','lesson_one','has_accsess','chapters'));
+        return view('frontend.SingleCourse',compact('course','lesson_one','has_access','in_cart','chapters', 'lessons_count', 'students_count'));
 
     }
 }

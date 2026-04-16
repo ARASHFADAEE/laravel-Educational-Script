@@ -16,7 +16,8 @@ class Lesson extends Model
         'video_url',
         'position',
         'is_free',
-        'File_link'
+        'File_link',
+        'duration'
     ];
 
 

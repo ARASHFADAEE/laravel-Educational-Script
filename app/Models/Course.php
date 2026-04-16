@@ -15,10 +15,16 @@ class Course extends Model
         'regular_price',
         'status',
         'thumbnail',
+        'video_preview',
         'description',
         'sale_price',
+        'sale_expire_at',
         'time_course'
 
+    ];
+
+    protected $casts = [
+        'sale_expire_at' => 'datetime',
     ];
 
 

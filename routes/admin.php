@@ -11,8 +11,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TinymceController;
-
-
+use App\Http\Controllers\chapter\ChapterController;
 
 Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/dashboard',[adminDashboard::class,'index'])->name('admin.dashboard');
@@ -70,6 +69,9 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('admin.post.edit');
     Route::post('/posts/update',[PostController::class,'update'])->name('admin.post.update');
     Route::delete('/posts/{id}/delete',[PostController::class,'destroy'])->name('admin.post.delete');
+
+
+    Route::get('/chapter/create',[ChapterController::class , 'index'] );
 
 
 
