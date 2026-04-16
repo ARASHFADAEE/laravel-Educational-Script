@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TinymceController;
-use App\Http\Controllers\chapter\ChapterController;
+use App\Http\Controllers\Admin\ChapterController;
 
 Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/dashboard',[adminDashboard::class,'index'])->name('admin.dashboard');
@@ -70,8 +70,13 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::post('/posts/update',[PostController::class,'update'])->name('admin.post.update');
     Route::delete('/posts/{id}/delete',[PostController::class,'destroy'])->name('admin.post.delete');
 
-
-    Route::get('/chapter/create',[ChapterController::class , 'index'] );
+    // Chapters Management Routes
+    Route::get('/chapters', [ChapterController::class, 'index'])->name('admin.chapters.index');
+    Route::get('/chapters/create', [ChapterController::class, 'create'])->name('admin.chapters.create');
+    Route::post('/chapters/store', [ChapterController::class, 'store'])->name('admin.chapters.store');
+    Route::get('/chapters/{id}/edit', [ChapterController::class, 'edit'])->name('admin.chapters.edit');
+    Route::put('/chapters/{id}/update', [ChapterController::class, 'update'])->name('admin.chapters.update');
+    Route::delete('/chapters/{id}/delete', [ChapterController::class, 'destroy'])->name('admin.chapters.destroy');
 
 
 

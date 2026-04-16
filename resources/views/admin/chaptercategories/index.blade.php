@@ -1,74 +1,74 @@
 @extends('admin.layouts.master')
 
-
-
-
-@section('title','لیست دسته بندی مقالات')
+@section('title', 'مدیریت سرفصل‌ها')
 
 @section('main')
-
-<div class="overflow-x-auto  shadow-lg rounded-lg">
+<div class="overflow-x-auto shadow-lg rounded-lg">
     <header>
-        <div class="from-gray-900  px-6 py-4 border-b flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست دسته بندی ها</h2>
-            <a href="{{route('admin.post.category.create')}}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
+        <div class="px-6 py-4 border-b flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست سرفصل‌ها</h2>
+            <a href="{{ route('admin.chapters.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
                 <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                 </svg>
-                افزودن دسته بندی
+                افزودن سرفصل
             </a>
         </div>
     </header>
-        <table class="min-w-full table-auto">
-            <thead class="bg-gray-800 text-white">
+
+    <table class="min-w-full table-auto">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="px-6 py-4 text-right text-sm font-medium">شناسه</th>
+                <th class="px-6 py-4 text-right text-sm font-medium">عنوان سرفصل</th>
+                <th class="px-6 py-4 text-right text-sm font-medium">دوره</th>
+                <th class="px-6 py-4 text-right text-sm font-medium">ترتیب</th>
+                <th class="px-6 py-4 text-right text-sm font-medium">تاریخ ثبت</th>
+                <th class="px-6 py-4 text-right text-sm font-medium">عملیات</th>
+            </tr>
+        </thead>
+        <tbody class="text-white divide-y divide-gray-200">
+            @forelse ($chapters as $chapter)
                 <tr>
-                    <th class="px-6 py-4 text-right text-sm font-medium">شناسه</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">نام دسته بندی</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">اسلاگ</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">تاریخ ثبت </th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">عملیات</th>
-                </tr>
-            </thead>
-            <tbody class=" text-white divide-y divide-gray-200">
-                
-                    
-                @foreach ($categories_blog as $category)
-
-                <tr class=" transition">
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->id }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->name }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $category->slug }}</td>
-                    <td class="px-6 py-4 text-sm">
-                            {{verta($category->created_at)}}
+                    <td class="px-6 py-4 text-sm text-white">{{ $chapter->id }}</td>
+                    <td class="px-6 py-4 text-sm text-white">
+                        <div>{{ $chapter->title }}</div>
+                        @if($chapter->description)
+                            <div class="text-xs text-gray-300 mt-1">{{ \Illuminate\Support\Str::limit($chapter->description, 70) }}</div>
+                        @endif
                     </td>
-
-                    <td class="px-6 py-4 text-sm font-medium text-center space-x-2 space-x-reverse flex items-center gap-3 ">
-                        <!-- دکمه ویرایش -->
-                        <a href="{{route('admin.post.category.edit', $category->id)}}" class="text-indigo-600  items-center">
+                    <td class="px-6 py-4 text-sm text-white">{{ $chapter->course->title ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm text-white">{{ $chapter->position ?? 0 }}</td>
+                    <td class="px-6 py-4 text-sm text-white">{{ verta($chapter->created_at)->format('Y/m/d') }}</td>
+                    <td class="px-6 py-4 text-sm font-medium flex items-center gap-3">
+                        <a href="{{ route('admin.chapters.edit', $chapter->id) }}" class="text-indigo-600">
                             <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                             </svg>
                         </a>
-                        <!-- دکمه حذف -->
-                        <form action="{{route('admin.post.category.delete', $category->id)}}" method="POST">
+                        <form action="{{ route('admin.chapters.destroy', $chapter->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                        <button  class="text-red-600 hover:text-red-900 inline-flex items-center">
-                            <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                            </svg>
-                        </button>
+                            <button type="button" onclick="if(confirm('از حذف این سرفصل مطمئن هستید؟')) this.form.submit();" class="text-red-600 hover:text-red-900 inline-flex items-center">
+                                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                            </button>
                         </form>
                     </td>
-
                 </tr>
-                @endforeach
+            @empty
+                <tr>
+                    <td colspan="6" class="px-6 py-6 text-center text-gray-300">هنوز سرفصلی ثبت نشده است.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
 
-
-
-            </tbody>
-        </table>
+@if($chapters->hasPages())
+    <div class="mt-6">
+        {{ $chapters->links() }}
     </div>
-
-
+@endif
 @endsection
