@@ -126,12 +126,24 @@
 
                                     <div class="space-y-1">
                                         <label for="email" class="font-medium text-xs text-muted">ایمیل</label>
-                                        <input type="text" id="email" value="{{ $user->email }}" disabled
-                                            dir="ltr"
-                                            class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5 opacity-70 cursor-not-allowed" />
-                                        <div class="font-medium text-xs text-muted">
-                                            در حال حاضر ایمیل قابل تغییر نمیباشد.
-                                        </div>
+                                        @if(str_ends_with($user->email, '@temp.com'))
+                                            <input type="email" id="email" name="email" value="{{ old('email') }}"
+                                                dir="ltr" placeholder="ایمیل خود را وارد کنید"
+                                                class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-primary rounded-xl text-sm text-foreground px-5" />
+                                            <div class="font-medium text-[10px] text-amber-600">
+                                                لطفا یک ایمیل معتبر برای حساب خود وارد کنید.
+                                            </div>
+                                        @else
+                                            <input type="text" id="email" value="{{ $user->email }}" disabled
+                                                dir="ltr"
+                                                class="form-input w-full h-11 !ring-0 !ring-offset-0 bg-secondary border-border focus:border-border rounded-xl text-sm text-foreground px-5 opacity-70 cursor-not-allowed" />
+                                            <div class="font-medium text-xs text-muted">
+                                                در حال حاضر ایمیل قابل تغییر نمیباشد.
+                                            </div>
+                                        @endif
+                                        @error('email')
+                                            <span class="text-red-500 text-xs">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     <div class="space-y-1">

@@ -10,6 +10,12 @@
 @section('content')
 
     <main class="flex-auto py-5">
+        @php
+            $userNameParts = Auth::check() ? explode(' ', trim(Auth::user()->name), 2) : ['', ''];
+            $defaultFirstName = old('first_name', $userNameParts[0] ?? '');
+            $defaultLastName = old('last_name', $userNameParts[1] ?? '');
+            $defaultPhone = old('phone', Auth::check() ? (Auth::user()->phone ?? '') : '');
+        @endphp
 
         <div class="flex text-gray-500 dark:text-gray-300 text-base font-normal font-iranyekan"
             style="font-variation-settings: &quot;dots&quot; 1;-webkit-font-smoothing: antialiased">
@@ -49,48 +55,20 @@
                         </svg>
                     </a>
 
-                @elseif($in_cart)
-                    <a href="{{ route('cart.index') }}"
-                        class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all whitespace-nowrap">
-                        <span>سبد خرید</span>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
-                        </svg>
-                    </a>
-
                 @else
-                    @auth
-                        <button x-data="{ loading: false }" style="background: #1e4ed8"
-                            @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
-                            :disabled="loading"
-                            :class="loading ? 'opacity-70 cursor-not-allowed' : ''"
-                            class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
-                            
-                            <span x-show="!loading">ثبت‌نام</span>
-                            <span x-show="loading" class="flex items-center gap-1">
-                                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                صبر کنید...
-                            </span>
-                        </button>
-                    @endauth
-
-                    @guest
-                        <a href="{{ route('auth.login') }}?redirect={{ url()->current() }}"
-                            class="flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
-                            <span>ورود و ثبت‌نام</span>
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
-                            </svg>
-                        </a>
-                    @endguest
+                    <button type="button" onclick="openCheckoutModal()"
+                        class="btn-arash flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
+                        <span>ثبت‌نام سریع</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h10"/>
+                        </svg>
+                    </button>
                 @endif
 
             </div>
+
+            </div>
         </div>
-    </div>
 </div>
                 <div
                     class="h-dvh py-6 sticky top-0 lg:basis-4/12 xl:basis-3/12 hidden lg:flex z-20 relative before:absolute before:w-screen before:-z-10 ">
@@ -164,22 +142,10 @@
                                     </svg>
                                     مشاهده دوره
                                 </a>
-                            @elseif ($in_cart)
-                                <a href="{{ route('cart.index') }}"
-                                    class="flex gap-1 justify-center text-base font-medium  text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1 " style="background: #1e4ed8">
-                                    <svg class="size-6 fill-white" viewBox="0 0 576 512">
-                                        <path
-                                            d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
-                                    </svg>
-                                    مشاهده سبد خرید
-                                </a>
                             @else
-                                <button style="background: #1e4ed8" x-data="{ loading: false }"
-                                    @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
-                                    class="flex gap-1 justify-center text-base font-medium bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1">
-
-                                    <span x-show="!loading">ثبت&zwnj;نام </span>
-                                    <span x-show="loading">لطفا صبر کنید...</span>
+                                <button type="button" onclick="openCheckoutModal()"
+                                    class="btn-arash flex gap-1 justify-center text-base font-medium bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1">
+                                    ثبت‌نام سریع
                                 </button>
                             @endif
                             @if($course->sale_expire_at && $course->sale_expire_at->isFuture())
@@ -216,40 +182,18 @@
                                 d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z">
                             </path>
                         </svg>
-                        <span class="text-lg sm:text-xl font-extrabold">سون لرن</span>
+                        <span class="text-lg sm:text-xl font-extrabold">بازگشت به صفحه اصلی</span>
                     </a>
-                    @if($in_cart)
-                    <a href="{{ route('cart.index') }}"
-                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
-                        مشاهده سبد خرید
+                    @if($has_access)
+                    <a href="{{ $lesson_one ? route('lesson.show', $lesson_one->slug) : '#' }}"
+                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-green-500 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-green-600 transition-all mr-auto">
+                        مشاهده دوره
                     </a>
                     @else
-                    @auth
-                    <button x-data="{ loading: false }"
-                        @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}?redirect=' + encodeURIComponent(window.location.href); loading = false; })"
+                    <button type="button" onclick="openCheckoutModal()"
                         class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
-                        <svg x-show="!loading" xmlns="http://www.w3.org/2000/svg" class="size-6 fill-white hidden md:block"
-                            viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome  - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
-                            <path
-                                d="M192 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 7.8c0 27.7-2.4 55.3-7.1 82.5l-84.4 25.3c-40.6 12.2-68.4 49.6-68.4 92l0 71.9c0 40 32.5 72.5 72.5 72.5c26 0 50-13.9 62.9-36.5l13.9-24.3c26.8-47 46.5-97.7 58.4-150.5l94.4-28.3-12.5 37.5c-3.3 9.8-1.6 20.5 4.4 28.8s15.7 13.3 26 13.3l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-83.6 0 18-53.9c3.8-11.3 .9-23.8-7.4-32.4s-20.7-11.8-32.2-8.4L316.4 198.1c2.4-20.7 3.6-41.4 3.6-62.3l0-7.8c0-53-43-96-96-96s-96 43-96 96l0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32zm-9.2 177l49-14.7c-10.4 33.8-24.5 66.4-42.1 97.2l-13.9 24.3c-1.5 2.6-4.3 4.3-7.4 4.3c-4.7 0-8.5-3.8-8.5-8.5l0-71.9c0-14.1 9.3-26.6 22.8-30.7zM24 368c-13.3 0-24 10.7-24 24s10.7 24 24 24l40.3 0c-.2-2.8-.3-5.6-.3-8.5L64 368l-40 0zm592 48c13.3 0 24-10.7 24-24s-10.7-24-24-24l-310.1 0c-6.7 16.3-14.2 32.3-22.3 48L616 416z">
-                            </path>
-                        </svg>
-                        <span x-show="!loading">ثبت&zwnj;نام با آفر ویژه</span>
-                        <span x-show="loading">لطفا صبر کنید...</span>
+                        ثبت&zwnj;نام سریع
                     </button>
-                    @endauth
-                    @guest
-                    <a href="{{ route('auth.login') }}?redirect={{ url()->current() }}"
-                        class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="size-6 fill-white hidden md:block"
-                            viewBox="0 0 640 512"><!--! Font Awesome Pro 6.7.2 by @fontawesome  - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2024 Fonticons, Inc. -->
-                            <path
-                                d="M192 128c0-17.7 14.3-32 32-32s32 14.3 32 32l0 7.8c0 27.7-2.4 55.3-7.1 82.5l-84.4 25.3c-40.6 12.2-68.4 49.6-68.4 92l0 71.9c0 40 32.5 72.5 72.5 72.5c26 0 50-13.9 62.9-36.5l13.9-24.3c26.8-47 46.5-97.7 58.4-150.5l94.4-28.3-12.5 37.5c-3.3 9.8-1.6 20.5 4.4 28.8s15.7 13.3 26 13.3l128 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-83.6 0 18-53.9c3.8-11.3 .9-23.8-7.4-32.4s-20.7-11.8-32.2-8.4L316.4 198.1c2.4-20.7 3.6-41.4 3.6-62.3l0-7.8c0-53-43-96-96-96s-96 43-96 96l0 32c0 17.7 14.3 32 32 32s32-14.3 32-32l0-32zm-9.2 177l49-14.7c-10.4 33.8-24.5 66.4-42.1 97.2l-13.9 24.3c-1.5 2.6-4.3 4.3-7.4 4.3c-4.7 0-8.5-3.8-8.5-8.5l0-71.9c0-14.1 9.3-26.6 22.8-30.7zM24 368c-13.3 0-24 10.7-24 24s10.7 24 24 24l40.3 0c-.2-2.8-.3-5.6-.3-8.5L64 368l-40 0zm592 48c13.3 0 24-10.7 24-24s-10.7-24-24-24l-310.1 0c-6.7 16.3-14.2 32.3-22.3 48L616 416z">
-                            </path>
-                        </svg>
-                        <span>ورود و ثبت&zwnj;نام با آفر ویژه</span>
-                    </a>
-                    @endguest
                     @endif
                 </div>
                 <div class="lg:basis-8/12 xl:basis-9/12 pt-4 md:pt-8 lg:pt-16 pb-96 lg:px-2 flex flex-col gap-20">
@@ -506,17 +450,10 @@
                                     class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-green-500 border border-green-500 px-6 py-4 text-xl font-bold text-white hover:bg-green-600 hover:border-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 transition-all">
                                     مشاهده دوره و شروع یادگیری
                                 </a>
-                                @elseif($in_cart)
-                                <a href="{{ route('cart.index') }}"
-                                    class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-4 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
-                                    مشاهده سبد خرید و تکمیل سفارش
-                                </a>
                                 @else
-                                <button style="background: #1e4ed8" type="button" x-data="{ loading: false }"
-                                    @click="loading = true; fetch('{{ route('cart.add') }}', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': '{{ csrf_token() }}' }, body: JSON.stringify({ course_id: {{ $course->id }} }) }).then(res => { if(res.ok) window.location.reload(); else if(res.status === 401) window.location.href = '{{ route('auth.login') }}'; loading = false; })"
+                                <button type="button" onclick="openCheckoutModal()"
                                     class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-4 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
-                                    <span x-show="!loading">افزودن به سبد خرید</span>
-                                    <span x-show="loading">لطفا صبر کنید...</span>
+                                    ثبت‌نام سریع و پرداخت
                                 </button>
                                 @endif
                             </div>
@@ -524,7 +461,66 @@
                     </div>
                 </div>
             </div>
+
+            <div id="guest-checkout-modal" class="fixed inset-0 z-[70] hidden items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/60" onclick="closeCheckoutModal()"></div>
+                <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+                    <div class="mb-4 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">ثبت‌نام سریع دوره</h3>
+                        <button type="button" onclick="closeCheckoutModal()" class="rounded-md p-1 text-gray-500 hover:bg-gray-100">✕</button>
+                    </div>
+                    <p class="mb-5 text-sm text-gray-600">مشخصات شما ثبت می‌شود و بعد از پرداخت، حساب کاربری و دسترسی دوره به صورت خودکار فعال خواهد شد.</p>
+
+                    <form action="{{ route('course.checkout.zibal', $course->id) }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="mb-1 block text-sm font-medium text-gray-700">نام</label>
+                                <input type="text" name="first_name" value="{{ $defaultFirstName }}" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:outline-none">
+                                @error('first_name')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="mb-1 block text-sm font-medium text-gray-700">نام خانوادگی</label>
+                                <input type="text" name="last_name" value="{{ $defaultLastName }}" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:outline-none">
+                                @error('last_name')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div>
+                            <label class="mb-1 block text-sm font-medium text-gray-700">شماره موبایل</label>
+                            <input type="text" name="phone" value="{{ $defaultPhone }}" placeholder="09xxxxxxxxx" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-800 focus:border-blue-500 focus:outline-none">
+                            @error('phone')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <button type="submit" class="btn-arash inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700">
+                            ادامه و انتقال به پرداخت
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <script>
+                function openCheckoutModal() {
+                    const modal = document.getElementById('guest-checkout-modal');
+                    if (!modal) return;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.classList.add('overflow-hidden');
+                }
+
+                function closeCheckoutModal() {
+                    const modal = document.getElementById('guest-checkout-modal');
+                    if (!modal) return;
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    document.body.classList.remove('overflow-hidden');
+                }
+
                 function resetAllVideos() {
                     document.querySelectorAll('video').forEach((videoElement) => {
                         if (!videoElement.paused) {
@@ -561,6 +557,10 @@
                 });
 
                 document.addEventListener('DOMContentLoaded', function() {
+                    @if($errors->has('first_name') || $errors->has('last_name') || $errors->has('phone'))
+                    openCheckoutModal();
+                    @endif
+
                     // Sticky Sidebar
                     const baseElement = document.querySelector('.video-with-overlay.base');
                     const sidebarElement = document.querySelector('.video-with-overlay.sidebar');

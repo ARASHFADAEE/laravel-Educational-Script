@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(!Auth::check()) {
-            return redirect()->route('auth.login')->with('error', 'برای دسترسی به این صفحه باید وارد شوید.');
+            return redirect()->route('auth.show')->with('error', 'برای دسترسی به این صفحه باید وارد شوید.');
 
         }elseif (Auth::user()->role !== 'admin') {
             return abort(403, 'شما دسترسی به این صفحه ندارید.');

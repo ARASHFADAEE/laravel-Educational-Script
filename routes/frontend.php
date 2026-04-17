@@ -76,12 +76,15 @@ Route::middleware(['user'])->group(function () {
 
 
     Route::post('/pay/zibal', [PaymentController::class, 'request_zibal'])->name('pay.zibal');
-    Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 
     //show episodes
 
 });
+
+// Guest/User direct checkout from single course
+Route::post('/checkout/course/{course}/pay/zibal', [PaymentController::class, 'requestCourseZibal'])->name('course.checkout.zibal');
+Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 
 

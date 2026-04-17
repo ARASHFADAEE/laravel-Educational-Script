@@ -13,50 +13,58 @@ class UserProfileController extends Controller
 {
     /**
      * Display the user's profile page.
-     * 
+     *
      * @return \Illuminate\View\View
      */
     public function profile()
     {
         // دریافت اطلاعات کاربر فعلی
         $user = Auth::user();
-        
+
         // نمایش صفحه پروفایل با اطلاعات کاربر
         return view('user.profile', compact('user'));
     }
 
     /**
      * Update the user's profile information.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateProfile(Request $request)
     {
         // کاربر فعلی
-        $user = Auth::user();
-        
+        $user = User::find(Auth::id());
+
         // اعتبارسنجی داده‌های ورودی
-        $validated = $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['nullable', 'string', 'max:20', 'regex:/^[\d\s\-\+\(\)]+$/'],
-            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'], // 2MB max
-        ], [
+            'phone' => ['required', 'string', 'max:20', 'unique:users,phone,'.$user->id],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
+        ];
+
+        // اگر ایمیل تستی است، اجازه تغییر ایمیل را می‌دهیم
+        if (str_ends_with($user->email, '@temp.com')) {
+            $rules['email'] = ['required', 'email', 'unique:users,email,'.$user->id];
+        }
+
+        $validated = $request->validate($rules, [
             'name.required' => 'وارد کردن نام الزامی است.',
-            'name.string' => 'نام باید متن باشد.',
-            'name.max' => 'نام نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
-            'phone.string' => 'شماره تلفن باید متن باشد.',
-            'phone.max' => 'شماره تلفن نمی‌تواند بیشتر از ۲۰ کاراکتر باشد.',
-            'phone.regex' => 'فرمت شماره تلفن معتبر نیست.',
-            'avatar.image' => 'فایل باید تصویر باشد.',
-            'avatar.mimes' => 'فرمت تصویر باید یکی از موارد jpeg, png, jpg, gif, webp باشد.',
-            'avatar.max' => 'حجم تصویر نمی‌تواند بیشتر از ۲ مگابایت باشد.',
+            'email.required' => 'وارد کردن ایمیل الزامی است.',
+            'email.email' => 'فرمت ایمیل معتبر نیست.',
+            'email.unique' => 'این ایمیل قبلا ثبت شده است.',
+            'phone.required' => 'شماره موبایل الزامی است.',
+            'phone.unique' => 'این شماره موبایل قبلا ثبت شده است.',
         ]);
 
         try {
             // آپدیت اطلاعات پایه
             $user->name = $validated['name'];
-            $user->phone = $validated['phone'] ?? null;
+            $user->phone = $validated['phone'];
+
+            if (isset($validated['email'])) {
+                $user->email = $validated['email'];
+            }
 
             // آپلود آواتار
             if ($request->hasFile('avatar')) {
@@ -64,7 +72,7 @@ class UserProfileController extends Controller
                 if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
                     Storage::disk('public')->delete($user->avatar);
                 }
-                
+
                 // ذخیره آواتار جدید
                 $avatarPath = $request->file('avatar')->store('avatars', 'public');
                 $user->avatar = $avatarPath;
@@ -90,7 +98,7 @@ class UserProfileController extends Controller
 
     /**
      * Update the user's password.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -98,7 +106,7 @@ class UserProfileController extends Controller
     {
         // کاربر فعلی
         $user = Auth::user();
-        
+
         // اعتبارسنجی داده‌های ورودی
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
@@ -133,7 +141,7 @@ class UserProfileController extends Controller
 
     /**
      * Delete the user's avatar.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
@@ -141,7 +149,7 @@ class UserProfileController extends Controller
     {
         // کاربر فعلی
         $user = Auth::user();
-        
+
         try {
             // حذف آواتار
             if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
@@ -182,13 +190,13 @@ class UserProfileController extends Controller
 
     /**
      * Get user profile data for API.
-     * 
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getProfileData()
     {
         $user = Auth::user();
-        
+
         return response()->json([
             'success' => true,
             'data' => [
@@ -205,7 +213,7 @@ class UserProfileController extends Controller
 
     /**
      * Validate current password for sensitive operations.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -223,7 +231,7 @@ class UserProfileController extends Controller
 
     /**
      * Update user's notification preferences.
-     * 
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -231,7 +239,7 @@ class UserProfileController extends Controller
     {
         // کاربر فعلی
         $user = Auth::user();
-        
+
         // اعتبارسنجی داده‌های ورویی
         $validated = $request->validate([
             'notifications' => ['nullable', 'array'],
