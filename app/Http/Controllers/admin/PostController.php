@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use App\Models\PostCategory as Category;
 use App\Models\Post;
@@ -224,9 +225,11 @@ class PostController extends Controller
     public function Search(Request $request){
     $q = $request->query('q');
 
-    $Posts = Post::where('title', 'LIKE', "%{$q}%")
+    $Posts = Course::where('title', 'LIKE', "%{$q}%")
         ->select('id','title','slug')
         ->get();
+
+
 
     return response()->json($Posts);
 

@@ -142,7 +142,7 @@
                             data.forEach(item => {
                                 html += `
                             <div class="p-4 border-b hover:bg-gray-50">
-                                <a href="/blog/${item.slug}" class="text-blue-600 hover:underline">
+                                <a href="/courses/${item.slug}" class="text-blue-600 hover:underline">
                                     ${item.title}
                                 </a>
                             </div>`;

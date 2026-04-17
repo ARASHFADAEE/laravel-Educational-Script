@@ -298,7 +298,7 @@
                                 </div>
                                 <div class="space-y-2">
                                     <template x-for="item in results" :key="item.id">
-                                        <a :href="`/blog/${item.slug}`"
+                                        <a :href="`/courses/${item.slug}`"
                                             class="block p-3 bg-white rounded-lg border border-border hover:border-primary hover:shadow-sm transition-all group">
                                             <div class="font-medium text-foreground group-hover:text-primary"
                                                 x-text="item.title"></div>

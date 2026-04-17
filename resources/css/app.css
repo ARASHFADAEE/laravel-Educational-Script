@@ -1,9 +1,7 @@
 @import 'tailwindcss';
 
-
 @import './frontend/fonts.css';
 @import './frontend/main.css';
-
 @import './frontend/toastify.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -16,13 +14,105 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+/* Enable class-based dark mode in Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
 
-input,select{
-    color: black;
+/* Global Transitions */
+* {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
 }
 
+/* Base Dark Mode Styles for Admin */
+.dark body {
+    background-color: #111827 !important; /* gray-900 */
+    color: #f3f4f6 !important; /* gray-100 */
+}
 
-.btn-arash{
+/* Sidebar Specific Overrides */
+.dark aside#sidebar {
+    background-color: #111827 !important;
+    border-color: #374151 !important; /* gray-700 */
+}
+
+/* Header Specific Overrides */
+.dark header {
+    background-color: #111827 !important;
+    border-color: #374151 !important;
+}
+
+/* Card and Table Item Overrides */
+.dark .bg-white {
+    background-color: #1f2937 !important; /* gray-800 */
+}
+
+.dark .text-gray-800,
+.dark .text-gray-900 {
+    color: #f3f4f6 !important;
+}
+
+.dark .text-gray-700 {
+    color: #e5e7eb !important;
+}
+
+.dark .text-gray-600 {
+    color: #9ca3af !important; /* gray-400 */
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+    background-color: #1f2937 !important;
+}
+
+.dark .hover\:bg-gray-100:hover,
+.dark .hover\:bg-gray-50:hover {
+    background-color: #374151 !important;
+}
+
+.dark .border-gray-200,
+.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: #374151 !important;
+}
+
+/* Table Overrides */
+.dark table thead {
+    background-color: #374151 !important; /* gray-700 */
+}
+
+.dark table tbody tr:hover {
+    background-color: #111827 !important; /* gray-900 */
+}
+
+/* Form Elements Overrides */
+.dark input,
+.dark select,
+.dark textarea {
+    background-color: #111827 !important; /* gray-900 */
+    border-color: #374151 !important; /* gray-700 */
+    color: #f3f4f6 !important; /* gray-100 */
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: #6b7280 !important; /* gray-500 */
+}
+
+.dark label.text-white,
+.dark .form-label.text-white {
+    color: #e5e7eb !important; /* gray-200 */
+}
+
+/* Global Form Input Fix */
+input, select, textarea {
+    color: inherit;
+}
+
+.btn-arash {
     background-color: #1e4ed8;
 }
 
+/* Alpine.js Cloak */
+[x-cloak] {
+    display: none !important;
+}
