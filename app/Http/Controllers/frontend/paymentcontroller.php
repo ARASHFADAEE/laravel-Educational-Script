@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendSuccsesPaymentSmsJob;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Enrollment;
@@ -215,6 +216,10 @@ class PaymentController extends Controller
                         ]
                     );
 
+                    SendSuccsesPaymentSmsJob::dispatch($user->phone,$course->title , $user->name);
+
+
+
                     return $user;
                 });
 
@@ -222,10 +227,14 @@ class PaymentController extends Controller
                     Auth::login($user);
                 }
 
+
                 $this->clearCheckoutSession();
+
 
                 return redirect('/dashboard')
                     ->with('success', 'پرداخت موفق بود. حساب کاربری شما ایجاد/فعال شد و دوره به حساب شما اضافه شد.');
+
+
             }
 
             // Cart checkout flow
