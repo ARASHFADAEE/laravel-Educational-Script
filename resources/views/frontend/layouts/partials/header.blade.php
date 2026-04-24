@@ -192,7 +192,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
                                             </svg>
-                                            <span class="font-semibold text-xs">دوره ها</span>
+                                            <span class="font-semibold text-xs ">دوره ها</span>
                                         </a>
                                         <a href="{{route('user.payments')}}"
                                             class="flex items-center gap-2 w-full text-foreground transition-colors hover:text-primary px-3 py-2">
@@ -233,7 +233,7 @@
                                         d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm5.03 4.72a.75.75 0 0 1 0 1.06l-1.72 1.72h10.94a.75.75 0 0 1 0 1.5H10.81l1.72 1.72a.75.75 0 1 1-1.06 1.06l-3-3a.75.75 0 0 1 0-1.06l3-3a.75.75 0 0 1 1.06 0Z"
                                         clip-rule="evenodd" />
                                 </svg>
-                                <span class="font-semibold text-sm">حساب کاربری</span>
+                                <span class="font-semibold text-sm hidden md:block">حساب کاربری</span>
                             </a>
                         @endif
                         <!-- end login-register:button -->

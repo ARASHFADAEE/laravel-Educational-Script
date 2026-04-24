@@ -21,7 +21,7 @@
             style="font-variation-settings: &quot;dots&quot; 1;-webkit-font-smoothing: antialiased">
 
             <div class="container mx-auto flex flex-col lg:flex-row lg:gap-16 xl:gap-28">
-<div class="py-3 sm:py-4 fixed bottom-0 shadow-normal z-50 right-0 left-0 lg:hidden bg-white">
+<div class="py-3 sm:py-4 p-4 fixed bottom-0 shadow-normal z-50 right-0 left-0 lg:hidden bg-white">
     <div class="container">
         <div class="flex items-center justify-between gap-3">
 
