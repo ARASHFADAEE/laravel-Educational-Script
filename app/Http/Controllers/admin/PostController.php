@@ -56,9 +56,9 @@ class PostController extends Controller
             'thumbnail'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
 
             // نام فیلدها باید با فرم شما مطابقت داشته باشد
-            'seo_meta_title'       => 'nullable|string|max:255',
-            'seo_meta_description' => 'nullable|string|max:500',
-            'seo_meta_keywords'    => 'nullable|string',
+            'seo.meta_title'       => 'nullable|string|max:255',
+            'seo.meta_description' => 'nullable|string|max:500',
+            'seo.meta_keywords'    => 'nullable|string',
         ]);
 
         $slug = $validated['slug'] ?? Str::slug($validated['title']);
@@ -90,9 +90,9 @@ class PostController extends Controller
 
         // ایجاد رکورد SEO - اصلاح شده
         $post->seo()->create([
-            'meta_title'       => $request->input('seo_meta_title', $validated['title']),
-            'meta_description' => $request->input('seo_meta_description', Str::limit(strip_tags($validated['body']), 160)),
-            'meta_keywords'    => $request->input('seo_meta_keywords', ''),
+            'meta_title'       => $request->input('seo.meta_title', $validated['title']),
+            'meta_description' => $request->input('seo.meta_description', Str::limit(strip_tags($validated['body']), 160)),
+            'meta_keywords'    => $request->input('seo.meta_keywords', ''),
             'metable_type'     => 'App\Models\Post', // نام کامل کلاس
             'metable_id'       => $post->id
         ]);

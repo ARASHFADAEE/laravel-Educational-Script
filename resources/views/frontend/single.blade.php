@@ -1,6 +1,8 @@
 @extends('frontend.layouts.master')
 
-            @section('title', $post->title)
+@section('title', $post->seo->meta_title ?? $post->title)
+@section('description', $post->seo->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($post->body), 160))
+@section('canonical', route('single.blog.show', $post->slug))
 @section('content')
 
 
@@ -31,7 +33,7 @@
                                 </div>
                                 <div class="space-y-10 py-5">
                                     <!-- article:description -->
-                                    <div class="description">
+                                    <div class="description article-content">
 
                                         {!! $post->body !!}
                                     </div>

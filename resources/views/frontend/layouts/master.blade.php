@@ -8,10 +8,6 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('frontend/css/swiper-bundle.min.css') }}" />
-    @if (request()->routeIs('lesson.show') || request()->routeIs('course.show'))
-
-    <link rel="stylesheet" href="{{ asset('frontend/css/plyr.min.css') }}">
-    @endif
     @if (request()->routeIs('courses.show'))
     <script src="{{asset('frontend/js/jquery.min.js')}}"></script>
     @endif

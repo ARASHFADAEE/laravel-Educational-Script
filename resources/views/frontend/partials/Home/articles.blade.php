@@ -18,6 +18,12 @@
                                     در نابغه فضای رو به شکلی آماده کردیم تا شما بتونید ایده‌ها و مطالب جالب حوزه
                                     برنامه‌نویسی رو در اختیار هزاران برنامه‌نویس عضو نابغه قرار بدید.
                                 </span>
+                                <a href="{{ route('blog.index') }}" class="inline-flex w-fit items-center gap-2 text-sm font-bold text-primary hover:opacity-80 transition-all">
+                                    مشاهده آرشیو مقالات
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M14.78 14.78a.75.75 0 0 1-1.06 0L6.5 7.56v5.69a.75.75 0 0 1-1.5 0v-7.5A.75.75 0 0 1 5.75 5h7.5a.75.75 0 0 1 0 1.5H7.56l7.22 7.22a.75.75 0 0 1 0 1.06Z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </a>
                             </div>
                         </div>
                         <div class="lg:w-8/12 w-full lg:mx-auto">
@@ -53,7 +59,7 @@
                                                 {{$post->user->name}}
                                                 </div>
                                             </div>
-                                            <a href="./article-category.html"
+                                            <a href="{{ route('blog.index', ['category' => $post->post_categorie->slug]) }}"
                                                 class="bg-primary/10 rounded-full text-primary transition-all hover:opacity-80 py-1 px-4">
                                                 <span class="font-bold text-xxs">{{$post->post_categorie->name}}</span>
                                             </a>

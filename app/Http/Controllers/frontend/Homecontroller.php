@@ -35,6 +35,7 @@ class HomeController extends Controller
             'post_categorie:id,name'
         ])
             ->select('id', 'title', 'slug', 'thumbnail', 'created_at', 'user_id', 'category_id')
+            ->where('status', 'published')
             ->paginate(4);
 
 

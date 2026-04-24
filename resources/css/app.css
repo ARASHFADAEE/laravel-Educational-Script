@@ -5,6 +5,8 @@
 @import './frontend/toastify.css';
 @import './frontend/plyr.min.css';
 
+@import './admin/post-editor.css';
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
@@ -116,4 +118,127 @@ input, select, textarea {
 /* Alpine.js Cloak */
 [x-cloak] {
     display: none !important;
+}
+
+.article-content {
+    color: hsl(var(--foreground));
+    line-height: 2.1;
+    font-family: 'YekanBakh',ui-monospace;
+
+}
+
+.article-content > *:last-child {
+    margin-bottom: 0;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+    color: hsl(var(--foreground));
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    margin-top: 2rem;
+}
+
+.article-content p,
+.article-content ul,
+.article-content ol,
+.article-content blockquote,
+.article-content table,
+.article-content pre {
+    margin-bottom: 1.25rem;
+}
+
+.article-content ul,
+.article-content ol {
+    padding-right: 1.5rem;
+}
+
+.article-content ul {
+    list-style: disc;
+}
+
+.article-content ol {
+    list-style: decimal;
+}
+
+.article-content a {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.article-content blockquote {
+    border-right: 4px solid hsl(var(--primary));
+    background: hsl(var(--secondary));
+    border-radius: 1rem;
+    padding: 1rem 1.25rem;
+    color: hsl(var(--muted));
+}
+
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 1rem;
+}
+
+.article-content th,
+.article-content td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.85rem 1rem;
+    text-align: right;
+}
+
+.article-content th {
+    background: hsl(var(--secondary));
+    color: hsl(var(--foreground));
+}
+
+.article-content img,
+.article-content video,
+.article-content iframe {
+    max-width: 100%;
+    margin-inline: auto;
+    border-radius: 1.5rem;
+}
+
+.code-block-wrapper {
+    position: relative;
+}
+
+.code-copy-button {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    z-index: 2;
+}
+
+.article-content pre {
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    border-radius: 1.5rem;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 1.25rem;
+    padding-top: 3rem;
+}
+
+.article-content pre code {
+    display: block;
+    white-space: pre;
+    font-family: 'YekanBakh',ui-monospace;
+    font-size: 0.9rem;
+    line-height: 1.9;
 }

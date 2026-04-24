@@ -14,10 +14,11 @@ class SingleBlogController extends Controller
      */
 
     public function show($slug){
-
-
-        $post=Post::query()->where('slug','=',$slug)
-        ->with(['post_categorie:id,name,slug','user:id,name,avatar,bio'])->first();
+        $post = Post::query()
+            ->where('slug', '=', $slug)
+            ->where('status', 'published')
+            ->with(['post_categorie:id,name,slug','user:id,name,avatar,bio'])
+            ->firstOrFail();
 
         $comments = Comment::with(['user', 'replies.user'])
             ->where('post_id', $post->id)

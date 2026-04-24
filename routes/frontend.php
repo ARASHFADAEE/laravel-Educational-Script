@@ -7,7 +7,11 @@ use App\Http\Controllers\Auth\RegisterController as register;
 use App\Http\Controllers\Frontend\CommentController;
 use App\Http\Controllers\Frontend\CourseSingleController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\PageController;
+use App\Http\Controllers\Frontend\PostArchiveController;
+use App\Http\Controllers\Frontend\SitemapController;
 use App\Http\Controllers\Frontend\SingleBlogController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Models\User;
@@ -38,7 +42,11 @@ Route::prefix('auth')->middleware('guest')->group(function () {
 
 //home and blog
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/blog', [PostArchiveController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [SingleBlogController::class, 'show'])->name('single.blog.show');
+Route::get('/about-us', [PageController::class, 'about'])->name('about.index');
+Route::match(['get', 'post'], '/contact-us', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/sitemap.xml', SitemapController::class)->name('sitemap');
 
 //Search Ajax
 Route::get('/Search', [PostController::class, 'search'])->name('search.ajax');

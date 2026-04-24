@@ -73,25 +73,14 @@
 
                         <!-- menu -->
                         <ul class="flex items-center gap-5">
-                            <li>
-                                <a href="#"
-                                    class="inline-flex text-muted transition-colors hover:text-foreground">
-                                    <span class="font-semibold text-sm">مقالات آموزشی</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="inline-flex text-muted transition-colors hover:text-foreground">
-                                    <span class="font-semibold text-sm"> درباره ما</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="inline-flex text-muted transition-colors hover:text-foreground">
-                                    <span class="font-semibold text-sm"> تماس با ما</span>
-                                </a>
-                            </li>
-
+                            @foreach ($primary_navigation as $item)
+                                <li>
+                                    <a href="{{ route($item['route']) }}"
+                                        class="inline-flex transition-colors {{ $item['active'] ? 'text-foreground' : 'text-muted hover:text-foreground' }}">
+                                        <span class="font-semibold text-sm">{{ $item['label'] }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                         <!-- end menu -->
                     </div>
@@ -402,7 +391,7 @@
 
                             selectResult(item) {
                                 // هدایت به صفحه نتیجه
-                                window.location.href = `/blog/${item.slug}`;
+                                window.location.href = `/courses/${item.slug}`;
                             }
                         }));
                     });
@@ -418,7 +407,7 @@
                     x-bind:class="offcanvasOpen ? '!translate-x-0' : 'translate-x-full'">
                     <!-- offcanvas:header -->
                     <div class="flex items-center justify-between gap-x-4 sticky top-0 bg-background p-4 z-10">
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
@@ -527,7 +516,7 @@
 
                                 <div class="divide-y divide-border">
                                     <template x-for="item in results" :key="item.id">
-                                        <a :href="`/blog/${item.slug}`"
+                                        <a :href="`/courses/${item.slug}`"
                                             class="block p-4 hover:bg-secondary transition-colors"
                                             x-on:click="showResults = false">
                                             <div class="font-medium text-foreground" x-text="item.title"></div>
@@ -576,104 +565,32 @@
                                 </button>
                                 <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-zinc-200 dark:before:bg-zinc-900 py-3 pr-5"
                                     x-show="open">
-                                    <li x-data="{ openChild: false }">
-                                        <button type="button"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3"
-                                            x-on:click="openChild = !openChild">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                class="w-4 h-4" x-bind:class="openChild ? '-rotate-45' : ''">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-                                            </svg>
-                                            <span class="font-medium text-xs">برنامه نویسی وب</span>
-                                        </button>
-                                        <ul class="flex flex-col relative before:content-[''] before:absolute before:inset-y-3 before:right-3 before:w-px before:bg-zinc-200 dark:before:bg-zinc-900 py-3 pr-5"
-                                            x-show="openChild">
-                                            <li>
-                                                <a href="./series.html"
-                                                    class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                                    <span
-                                                        class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                                    <span class="font-medium text-xs">جاوااسکریپت</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="./series.html"
-                                                    class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                                    <span
-                                                        class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                                    <span class="font-medium text-xs">نود جی اس</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="./series.html"
-                                                    class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                                    <span
-                                                        class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                                    <span class="font-medium text-xs">ریکت جی اس</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="./series.html"
-                                                    class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                                    <span
-                                                        class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                                    <span class="font-medium text-xs">...</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="./series.html"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                            <span
-                                                class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                            <span class="font-medium text-xs">دیتا ساینس</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="./series.html"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                            <span
-                                                class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                            <span class="font-medium text-xs">زبانهای برنامه نویسی</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="./series.html"
-                                            class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
-                                            <span
-                                                class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
-                                            <span class="font-medium text-xs">...</span>
-                                        </a>
-                                    </li>
+                                    @foreach ($course_categories as $category)
+                                        <li>
+                                            <a href="{{ route('show.courses.category', $category->slug) }}"
+                                                class="w-full flex items-center gap-x-2 bg-transparent rounded-xl text-zinc-400 transition-all group/nav-item hover:text-black dark:hover:text-white py-2 px-3">
+                                                <span
+                                                    class="inline-flex w-2 h-px bg-zinc-200 dark:bg-zinc-800 transition-all group-hover/nav-item:w-4 group-hover/nav-item:bg-black dark:group-hover/nav-item:bg-white"></span>
+                                                <span class="font-medium text-xs">{{ $category->name }}</span>
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </li>
-                            <li>
-                                <a href="#"
-                                    class="w-full flex items-center gap-x-2 relative text-muted transition-all hover:text-foreground py-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z">
-                                        </path>
-                                    </svg>
-                                    <span class="font-semibold text-xs">پرسش و پاسخ</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                    class="w-full flex items-center gap-x-2 relative text-muted transition-all hover:text-foreground py-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z">
-                                        </path>
-                                    </svg>
-                                    <span class="font-semibold text-xs">مقالات آموزشی</span>
-                                </a>
-                            </li>
+                            @foreach ($primary_navigation as $item)
+                                <li>
+                                    <a href="{{ route($item['route']) }}"
+                                        class="w-full flex items-center gap-x-2 relative transition-all py-2 {{ $item['active'] ? 'text-foreground' : 'text-muted hover:text-foreground' }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z">
+                                            </path>
+                                        </svg>
+                                        <span class="font-semibold text-xs">{{ $item['label'] }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div><!-- end offcanvas:content -->
                 </div><!-- end offcanvas:box -->

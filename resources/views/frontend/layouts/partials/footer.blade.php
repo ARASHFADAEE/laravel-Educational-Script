@@ -14,7 +14,7 @@
                 </div>
                 <div class="flex lg:flex-nowrap flex-wrap gap-8 py-10">
                     <div class="md:w-5/12 w-full">
-                        <a href="./home.html" class="inline-flex items-center gap-2 text-primary">
+                        <a href="{{ route('home') }}" class="inline-flex items-center gap-2 text-primary">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                 class="w-6 h-6">
                                 <path
@@ -25,7 +25,7 @@
                             </svg>
                             <span class="flex flex-col items-start">
                                 <span class="font-semibold text-sm text-muted">آکــــادمـــی</span>
-                                <span class="font-black text-xl">نـــابــــغه</span>
+                                <span class="font-black text-xl">آرش فدایی</span>
                             </span>
                         </a>
                     </div>
@@ -94,25 +94,24 @@
                                 </div>
                                 <ul class="flex flex-col space-y-1">
                                     <li>
-                                        <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">قوانین
-                                            و
-                                            مقررات</a>
+                                        <a href="{{ route('blog.index') }}"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">مقالات آموزشی</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">مدرسان</a>
+                                        <a href="{{ route('courses.show') }}"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">آرشیو دوره‌ها</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">درباره
-                                            نابغه</a>
+                                        <a href="{{ route('about.index') }}"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">درباره ما</a>
                                     </li>
                                     <li>
-                                        <a href="#"
-                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">ارتباط
-                                            با
-                                            ما</a>
+                                        <a href="{{ route('contact.index') }}"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">تماس با ما</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('sitemap') }}"
+                                            class="inline-flex font-semibold text-sm text-muted hover:text-primary">سایت‌مپ</a>
                                     </li>
                                 </ul>
                             </div>

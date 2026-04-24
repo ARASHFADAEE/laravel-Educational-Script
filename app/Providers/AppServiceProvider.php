@@ -38,16 +38,28 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $Course_categories_nav=category::all();
-        
-
-
-
-
-        
+        $primaryNavigation = collect([
+            [
+                'label' => 'مقالات آموزشی',
+                'route' => 'blog.index',
+                'active' => request()->routeIs('blog.index', 'single.blog.show'),
+            ],
+            [
+                'label' => 'درباره ما',
+                'route' => 'about.index',
+                'active' => request()->routeIs('about.index'),
+            ],
+            [
+                'label' => 'تماس با ما',
+                'route' => 'contact.index',
+                'active' => request()->routeIs('contact.index'),
+            ],
+        ]);
 
         $view->with([
             'cart_count'=> $cart_count,
             'course_categories'=>$Course_categories_nav,
+            'primary_navigation' => $primaryNavigation,
         
         ]);
 

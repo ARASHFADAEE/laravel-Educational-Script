@@ -2,20 +2,24 @@
 <html lang="fa" dir="rtl" x-data="{
     darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
 }" :class="{ 'dark': darkMode }">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')-پنل ادمین</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="{{asset('/frontend/js/alpinejs.min.js')}}" defer></script>
-    @if(request()->routeIs('admin.lessons.create') || request()->routeIs('admin.lessons.edit')  )
-        <script src="{{asset('/frontend/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('/frontend/js/alpinejs.min.js') }}" defer></script>
+    @if (request()->routeIs('admin.lessons.create') || request()->routeIs('admin.lessons.edit'))
+        <script src="{{ asset('/frontend/js/jquery.min.js') }}"></script>
     @endif
-    <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/toastify.css') }}">
 
+    
 
 
 </head>
+
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
 
     <!-- Sidebar -->
@@ -23,38 +27,48 @@
 
 
     <!-- Main Content -->
-       <main class="lg:mr-72 min-h-screen transition-all duration-300">
+    <main class="lg:mr-72 min-h-screen transition-all duration-300">
         <!-- Top Bar -->
-        <header class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+        <header
+            class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
             <div class="px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <button id="menu-toggle" class="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
 
                 </div>
 
                 <div class="flex items-center gap-3">
-                    <button id="dark-toggle" @click="darkMode = !darkMode; localStorage.setItem('theme', darkMode ? 'dark' : 'light')" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
-                        <svg x-show="darkMode" class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    <button id="dark-toggle"
+                        @click="darkMode = !darkMode; localStorage.setItem('theme', darkMode ? 'dark' : 'light')"
+                        class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+                        <svg x-show="darkMode" class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
-                        <svg x-show="!darkMode" class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        <svg x-show="!darkMode" class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                         </svg>
                     </button>
 
                     <button class="relative p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
                         <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
 
                     <div class="flex items-center gap-3 pr-3 border-r border-gray-200 dark:border-gray-700">
-                        <img src="{{asset('storage')}}/{{ Auth()->user()->avatar }}" class="w-10 h-10 rounded-full ring-2 ring-indigo-500" alt="Avatar">
+                        <img src="{{ asset('storage') }}/{{ Auth()->user()->avatar }}"
+                            class="w-10 h-10 rounded-full ring-2 ring-indigo-500" alt="Avatar">
                         <div class="text-right">
                             <p class="text-sm font-semibold">{{ Auth()->user()->name }}</p>
                             <p class="text-xs text-gray-500">مدیر سیستم</p>
@@ -64,40 +78,39 @@
             </div>
         </header>
 
-    <script>
-        // Sidebar Toggle Logic
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.getElementById('menu-toggle');
-        const closeSidebar = document.getElementById('close-sidebar');
+        <script>
+            // Sidebar Toggle Logic
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.getElementById('menu-toggle');
+            const closeSidebar = document.getElementById('close-sidebar');
 
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.remove('translate-x-full');
-        });
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.remove('translate-x-full');
+            });
 
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.add('translate-x-full');
-        });
-    </script>
+            closeSidebar.addEventListener('click', () => {
+                sidebar.classList.add('translate-x-full');
+            });
+        </script>
 
-    @yield('main')
+        @yield('main')
 
     </main>
 
-        <script src="{{asset('frontend/js/toastify.js')}}"></script>
+    <script src="{{ asset('frontend/js/toastify.js') }}"></script>
 
-@if (session('success'))
-    <script>
-        Toastify({
-            text: "{{ session('success') }}",  // یا متن ثابت: "ورود موفقیت آمیز بود"
-            duration: 2000,  // اختیاری: زمان نمایش (میلی‌ثانیه)
-            gravity: "top",   // اختیاری: top یا bottom
-            position: "right", // اختیاری: right, left, center
-            className: "info",
-            style: {
-                background: "green",
-            }
-        }).showToast();
-    </script>
-@endif
+    @if (session('success'))
+        <script>
+            Toastify({
+                text: "{{ session('success') }}", // یا متن ثابت: "ورود موفقیت آمیز بود"
+                duration: 2000, // اختیاری: زمان نمایش (میلی‌ثانیه)
+                gravity: "top", // اختیاری: top یا bottom
+                position: "right", // اختیاری: right, left, center
+                className: "info",
+                style: {
+                    background: "green",
+                }
+            }).showToast();
+        </script>
+    @endif
 </body>
-

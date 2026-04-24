@@ -55,7 +55,7 @@
             <!-- بدنه مقاله (با Summernote) -->
             <div>
                 <label class="form-label">محتوای مقاله <span class="text-red-500">*</span></label>
-                <textarea class="form-input w-full" id="myeditor" name="body">{{ old('body', $post->body ?? '') }}</textarea>
+                <textarea class="form-input w-full" id="myeditor" name="body" data-local-editor data-upload-url="{{ route('tinymce.upload') }}">{{ old('body', $post->body ?? '') }}</textarea>
 
 
 
@@ -123,73 +123,6 @@
         </form>
     </div>
 
-    <script src="https://cdn.tiny.cloud/1/vfy2oipuptjnbbspfdodnrzexwgkhkgyxde74zknmhwh164b/tinymce/6/tinymce.min.js"
-        referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: '#myeditor',
-            height: 500,
-            menubar: true,
-            plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-
-            toolbar: 'undo redo | blocks | ' +
-                'bold italic backcolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help | image media table code',
-            language: 'fa_IR',
-            directionality: 'rtl',
-            images_upload_handler: function(blobInfo, success, failure) {
-                var xhr, formData;
-
-                xhr = new XMLHttpRequest();
-                xhr.withCredentials = false;
-                xhr.open('POST', '{{ route('tinymce.upload') }}');
-
-                xhr.onload = function() {
-                    var json;
-
-                    if (xhr.status != 200) {
-                        failure('HTTP Error: ' + xhr.status);
-                        return;
-                    }
-
-                    json = JSON.parse(xhr.responseText);
-
-                    if (!json || typeof json.location != 'string') {
-                        failure('Invalid JSON: ' + xhr.responseText);
-                        return;
-                    }
-
-                    success(json.location);
-                };
-
-                formData = new FormData();
-                formData.append('file', blobInfo.blob(), blobInfo.filename());
-                formData.append('_token', '{{ csrf_token() }}');
-
-                xhr.send(formData);
-            },
-            video_template_callback: function(data) {
-                return `
-            <video 
-                class="js-player"  // <-- کلاس دلخواهت رو اینجا اضافه کن
-                width="${data.width}"
-                height="${data.height}"
-                ${data.poster ? `poster="${data.poster}"` : ''}
-                controls="controls"
-                preload="metadata">
-                <source src="${data.source}" ${data.sourcemime ? `type="${data.sourcemime}"` : ''} />
-                ${data.altsource ? `<source src="${data.altsource}" ${data.altsourcemime ? `type="${data.altsourcemime}"` : ''} />` : ''}
-            </video>
-        `;
-            }
-
-        });
-    </script>
 
 
 
