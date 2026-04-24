@@ -232,7 +232,6 @@
         }
     </style>
 
-    @vite('resources/js/admin/post-editor.js')
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
