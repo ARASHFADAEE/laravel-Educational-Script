@@ -37,7 +37,7 @@ class SendOtpSmsJob implements ShouldQueue
             // متد pattern به templateId تغییر کرد
             Sms::to($this->phone)
                 ->templateId(254054) // شناسه قالب خود را اینجا وارد کنید
-                ->addParameter('code', $this->code) // پارامترها را به صورت نام و مقدار اضافه کنید
+                ->addParameter('otp', $this->code) // پارامترها را به صورت نام و مقدار اضافه کنید
                 ->send();
 
             Log::info('SMS sent successfully via Job', ['phone' => $this->phone]);

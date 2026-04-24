@@ -1,7 +1,7 @@
 @extends('frontend.layouts.master')
 
-@section('title', 'صفحه اصلی ')
-
+@section('title', 'آرش فدایی - توسعه‌دهنده ارشد وب و متخصص PHP')
+@section('description', 'آرش فدایی توسعه دهنده فول استک و موسس سایت ملودی من یک سایت موزیک ایرانی با قابلیت های جذاب')
 @section('canonical',url()->current())
 
 @section('content')

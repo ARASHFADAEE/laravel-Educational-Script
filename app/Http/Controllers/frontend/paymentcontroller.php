@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendSuccsesPaymentSmsJob;
+use App\Jobs\SendSuccessPaymentSmsJob;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Enrollment;
@@ -216,7 +216,7 @@ class PaymentController extends Controller
                         ]
                     );
 
-                    SendSuccsesPaymentSmsJob::dispatch($user->phone,$course->title , $user->name);
+                    // SendSuccessPaymentSmsJob::dispatch($user->phone,$course->title ,$user->name);
 
 
 
