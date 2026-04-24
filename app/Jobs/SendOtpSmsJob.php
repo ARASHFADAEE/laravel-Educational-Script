@@ -32,11 +32,13 @@ class SendOtpSmsJob implements ShouldQueue
     public function handle(): void
     {
         Log::info('Sending SMS Job started', ['phone' => $this->phone]);
-
         try {
+            // فرض بر این است که شناسه قالب OTP شما در sms.ir عددی مانند 372242 است
+            // متد pattern به templateId تغییر کرد
             Sms::to($this->phone)
-                ->pattern('372242')
-                ->send([$this->code]);
+                ->templateId(254054) // شناسه قالب خود را اینجا وارد کنید
+                ->addParameter('code', $this->code) // پارامترها را به صورت نام و مقدار اضافه کنید
+                ->send();
 
             Log::info('SMS sent successfully via Job', ['phone' => $this->phone]);
         } catch (\Exception $e) {

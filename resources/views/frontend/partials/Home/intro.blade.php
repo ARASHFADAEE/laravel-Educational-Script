@@ -12,13 +12,15 @@
                                         </span>
                                         <span class="font-semibold text-xs text-primary">به زودی :)</span>
                                     </div>
-                                    <h2 class="font-black sm:text-5xl text-3xl text-foreground">
-                                        داستان برنامه&zwnj;نویس شدنت <br>
-                                        از اینجا شروع میشه!
-                                    </h2>
+                                    <h1 class="font-black sm:text-5xl text-3xl text-foreground">
+                                       آرش فدایی
+
+                                       <br>
+                                        توسعه‌دهنده ارشد وب و متخصص PHP
+                                    </h1>
                                     <p class="sm:text-base text-sm text-muted">
                                         یادگیری برنامه&zwnj;نویسی آرزو نیست، فقط نیاز هست که تلاش و تمرین داشته
-                                        باشید، بقیه&zwnj;اش با نابغه
+                                        باشید، بقیه&zwnj;اش با آرش
                                     </p>
                                     <div class="flex flex-wrap items-center gap-3">
                                         <a href="./series.html" class="inline-flex items-center justify-center gap-1 h-11 bg-primary rounded-full text-primary-foreground transition-all hover:opacity-80 px-4">
@@ -76,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="flex-shrink-0 flex justify-center relative lg:w-96 w-full lg:order-2 -order-1 after:content-[''] after:absolute after:bottom-0 after:inset-x-0 after:h-7 after:bg-gradient-to-b after:from-transparent after:to-secondary">
-                                <img src="{{asset('image/intro/study.png')}}" class="sm:w-96 max-w-full" alt="...">
+                                <img src="{{asset('image/intro/arashfadaee.png')}}" class="sm:w-96 max-w-full" alt="...">
                             </div>
                         </div>
                     </div>

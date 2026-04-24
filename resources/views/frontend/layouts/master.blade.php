@@ -52,7 +52,7 @@
 
 
 
-
+{{-- 
     <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-32x32.png"
         sizes="32x32">
     <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-192x192.png"
@@ -60,7 +60,7 @@
     <link rel="apple-touch-icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-180x180.png">
     <meta name="msapplication-TileImage"
         content="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-270x270.png">
-
+ --}}
 
 
 
