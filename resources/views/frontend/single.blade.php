@@ -104,3 +104,58 @@
 
 
 @endsection
+
+
+
+@section('schema')
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "{{ addslashes($post->title) }}",
+    "name": "{{ addslashes($post->title) }}",
+    "description": "{{ addslashes(strip_tags(substr($post->body, 0, 200))) }}",
+    "url": "{{ route('single.blog.show', $post->slug) }}",
+    "datePublished": "{{ $post->created_at->toIso8601String() }}",
+    "dateModified": "{{ $post->updated_at->toIso8601String() }}",
+    "dateCreated": "{{ $post->created_at->toIso8601String() }}",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ route('single.blog.show', $post->slug) }}"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "{{ addslashes($post->user->name) }}",
+        "url": "{{ route('author.show', $post->user->id) }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "{{ env('APP_NAME') }}",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "{{ asset('images/logo.png') }}",
+            "width": "200",
+            "height": "50"
+        }
+    },
+    "image": {
+        "@type": "ImageObject",
+        "url": "{{ asset('storage/' . $post->thumbnail) }}",
+        "width": "1200",
+        "height": "630"
+    },
+    "articleSection": "{{ optional($post->category)->name ?? 'عمومی' }}",
+    "keywords": "{{ implode(', ', array_slice(explode(' ', strip_tags($post->title)), 0, 5)) }}",
+    "articleBody": "{{ addslashes(strip_tags(substr($post->body, 0, 1000))) }}",
+    "wordCount": {{ str_word_count(strip_tags($post->body)) }},
+    "timeRequired": "PT{{ ceil(str_word_count(strip_tags($post->body)) / 200) }}M",
+    "inLanguage": "fa-IR",
+    "isAccessibleForFree": "True",
+    "copyrightYear": "{{ $post->created_at->format('Y') }}",
+    "copyrightHolder": {
+        "@type": "Organization",
+        "name": "{{ env('APP_NAME') }}"
+    }
+}
+</script>
+@endsection
