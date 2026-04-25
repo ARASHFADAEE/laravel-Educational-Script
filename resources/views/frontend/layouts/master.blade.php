@@ -164,6 +164,10 @@
         });
     </script>
 
+    @yield('schema')
+
+
+
 
 
 
