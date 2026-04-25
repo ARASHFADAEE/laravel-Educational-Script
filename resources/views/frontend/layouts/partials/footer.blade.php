@@ -43,7 +43,7 @@
                                 </span>
                                 <div class="flex flex-col font-black space-y-2">
                                     <span class="text-sm text-primary">شماره تلفن</span>
-                                    <span class="text-foreground">۰۲۱−۱۲۳۴۵۶۷</span>
+                                    <span class="text-foreground">09130912706</span>
                                 </div>
                             </div>
                             <div class="flex items-center gap-5">

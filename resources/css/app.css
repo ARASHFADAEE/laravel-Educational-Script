@@ -242,3 +242,8 @@ input, select, textarea {
     font-size: 0.9rem;
     line-height: 1.9;
 }
+
+
+p{
+    line-height: 30px !important;
+}
