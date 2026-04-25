@@ -1,10 +1,26 @@
 @extends('frontend.layouts.master')
 
-@section('title', $course->title)
-
-
+@section('title', optional($course->seo)->meta_title ?? $course->title)
+@section('description', optional($course->seo)->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($course->description), 160))
 @section('canonical', url()->current())
 
+@section('type', 'product')
+@section('og-title', optional($course->seo)->og_title ?? $course->title)
+@section('og-description', optional($course->seo)->og_description ?? optional($course->seo)->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($course->description), 160))
+@section('og-img', (optional($course->seo)->og_image) ? asset('storage/' . $course->seo->og_image) : asset('storage/' . $course->thumbnail))
+
+@section('twitter-title', optional($course->seo)->twitter_title ?? $course->title)
+@section('twitter-description', optional($course->seo)->twitter_description ?? optional($course->seo)->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($course->description), 160))
+@section('twitter-img', (optional($course->seo)->twitter_image) ? asset('storage/' . $course->seo->twitter_image) : asset('storage/' . $course->thumbnail))
+
+@section('article:published_time', $course->created_at->toIso8601String())
+@section('article:modified_time', $course->updated_at->toIso8601String())
+@section('article:author', $course->user->name ?? 'admin')
+
+@section('twitter:label1', 'مدرس دوره')
+@section('twitter:data1', $course->user->name ?? 'نامشخص')
+@section('twitter:label2', 'مدت زمان')
+@section('twitter:data2', $course->time_course ?? 'نامشخص')
 
 
 @section('content')
