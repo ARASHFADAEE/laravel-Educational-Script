@@ -48,15 +48,15 @@
 
 
 
-{{-- 
-    <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-32x32.png"
+
+    <link rel="icon" href="{{asset('image/icon/favicon.webp')}}"
         sizes="32x32">
-    <link rel="icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-192x192.png"
+    <link rel="icon" href="{{asset('image/icon/favicon.webp')}}"
         sizes="192x192">
-    <link rel="apple-touch-icon" href="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-180x180.png">
+    <link rel="apple-touch-icon" href="{{asset('image/icon/favicon.webp')}}">
     <meta name="msapplication-TileImage"
-        content="https://sabzlearn.ir/wp-content/uploads/2024/12/cropped-128px-1-270x270.png">
- --}}
+        content="{{asset('image/icon/favicon.webp')}}">
+
 
 
 
