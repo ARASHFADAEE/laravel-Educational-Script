@@ -6,6 +6,16 @@
 @section('content')
 
 
+@section('type', 'article')
+@section('og-title', $post->seo->og_title ?? $post->title)
+@section('og-description', $post->seo->og_description ?? $post->seo->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($post->body), 160))
+@section('og-img', $post->seo->og_image ? asset('storage/' . $post->seo->og_image) : asset('storage/' . $post->thumbnail))
+
+@section('twitter-title', $post->seo->twitter_title ?? $post->title)
+@section('twitter-description', $post->seo->twitter_description ?? $post->seo->meta_description ?? \Illuminate\Support\Str::limit(strip_tags($post->body), 160))
+@section('twitter-img', $post->seo->og_image ? asset('storage/' . $post->seo->og_image) : asset('storage/' . $post->thumbnail))
+
+
     <main class="flex-auto py-5">
 
 
