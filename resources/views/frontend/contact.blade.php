@@ -20,11 +20,11 @@
                 <div class="space-y-4">
                     <div class="rounded-2xl border border-border bg-background p-5">
                         <div class="text-sm font-black text-primary">ایمیل</div>
-                        <div class="mt-2 text-sm text-foreground">hello@example.com</div>
+                        <div class="mt-2 text-sm text-foreground">arash.fadaee.it@gmail.com</div>
                     </div>
                     <div class="rounded-2xl border border-border bg-background p-5">
                         <div class="text-sm font-black text-primary">شماره تماس</div>
-                        <div class="mt-2 text-sm text-foreground">۰۲۱-۱۲۳۴۵۶۷۸</div>
+                        <div class="mt-2 text-sm text-foreground">09130912706</div>
                     </div>
                     <div class="rounded-2xl border border-border bg-background p-5">
                         <div class="text-sm font-black text-primary">ساعت پاسخ‌گویی</div>
