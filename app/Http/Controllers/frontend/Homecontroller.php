@@ -36,7 +36,7 @@ class HomeController extends Controller
         ])
             ->select('id', 'title', 'slug', 'thumbnail', 'created_at', 'user_id', 'category_id')
             ->where('status', 'published')
-            ->paginate(4);
+            ->paginate(3);
 
 
         return [
