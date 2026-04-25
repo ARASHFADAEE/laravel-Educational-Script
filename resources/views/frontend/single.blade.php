@@ -16,6 +16,15 @@
 @section('twitter-img', $post->seo->og_image ? asset('storage/' . $post->seo->og_image) : asset('storage/' . $post->thumbnail))
 
 
+@section('og:type', 'article')
+@section('article:published_time', $post->created_at->toIso8601String())
+@section('article:modified_time', $post->updated_at->toIso8601String())
+@section('article:author', $post->user->name)
+@section('twitter:label1', 'نوشته شده توسط')
+@section('twitter:data1', $post->user->name)
+@section('twitter:label2', 'زمان مطالعه')
+@section('twitter:data2', ceil(str_word_count(strip_tags($post->body)) / 200) . ' دقیقه')
+
     <main class="flex-auto py-5">
 
 

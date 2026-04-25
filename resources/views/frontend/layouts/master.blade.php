@@ -47,7 +47,13 @@
         content="@yield('twitter-img')">
 
 
-
+<meta property="article:published_time" content="@yield('article:published_time')">
+<meta property="article:modified_time" content="@yield('article:modified_time')">
+<meta property="article:author" content="@yield('article:author')">
+<meta name="twitter:label1" content="@yield('twitter:label1')">
+<meta name="twitter:data1" content="@yield('twitter:data1')">
+<meta name="twitter:label2" content="@yield('twitter:label2')">
+<meta name="twitter:data2" content="@yield('twitter:data2')">
 
     <link rel="icon" href="{{asset('image/icon/favicon.webp')}}"
         sizes="32x32">
