@@ -107,3 +107,14 @@ Route::get('/course-cat/{slug}',[ArchiveCourseController::class,'ShowCategory'])
 
 
 Route::get('/Setting',[SettingController::class,'index'])->name('setting.index');
+
+
+// ریدایرکت همه URLهای دسته‌بندی قدیمی وردپرس
+Route::get('/category/{any}', function($any) {
+    return redirect('/', 301);
+})->where('any', '.*');
+
+
+Route::get('/contact-me', function() {
+    return redirect('/contact-us', 301);
+});
