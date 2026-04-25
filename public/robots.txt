@@ -1,3 +1,14 @@
+# Allow all bots
 User-agent: *
-Disallow:
+
+# Disallow admin panel and all admin routes
+Disallow: /admin/
+
+# Disallow user dashboard and profile pages
+Disallow: /dashboard/
+
+# Disallow lesson pages that require access control
+Disallow: /lesson/
+
+# Sitemap location
 Sitemap: /sitemap.xml
