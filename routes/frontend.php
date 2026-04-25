@@ -115,6 +115,10 @@ Route::get('/category/{any}', function($any) {
 })->where('any', '.*');
 
 
+Route::get('/portfolio/{any}', function($any) {
+    return redirect('/', 301);
+})->where('any', '.*');
+
 Route::get('/contact-me', function() {
     return redirect('/contact-us', 301);
 });
