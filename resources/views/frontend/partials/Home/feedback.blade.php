@@ -13,7 +13,7 @@
                                     </svg>
                                 </span>
                                 <div class="flex flex-col space-y-2">
-                                    <span class="font-black xs:text-2xl text-lg text-primary">در مورد نابغه چه
+                                    <span class="font-black xs:text-2xl text-lg text-primary">در مورد آکادمی آرش فدایی چه
                                         میشنویم؟</span>
                                     <span class="font-semibold xs:text-base text-sm text-muted">این‌ها، بخش خیلی کوچکی
                                         از نظراتی

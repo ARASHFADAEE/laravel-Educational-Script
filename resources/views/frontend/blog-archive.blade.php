@@ -63,7 +63,7 @@
                                     <h2 class="text-base font-black text-foreground leading-8 line-clamp-2">
                                         <a href="{{ route('single.blog.show', $post->slug) }}" class="hover:text-primary transition-colors">{{ $post->title }}</a>
                                     </h2>
-                                    <p class="text-sm leading-7 text-muted line-clamp-3">{{ \Illuminate\Support\Str::limit(strip_tags($post->body), 120) }}</p>
+                                    <p class="text-sm leading-7 text-muted line-clamp-3 mt-3 mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($post->body), 120) }}</p>
                                     <div class="flex items-center gap-3 border-t border-border pt-4">
                                         <img src="{{ asset('storage/' . $post->user->avatar) }}" alt="{{ $post->user->name }}" class="h-10 w-10 rounded-full object-cover">
                                         <div>

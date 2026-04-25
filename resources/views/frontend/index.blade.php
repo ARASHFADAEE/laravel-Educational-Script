@@ -33,7 +33,7 @@
             <!-- end feedback -->
 
             <!-- container -->
-            <div class="max-w-7xl space-y-14 px-4 mx-auto">
+            <div class="max-w-7xl space-y-14 px-4 mx-auto rounded-lg">
                 <!-- articles -->
                 @include('frontend.partials.Home.articles',["posts"=>$posts])
                 <!-- end articles -->
