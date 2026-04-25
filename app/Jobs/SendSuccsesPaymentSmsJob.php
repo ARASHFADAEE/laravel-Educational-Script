@@ -33,26 +33,65 @@ class SendSuccessPaymentSmsJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Sending SMS Payment Job started', ['phone' => $this->phone]);
+        $apiKey = env('API_KEY_SMS_IR'); // Or use config('services.sms_ir.api_key')
 
-        try {
-            // استفاده از متد templateId به جای pattern
-            // استفاده از addParameter برای هر متغیر به صورت جداگانه
-            Sms::to($this->phone)
-                ->templateId(411699) // شناسه قالب پرداخت در پنل sms.ir
-                ->addParameter('client_name', $this->client_name) // نام پارامتر باید دقیقاً همانی باشد که در قالب sms.ir تعریف شده
-                ->addParameter('course_name', $this->course_name)
-                ->send();
+        if (empty($apiKey)) {
+            Log::error('SMS.IR API key is missing');
+            return;
+        }
 
-            Log::info('SMS sent successfully via Job', ['phone' => $this->phone]);
-        } catch (\Exception $e) {
-            Log::error('SMS Payment Job failed', [
+        $payload = [
+            'mobile' => $this->phone,
+            'templateId' => 254054,
+            'parameters' => [
+                [
+                    'name' => 'client',
+                    'value' => $this->client_name
+                ],
+                [
+                    'name'=>'course',
+                    'value' => $this->course_name
+                ]
+            ]
+        ];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => 'https://api.sms.ir/v1/send/verify',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => json_encode($payload),
+            CURLOPT_HTTPHEADER => [
+                'Content-Type: application/json',
+                'Accept: text/plain',
+                'x-api-key: ' . $apiKey
+            ],
+        ]);
+
+        $response = curl_exec($curl);
+        $error = curl_error($curl);
+        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+
+        if ($error) {
+            Log::error('SMS.IR cURL error: ' . $error, [
                 'phone' => $this->phone,
-                'error' => $e->getMessage()
+                'code' => $this->code
             ]);
-            // اگر می‌خواهید در صورت خطا، جاب دوباره تلاش کند، خط زیر را نگه دارید.
-            // اگر نمی‌خواهید retry شود، throw $e را حذف کنید.
-            throw $e;
+        } elseif ($httpCode !== 200) {
+            Log::warning('SMS.IR API returned non-200 status', [
+                'http_code' => $httpCode,
+                'response' => $response,
+                'phone' => $this->phone
+            ]);
+        } else {
+            Log::info('OTP SMS sent successfully', ['phone' => $this->phone]);
         }
     }
 }
