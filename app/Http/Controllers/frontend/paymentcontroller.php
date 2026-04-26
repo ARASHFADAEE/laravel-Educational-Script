@@ -115,7 +115,7 @@ class PaymentController extends Controller
         }
 
         $response = Http::post('https://gateway.zibal.ir/v1/request', [
-            'merchant' => 'zibal',
+            'merchant' => env('ZIBAL_MERCHENT'),
             'amount' => $amountInRials,
             'callbackUrl' => route('payment.callback'),
             'description' => 'خرید دوره: ' . $course->title,

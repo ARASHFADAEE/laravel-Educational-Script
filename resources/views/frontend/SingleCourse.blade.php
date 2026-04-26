@@ -714,29 +714,5 @@
 @endsection
 
 
-@section('schema')
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Course",
-    "name": "{{ $course->title }}",
-    "description": "{{ strip_tags(substr($course->description, 0, 200)) }}",
-    "provider": {
-        "@type": "Organization",
-        "name": "{{ env('APP_NAME') }}",
-        "sameAs": "{{ url('/') }}"
-    },
-    "instructor": {
-        "@type": "Person",
-        "name": "{{ $course->user->name }}"
-    },
-    "image": "{{ asset('storage/' . $course->thumbnail) }}",
-    "offers": {
-        "@type": "Offer",
-        "price": "{{ $course->sale_price ?? $course->regular_price }}",
-        "priceCurrency": "IRR"
-    }
-}
-</script>
-@endsection
+
 
