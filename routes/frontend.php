@@ -122,3 +122,16 @@ Route::get('/portfolio/{any}', function($any) {
 Route::get('/contact-me', function() {
     return redirect('/contact-us', 301);
 });
+
+
+Route::get('learn-laravel-۱۰',function(){
+    return redirect('/blog/whats-Laravel-Forge');
+});
+
+
+
+
+
+Route::get('404-wordpress',function(){
+    return redirect('/blog/404-wordpress');
+});
