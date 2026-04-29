@@ -13,6 +13,7 @@
     @endif
     <script src="{{asset('frontend/js/toastify.js')}}"></script>
     <link rel="stylesheet" href="{{asset('frontend/css/toastify.css')}}">
+    <meta name="google-site-verification" content="MgW3lz_6i6mhWBdcYQggX1h0OK2RIRIpACTPY3CFqt8" />
 
 
 
