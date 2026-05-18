@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\TinymceController;
 use App\Http\Controllers\Admin\ChapterController;
+use App\Http\Controllers\Admin\CommentController;
 
 Route::prefix('admin')->middleware('admin')->group(function(){
     Route::get('/dashboard',[adminDashboard::class,'index'])->name('admin.dashboard');
@@ -89,6 +90,14 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::put('/payments/{id}/update',[PaymentController::class,'update'])->name('admin.payments.update');
     Route::post('/payments/store',[PaymentController::class,'store'])->name('admin.payments.store');
     Route::delete('/payments/{id}/delete',[PaymentController::class,'destroy'])->name('admin.payments.destroy');
+
+    // Comments Management Routes
+    Route::get('/comments',[CommentController::class,'index'])->name('admin.comments.index');
+    Route::get('/comments/approved',[CommentController::class,'approved'])->name('admin.comments.approved');
+    Route::put('/comments/{comment}/approve',[CommentController::class,'approve'])->name('admin.comments.approve');
+    Route::put('/comments/{comment}/reject',[CommentController::class,'reject'])->name('admin.comments.reject');
+    Route::put('/comments/{comment}/pending',[CommentController::class,'pending'])->name('admin.comments.pending');
+    Route::delete('/comments/{comment}/delete',[CommentController::class,'destroy'])->name('admin.comments.destroy');
 
 
 

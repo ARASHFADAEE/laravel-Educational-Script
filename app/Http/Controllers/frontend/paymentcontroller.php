@@ -86,8 +86,9 @@ class PaymentController extends Controller
         $price = $this->courseFinalPrice($course);
         $amountInRials = $price * 10;
 
+        // اگر دوره رایگان است، بدون درگاه ثبت نام کنید
         if ($amountInRials <= 0) {
-            return back()->with('error', 'مبلغ پرداخت معتبر نیست!');
+            return $this->enrollFreeCourse($request, $course);
         }
 
         $firstName = trim((string) $request->input('first_name', ''));
@@ -375,5 +376,70 @@ class PaymentController extends Controller
             'zibal_expected_amount',
             'checkout_payload',
         ]);
+    }
+
+    /**
+     * Handle free course enrollment directly without payment gateway
+     */
+    private function enrollFreeCourse(Request $request, Course $course)
+    {
+        try {
+            $user = DB::transaction(function () use ($request, $course) {
+                $firstName = trim((string) $request->input('first_name', ''));
+                $lastName = trim((string) $request->input('last_name', ''));
+                $normalizedPhone = $this->normalizePhone((string) $request->input('phone', ''));
+
+                if (Auth::check()) {
+                    $user = Auth::user();
+                    $parts = explode(' ', trim((string) $user->name), 2);
+                    $firstName = $firstName !== '' ? $firstName : ($parts[0] ?? '');
+                    $lastName = $lastName !== '' ? $lastName : ($parts[1] ?? '');
+                    $normalizedPhone = $normalizedPhone !== '' ? $normalizedPhone : $this->normalizePhone((string) ($user->phone ?? ''));
+
+                    // بررسی اینکه آیا قبلاً ثبت نام کرده یا نه
+                    $alreadyEnrolled = Enrollment::where('user_id', $user->id)
+                        ->where('course_id', $course->id)
+                        ->exists();
+                    if ($alreadyEnrolled) {
+                        return $user;
+                    }
+                } else {
+                    // کاربر مهمان است - حساب بسازیم
+                    if (!preg_match('/^09\d{9}$/', $normalizedPhone)) {
+                        abort(422, 'شماره موبایل معتبر نیست.');
+                    }
+
+                    $user = $this->resolveCheckoutUser([
+                        'phone' => $normalizedPhone,
+                        'first_name' => $firstName,
+                        'last_name' => $lastName,
+                    ]);
+                }
+
+                // Enrollment ایجاد کنید
+                Enrollment::firstOrCreate(
+                    [
+                        'user_id' => $user->id,
+                        'course_id' => $course->id,
+                    ],
+                    [
+                        'price' => 0,
+                        'status' => 'completed',
+                    ]
+                );
+
+                return $user;
+            });
+
+            if (!Auth::check() || Auth::id() !== $user->id) {
+                Auth::login($user);
+            }
+
+            return redirect('/dashboard')
+                ->with('success', 'ثبت‌نام در دوره رایگان با موفقیت انجام شد!');
+        } catch (\Throwable $e) {
+            report($e);
+            return back()->with('error', 'خطا در ثبت‌نام. لطفا مجدد تلاش کنید.');
+        }
     }
 }

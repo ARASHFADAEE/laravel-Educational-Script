@@ -48,7 +48,14 @@
 
                             <!-- بخش قیمت -->
                             <div class="flex items-center gap-3">
-                                @if ($course->sale_price)
+                                @php
+                                    $finalPrice = $course->sale_price ?? $course->regular_price;
+                                @endphp
+                                @if ($finalPrice == 0)
+                                    <span class="text-lg sm:text-xl font-bold text-green-600 whitespace-nowrap">
+                                        رایگان
+                                    </span>
+                                @elseif ($course->sale_price && $course->sale_price != $course->regular_price)
                                     <span class="text-xs text-gray-400 line-through whitespace-nowrap">
                                         {{ number_format($course->regular_price) }}
                                     </span>
@@ -147,7 +154,12 @@
                                 </div>
                             </div>
                             <div class="flex items-center justify-between gap-4 mt-auto text-black dark:text-white">
-                                @if ($course->sale_price)
+                                @php
+                                    $finalPrice = $course->sale_price ?? $course->regular_price;
+                                @endphp
+                                @if ($finalPrice == 0)
+                                    <span class="text-2xl font-extrabold text-green-600">رایگان</span>
+                                @elseif ($course->sale_price && $course->sale_price != $course->regular_price)
                                     <span
                                         class="text-base font-bold text-gray-400 relative before:content-[''] before:absolute before:h-0.5 before:-right-1 before:-left-1 before:bg-black before:opacity-15 before:top-1/2">
                                         {{ number_format($course->regular_price) }}
