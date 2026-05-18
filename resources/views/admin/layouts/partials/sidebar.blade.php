@@ -114,12 +114,29 @@
                 <!-- Interactions -->
                 <div class="pt-2">
                     <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">تعاملات</p>
-                    <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all group">
-                        <svg class="w-5 h-5 text-gray-500 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
-                        </svg>
-                        <span class="font-medium">نظرات</span>
-                    </a>
+                    <div x-data="{ open: {{ request()->routeIs('admin.comments.*') ? 'true' : 'false' }} }">
+                        <button @click="open = !open" class="w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all group">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-gray-500 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"/>
+                                </svg>
+                                <span class="font-medium">مدیریت نظرات</span>
+                            </div>
+                            <svg class="w-4 h-4 transition-transform duration-200" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div x-show="open" x-cloak class="mt-1 space-y-1 pr-4">
+                            <a href="{{route('admin.comments.index')}}" class="flex items-center gap-3 px-4 py-2 text-sm rounded-lg {{ request()->routeIs('admin.comments.index') ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                                نظرات منتظر بررسی
+                            </a>
+                            <a href="{{route('admin.comments.approved')}}" class="flex items-center gap-3 px-4 py-2 text-sm rounded-lg {{ request()->routeIs('admin.comments.approved') ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800' }}">
+                                <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                                نظرات تایید شده
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Settings -->
