@@ -16,15 +16,10 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-if (!Auth::check()) {
+        if (!Auth::check()) {
             return redirect()->route('auth.login')->with('error', 'برای دسترسی به این صفحه باید وارد شوید.');
         }
 
-        // بررسی نقش کاربر
-        if (Auth::user()->role === 'user') {
-            return $next($request);
-        }
-
-        return abort(403, 'شما دسترسی به این صفحه ندارید.');
+        return $next($request);
     }
 }
