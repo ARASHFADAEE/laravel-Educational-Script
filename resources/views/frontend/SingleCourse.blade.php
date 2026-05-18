@@ -304,9 +304,9 @@
                         <div class="truncate-js flex flex-col relative">
                             <div class="truncate-text text-base sm:text-lg sm:font-medium line-clamp-6">
                                 {!! $course->description !!}</div>
-                            <div class="truncate-toggle">
+                            <div class="truncate-toggle flex justify-center">
                                 <button
-                                    class="flex items-center gap-2 w-fit text-sm font-medium border-2 border-gray-500 px-4 py-1.5 rounded-lg hover:bg-gray-50 dark:bg-slate-800 hover:text-white transition-all relative z-1 group">نمایش
+                                    class="p-3 mt-3 flex items-center gap-2 w-fit text-sm font-medium border-2 border-gray-500 px-4 py-1.5 rounded-lg hover:bg-gray-50 dark:bg-slate-800 hover:text-white transition-all relative z-1 group">نمایش
                                     بیشتر
                                     <svg class="size-4 fill-gray-500 dark:fill-gray-300 group-hover:fill-white transition-all"
                                         viewBox="0 0 256 256">

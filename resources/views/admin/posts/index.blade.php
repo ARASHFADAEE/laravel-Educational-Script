@@ -20,11 +20,11 @@
             </a>
                         <a href="{{ route('admin.post.categories.index') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
 
-                دسته بندی مقالات 
+                دسته بندی مقالات
             </a>
             </div>
         </div>
-                
+
     </header>
         <table class="min-w-full table-auto">
             <thead class="bg-gray-800 text-white">
@@ -38,10 +38,10 @@
                 </tr>
             </thead>
             <tbody class=" text-white divide-y divide-gray-200">
-                
-                    
+
+
                 @foreach ( $posts as $post )
-                    
+
                 <tr class=" transition">
                     <td class="px-6 py-4 text-sm text-white">{{ $post->id }}</td>
                     <td class="px-6 py-4 text-sm text-white">{{ $post->title }}</td>
@@ -80,6 +80,8 @@
 
             </tbody>
         </table>
+
+    {{$posts->links}}
     </div>
 
 
