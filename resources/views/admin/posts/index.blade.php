@@ -81,7 +81,7 @@
             </tbody>
         </table>
 
-    {{$posts->links}}
+    {{$posts->links()}}
     </div>
 
 

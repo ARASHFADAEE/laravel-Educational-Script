@@ -39,9 +39,21 @@
             <div class="flex-1 space-y-6">
                 <!-- Video Container -->
                 <div class="relative bg-black rounded-3xl overflow-hidden shadow-2xl group border border-white/5">
+                    @if (!$lesson->is_hls)
+                        
+                    
                     <video class="js-player aspect-video" playsinline controls data-poster="{{asset('storage')}}/{{$course->thumbnail}}">
                         <source src="{{ $lesson->video_url }}" type="video/mp4" />
                     </video>
+
+                    @else
+                    <?php 
+                    echo $lesson->video_url
+                    ?>
+
+                    @endif
+
+
                 </div>
 
                 <!-- Lesson Info & Tabs -->

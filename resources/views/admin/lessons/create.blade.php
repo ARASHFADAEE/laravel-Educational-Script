@@ -86,9 +86,9 @@
         <!-- لینک ویدیو -->
         <div>
             <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                لینک ویدیو
+                لینک ویدیو یا اسکریپت embed نمایش ویدیو
             </label>
-            <input type="url"
+            <input type="text"
                    name="video_url"
                    value="{{ old('video_url') }}"
                    class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
@@ -96,6 +96,9 @@
             @error('video_url')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
+
+            <label for="">آیا این ویدیو اسکریپت HLS دارد ؟</label>
+            <input name="is_hls" type="checkbox" value="1" >
         </div>
 
         <!-- موقعیت -->
