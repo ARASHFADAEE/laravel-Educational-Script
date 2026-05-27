@@ -12,8 +12,16 @@
                                 </span>
                                 <div class="flex flex-col items-start text-right space-y-1">
                                     <span class="font-bold text-xs text-muted line-clamp-1">باقیمانده اشتراک</span>
-                                    <span class="font-bold text-sm text-foreground line-clamp-1">به زودی.....
+                                    @if($activeSubscription)
+                                        <span class="font-bold text-sm text-foreground line-clamp-1">
+                                            {{ round($subscriptionRemainingDays) }} روز
                                         </span>
+                                        <span class="text-[10px] text-muted line-clamp-1">
+                                            {{ $activeSubscription->subscriptionPlan->name ?? 'اشتراک فعال' }}
+                                        </span>
+                                    @else
+                                        <span class="font-bold text-sm text-foreground line-clamp-1">اشتراک فعال ندارید</span>
+                                    @endif
                                 </div>
                             </div>
                             <!-- end statistics:item -->

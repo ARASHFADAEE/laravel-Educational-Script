@@ -59,6 +59,7 @@ class CourseController extends Controller
             'level'=>'required',
             'slug'=>'required|unique:courses,slug',
             'status'=>'required',
+            'access_type' => 'required|in:individual,subscription,both',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'category_id' => 'required|exists:course_categories,id',
         ]);
@@ -77,6 +78,7 @@ class CourseController extends Controller
             'sale_price'=>$request->sale_price,
             'level'=>$request->level,
             'status'=>$request->status,
+            'access_type' => $request->access_type,
             'time_course'=>$request->time_course,
             'thumbnail' => $filepath,
         ]);
@@ -108,39 +110,40 @@ class CourseController extends Controller
      **/
 
     public function update(Request $request, $id)
-{
-    $course = Course::findOrFail($id);
+    {
+        $course = Course::findOrFail($id);
 
-    $validated = $request->validate([
-        'title'         => 'required|string|max:255',
-        'slug'          => 'required|string|max:255|unique:courses,slug,' . $course->id,
-        'category_id'   => 'required|exists:course_categories,id', // نام جدول رو بر اساس migration چک کن
-        'level'         => 'required|in:beginner,intermediate,advanced',
-        'regular_price' => 'required|integer|min:0',
-        'sale_price'    => 'required|integer|min:0',
-        'time_course'   => 'required|integer|min:0',
-        'status'        => 'required|in:draft,published',
-        'thumbnail'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-        'description'   => 'nullable|string',
-    ]);
+        $validated = $request->validate([
+            'title'         => 'required|string|max:255',
+            'slug'          => 'required|string|max:255|unique:courses,slug,' . $course->id,
+            'category_id'   => 'required|exists:course_categories,id',
+            'level'         => 'required|in:beginner,intermediate,advanced',
+            'regular_price' => 'required|integer|min:0',
+            'sale_price'    => 'required|integer|min:0',
+            'time_course'   => 'required|integer|min:0',
+            'status'        => 'required|in:draft,published',
+            'access_type'   => 'required|in:individual,subscription,both',
+            'thumbnail'     => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'description'   => 'nullable|string',
+        ]);
 
-    // تولید خودکار slug اگر لازم باشه
-    $validated['slug'] = Str::slug($validated['slug'] ?? $validated['title']);
+        // تولید خودکار slug اگر لازم باشه
+        $validated['slug'] = Str::slug($validated['slug'] ?? $validated['title']);
 
-    // مدیریت آپلود تصویر
-    if ($request->hasFile('thumbnail')) {
-        // حذف تصویر قدیمی
-        if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
-            Storage::disk('public')->delete($course->thumbnail);
+        // مدیریت آپلود تصویر
+        if ($request->hasFile('thumbnail')) {
+            // حذف تصویر قدیمی
+            if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
+                Storage::disk('public')->delete($course->thumbnail);
+            }
+
+            $validated['thumbnail'] = $request->file('thumbnail')->store('courses/thumbnails', 'public');
         }
 
-        $validated['thumbnail'] = $request->file('thumbnail')->store('courses/thumbnails', 'public');
+        $course->update($validated);
+
+        return redirect()->route('admin.courses.index')->with('success', 'دوره با موفقیت بروزرسانی شد.');
     }
-
-    $course->update($validated);
-
-    return redirect()->route('admin.courses.index')->with('success', 'دوره با موفقیت بروزرسانی شد.');
-}
 
 
 

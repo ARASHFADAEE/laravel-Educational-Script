@@ -36,6 +36,8 @@
             $defaultFirstName = old('first_name', $userNameParts[0] ?? '');
             $defaultLastName = old('last_name', $userNameParts[1] ?? '');
             $defaultPhone = old('phone', Auth::check() ? Auth::user()->phone ?? '' : '');
+            $isSubscriptionCourse = in_array($course->access_type, ['subscription', 'both']);
+            $isSubscriptionOnly = $course->access_type === 'subscription';
         @endphp
 
         <div class="flex text-gray-500 dark:text-gray-300 text-base font-normal font-iranyekan"
@@ -84,14 +86,25 @@
                                         </svg>
                                     </a>
                                 @else
-                                    <button type="button" onclick="openCheckoutModal()"
-                                        class="btn-arash flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
-                                        <span>ثبت‌نام سریع</span>
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 7h16M4 12h16M4 17h10" />
-                                        </svg>
-                                    </button>
+                                    @if($isSubscriptionCourse)
+                                        <button type="button" onclick="openSubscriptionModal()"
+                                            class="btn-arash flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-all whitespace-nowrap">
+                                            <span>خرید اشتراک سریع</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 7h16M4 12h16M4 17h10" />
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <button type="button" onclick="openCheckoutModal()"
+                                            class="btn-arash flex items-center justify-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all whitespace-nowrap">
+                                            <span>ثبت‌نام سریع</span>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M4 7h16M4 12h16M4 17h10" />
+                                            </svg>
+                                        </button>
+                                    @endif
                                 @endif
 
                             </div>
@@ -181,10 +194,17 @@
                                     مشاهده دوره
                                 </a>
                             @else
-                                <button type="button" onclick="openCheckoutModal()"
-                                    class="btn-arash flex gap-1 justify-center text-base font-medium bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1">
-                                    ثبت‌نام سریع
-                                </button>
+                                @if($isSubscriptionCourse)
+                                    <button type="button" onclick="openSubscriptionModal()"
+                                        class="btn-arash flex gap-1 justify-center text-base font-medium bg-indigo-600 text-white px-6 py-2.5 rounded-lg hover:bg-indigo-700 transition-all -mx-1">
+                                        خرید اشتراک سریع
+                                    </button>
+                                @else
+                                    <button type="button" onclick="openCheckoutModal()"
+                                        class="btn-arash flex gap-1 justify-center text-base font-medium bg-blue-600 text-white px-6 py-2.5 rounded-lg hover:bg-blue-700 transition-all -mx-1">
+                                        ثبت‌نام سریع
+                                    </button>
+                                @endif
                             @endif
                             @if ($course->sale_expire_at && $course->sale_expire_at->isFuture())
                                 <div class="countdown flex flex-row-reverse items-center justify-center gap-5 ltr mt-8"
@@ -228,10 +248,17 @@
                             مشاهده دوره
                         </a>
                     @else
-                        <button type="button" onclick="openCheckoutModal()"
-                            class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
-                            ثبت&zwnj;نام سریع
-                        </button>
+                        @if($isSubscriptionCourse)
+                            <button type="button" onclick="openSubscriptionModal()"
+                                class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-indigo-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-indigo-700 transition-all mr-auto">
+                                خرید اشتراک سریع
+                            </button>
+                        @else
+                            <button type="button" onclick="openCheckoutModal()"
+                                class="flex gap-1 justify-center text-sm sm:text-base font-medium bg-blue-600 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg hover:bg-blue-700 transition-all mr-auto">
+                                ثبت&zwnj;نام سریع
+                            </button>
+                        @endif
                     @endif
                 </div>
                 <div class="lg:basis-8/12 xl:basis-9/12 pt-4 md:pt-8 lg:pt-16 pb-96 lg:px-2 flex flex-col gap-20">
@@ -402,10 +429,11 @@
                             <div class="flex flex-col gap-2 md:gap-4">
                                 <span
                                     class="text-2xl md:text-3xl lg:text-4xl font-extrabold leading-normal sm:leading-loose text-black dark:text-white">
-                                    ثبت نام / پرداخت اینترنتی
+                                    {{ $isSubscriptionOnly ? 'خرید اشتراک / پرداخت اینترنتی' : 'ثبت نام / پرداخت اینترنتی' }}
                                 </span>
-                                <small class="text-lg font-medium text-black dark:text-white">جهت شرکت در دوره، لطفا ثبت
-                                    نام کنید</small>
+                                <small class="text-lg font-medium text-black dark:text-white">
+                                    {{ $isSubscriptionOnly ? 'برای دسترسی به این دوره، لطفا یکی از پلن‌های اشتراک را انتخاب کنید' : 'جهت شرکت در دوره، لطفا ثبت نام کنید' }}
+                                </small>
                             </div>
                             <div
                                 class="flex flex-col gap-2 md:gap-4 items-center xl:items-end text-center xl:text-left -mb-5 sm:-mb-8 xl:mb-0 p-6 xl:p-0 bg-gray-50 dark:bg-slate-800 xl:bg-transparent border xl:border-none border-gray-100 dark:border-slate-700 rounded-xl sm:rounded-2xl xl:rounded-none">
@@ -438,14 +466,21 @@
                             <div class="flex gap-4 flex-col">
                                 @if ($has_access)
                                     <a href="{{ $lesson_one ? route('lesson.show', $lesson_one->slug) : '#' }}"
-                                        class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-green-500 border border-green-500 px-6 py-4 text-xl font-bold text-white hover:bg-green-600 hover:border-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 transition-all">
+                                        class="cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-green-500 border border-green-500 px-6 py-2.5 text-xl font-bold text-white hover:bg-green-600 hover:border-green-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500 transition-all">
                                         مشاهده دوره و شروع یادگیری
                                     </a>
                                 @else
-                                    <button type="button" onclick="openCheckoutModal()"
-                                        class="btn-arash cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-4 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
-                                        ثبت‌نام سریع و پرداخت
-                                    </button>
+                                    @if($isSubscriptionCourse)
+                                        <button type="button" onclick="openSubscriptionModal()"
+                                            class="btn-arash cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-indigo-600 border border-indigo-600 px-6 py-2.5 text-xl font-bold text-white hover:bg-indigo-700 hover:border-indigo-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all">
+                                            خرید اشتراک سریع
+                                        </button>
+                                    @else
+                                        <button type="button" onclick="openCheckoutModal()"
+                                            class="btn-arash cursor-pointer inline-flex items-center gap-3 w-full justify-center rounded-lg bg-blue-600 border border-blue-600 px-6 py-2.5 text-xl font-bold text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
+                                            ثبت‌نام سریع و پرداخت
+                                        </button>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -457,14 +492,19 @@
                 <div class="absolute inset-0 bg-black/60" onclick="closeCheckoutModal()"></div>
                 <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
                     <div class="mb-4 flex items-center justify-between">
-                        <h3 class="text-lg font-bold text-gray-900">ثبت‌نام سریع دوره</h3>
+                        <h3 class="text-lg font-bold text-gray-900">{{ $isSubscriptionCourse ? 'خرید اشتراک سریع' : 'ثبت‌نام سریع دوره' }}</h3>
                         <button type="button" onclick="closeCheckoutModal()"
                             class="rounded-md p-1 text-gray-500 hover:bg-gray-100">✕</button>
                     </div>
-                    <p class="mb-5 text-sm text-gray-600">مشخصات شما ثبت می‌شود و بعد از پرداخت، حساب کاربری و دسترسی دوره
-                        به صورت خودکار فعال خواهد شد.</p>
+                    <p class="mb-5 text-sm text-gray-600">
+                        {{ $isSubscriptionCourse ? 'پلن اشتراک را انتخاب کنید؛ بعد از پرداخت، دسترسی اشتراکی شما فعال می‌شود.' : 'مشخصات شما ثبت می‌شود و بعد از پرداخت، حساب کاربری و دسترسی دوره به صورت خودکار فعال خواهد شد.' }}
+                    </p>
 
-                    <form action="{{ route('course.checkout.zibal', $course->id) }}" method="POST" class="space-y-4">
+                    @if($isSubscriptionCourse)
+                        <form id="checkout-form" action="{{ route('subscription.checkout.zibal', $course->id) }}" method="POST" class="space-y-4">
+                    @else
+                        <form id="checkout-form" action="{{ route('course.checkout.zibal', $course->id) }}" method="POST" class="space-y-4">
+                    @endif
                         @csrf
                         <div class="grid grid-cols-2 gap-3">
                             <div>
@@ -493,8 +533,31 @@
                             @enderror
                         </div>
 
+                        @if($isSubscriptionCourse)
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-gray-700">انتخاب پلن اشتراک</label>
+                                @if($subscriptionPlansForCheckout->isEmpty())
+                                    <p class="text-sm text-red-600">قیمت پلن‌ها برای این دوره تنظیم نشده است.</p>
+                                @else
+                                    <div class="flex flex-col gap-2">
+                                        @foreach($subscriptionPlansForCheckout as $plan)
+                                            <label class="inline-flex items-center gap-2">
+                                                <input type="radio" name="subscription_plan_id" value="{{ $plan->id }}" @if($loop->first) checked @endif>
+                                                <span class="font-medium">{{ $plan->name }}</span>
+                                                <span class="text-sm text-gray-500">— {{ number_format($plan->checkout_price) }} تومان</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                @endif
+                                @error('subscription_plan_id')
+                                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
+
                         <button type="submit"
-                            class="btn-arash inline-flex w-full items-center justify-center rounded-lg bg-blue-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-blue-700">
+                            @if($isSubscriptionCourse && $subscriptionPlansForCheckout->isEmpty()) disabled @endif
+                            class="btn-arash inline-flex w-full items-center justify-center rounded-lg {{ $isSubscriptionCourse ? 'bg-indigo-600 hover:bg-indigo-700' : 'bg-blue-600 hover:bg-blue-700' }} px-4 py-3 text-sm font-bold text-white transition disabled:cursor-not-allowed disabled:opacity-60">
                             ادامه و انتقال به پرداخت
                         </button>
                     </form>
@@ -505,6 +568,15 @@
                 function openCheckoutModal() {
                     const modal = document.getElementById('guest-checkout-modal');
                     if (!modal) return;
+                    modal.classList.remove('hidden');
+                    modal.classList.add('flex');
+                    document.body.classList.add('overflow-hidden');
+                }
+
+                function openSubscriptionModal(){
+                    const modal = document.getElementById('guest-checkout-modal');
+                    if (!modal) return;
+                    // ensure form action points to subscription route (already set in blade)
                     modal.classList.remove('hidden');
                     modal.classList.add('flex');
                     document.body.classList.add('overflow-hidden');
@@ -554,7 +626,7 @@
                 });
 
                 document.addEventListener('DOMContentLoaded', function() {
-                    @if ($errors->has('first_name') || $errors->has('last_name') || $errors->has('phone'))
+                    @if ($errors->has('first_name') || $errors->has('last_name') || $errors->has('phone') || $errors->has('subscription_plan_id'))
                         openCheckoutModal();
                     @endif
 
@@ -653,7 +725,5 @@
 
 
 @endsection
-
-
 
 

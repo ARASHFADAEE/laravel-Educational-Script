@@ -10,7 +10,7 @@
     <div class="overflow-x-auto  shadow-lg rounded-lg">
         <header>
             <div class="from-gray-900  px-6 py-4 border-b flex items-center justify-between">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست دوره ها</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">لیست پرداخت‌ها</h2>
                 <div class="flex item-center gap-3">
                     <a href="{{ route('admin.payments.create') }}"
                         class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-sm inline-flex items-center">
@@ -29,7 +29,8 @@
                 <tr>
                     <th class="px-6 py-4 text-right text-sm font-medium">شناسه</th>
                     <th class="px-6 py-4 text-right text-sm font-medium">نام خریدار</th>
-                    <th class="px-6 py-4 text-right text-sm font-medium">نام دوره</th>
+                    <th class="px-6 py-4 text-right text-sm font-medium">نوع تراکنش</th>
+                    <th class="px-6 py-4 text-right text-sm font-medium">شرح تراکنش</th>
                     <th class="px-6 py-4 text-right text-sm font-medium">وضعیت</th>
                     <th class="px-6 py-4 text-right text-sm font-medium">تاریخ ثبت </th>
                     <th class="px-6 py-4 text-right text-sm font-medium">عملیات</th>
@@ -40,9 +41,21 @@
 
                 @foreach ($payments as $payment)
                     <tr class=" transition">
-                        <td class="px-6 py-4 text-sm text-white">{{ $payment->id }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $payment->user->name }}</td>
-                        <td class="px-6 py-4 text-sm text-white">{{ $payment->course->title }}</td>
+                        <td class="px-6 py-4 text-sm text-white">{{ $payment->tracking_id }}</td>
+                        <td class="px-6 py-4 text-sm text-white">{{ $payment->buyer_name }}</td>
+                        <td class="px-6 py-4 text-sm text-white">
+                            <span class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $payment->transaction_type === 'subscription' ? 'bg-indigo-100 text-indigo-700' : 'bg-blue-100 text-blue-700' }}">
+                                {{ $payment->transaction_type_label }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-white">
+                            <div class="flex flex-col gap-1">
+                                <span>{{ $payment->title }}</span>
+                                @if($payment->subtitle)
+                                    <span class="text-xs text-gray-300">{{ $payment->subtitle }}</span>
+                                @endif
+                            </div>
+                        </td>
                         <td class="px-6 py-4 text-sm">
 
                             @switch($payment->status)
@@ -78,26 +91,29 @@
                         <td
                             class="px-6 py-4 text-sm font-medium text-center space-x-2 space-x-reverse flex items-center gap-3 ">
                             <!-- دکمه ویرایش -->
-                            <a href="{{ route('admin.payments.edit', $payment->id) }}"
-                                class="text-indigo-600  items-center">
-                                <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                    </path>
-                                </svg>
-                            </a>
-                            <!-- دکمه حذف -->
-                            <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button class="text-red-600 hover:text-red-900 inline-flex items-center">
+                            @if($payment->editable)
+                                <a href="{{ route('admin.payments.edit', $payment->id) }}"
+                                    class="text-indigo-600  items-center">
                                     <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
                                         </path>
                                     </svg>
-                                </button>
-                            </form>
+                                </a>
+                                <form action="{{ route('admin.payments.destroy', $payment->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-red-600 hover:text-red-900 inline-flex items-center">
+                                        <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </form>
+                            @else
+                                <span class="text-xs text-gray-300">رکورد اشتراک</span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -106,6 +122,9 @@
 
             </tbody>
         </table>
+        <div class="p-4">
+            {{ $payments->links() }}
+        </div>
     </div>
 
 

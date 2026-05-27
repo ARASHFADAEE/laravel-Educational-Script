@@ -30,5 +30,10 @@ class Payment extends Model
         return $this->belongsTo(Course::class);
     }
 
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class, 'transaction_id', 'transaction_id');
+    }
+
 
 }

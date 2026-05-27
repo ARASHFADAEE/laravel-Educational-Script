@@ -74,6 +74,10 @@ Route::middleware(['user'])->group(function () {
 //Single Course page
 Route::get('/courses/{slug}', [CourseSingleController::class, 'show'])->name('course.show');
 
+// Subscription routes
+Route::get('/subscribe', [App\Http\Controllers\Frontend\SubscriptionController::class, 'index'])->name('subscription.index');
+Route::get('/subscribe/checkout', [App\Http\Controllers\Frontend\SubscriptionController::class, 'checkout'])->name('subscription.checkout');
+
 
 
 //Cart System Route
@@ -92,6 +96,9 @@ Route::middleware(['user'])->group(function () {
 
 // Guest/User direct checkout from single course
 Route::post('/checkout/course/{course}/pay/zibal', [PaymentController::class, 'requestCourseZibal'])->name('course.checkout.zibal');
+// Subscription checkout from single course (choose plan)
+Route::post('/checkout/subscription/course/{course}/pay/zibal', [PaymentController::class, 'requestSubscriptionZibal'])->name('subscription.checkout.zibal');
+Route::post('/checkout/subscription/pay/zibal', [PaymentController::class, 'requestPlanSubscriptionZibal'])->name('subscription.plan.zibal');
 Route::get('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 
 

@@ -83,22 +83,57 @@
             @enderror
         </div>
 
-        <!-- لینک ویدیو -->
+        <!-- نوع ویدیو و لینک -->
+        <div class="space-y-3">
+            @php
+                $selectedVideoType = old('video_type', old('is_hls') ? 'hls' : 'normal');
+            @endphp
+            <div class="flex flex-wrap items-center gap-4">
+                <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <input type="radio" name="video_type" value="normal" class="video-type h-4 w-4 text-blue-600"
+                        {{ $selectedVideoType === 'normal' ? 'checked' : '' }}>
+                    ویدیوی عادی
+                </label>
+                <label class="inline-flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <input type="radio" name="video_type" value="hls" class="video-type h-4 w-4 text-blue-600"
+                        {{ $selectedVideoType === 'hls' ? 'checked' : '' }}>
+                    ویدیوی HLS
+                </label>
+                <input id="is_hls" name="is_hls" type="hidden" value="{{ $selectedVideoType === 'hls' ? 1 : 0 }}">
+            </div>
+
+            <div>
+                <label id="video-label" class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
+                    لینک ویدیو
+                </label>
+                <textarea
+                    name="video_url"
+                    id="video_url"
+                    rows="3"
+                    class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    placeholder="https://example.com/video.mp4">{{ old('video_url') }}</textarea>
+                <p id="video-help" class="text-xs text-gray-500 mt-1">برای ویدیوی عادی، لینک مستقیم ویدیو را وارد کنید.</p>
+                <p class="text-xs text-gray-500 mt-1">نمونه HLS: &lt;script id=&quot;E3AxilIsQkaSADMQU436mA&quot; src=&quot;https://stream.iranhls.com/Video/Embed/E3AxilIsQkaSADMQU436mA&quot;&gt;&lt;/script&gt;</p>
+                @error('video_url')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+
+        <!-- لینک فایل ضمیمه -->
         <div>
             <label class="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                لینک ویدیو یا اسکریپت embed نمایش ویدیو
+                لینک فایل ضمیمه
             </label>
-            <input type="text"
-                   name="video_url"
-                   value="{{ old('video_url') }}"
+            <input type="url"
+                   name="file_link"
+                   value="{{ old('file_link') }}"
                    class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                   placeholder="https://example.com/video.mp4">
-            @error('video_url')
+                   placeholder="https://example.com/files/lesson.zip">
+            <p class="text-xs text-gray-500 mt-1">اگر برای این درس فایل تمرین، سورس یا PDF دارید، لینک دانلود را اینجا وارد کنید.</p>
+            @error('file_link')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
-
-            <label for="">آیا این ویدیو اسکریپت HLS دارد ؟</label>
-            <input name="is_hls" type="checkbox" value="1" >
         </div>
 
         <!-- موقعیت -->
@@ -216,6 +251,28 @@
         // ساخت اسلاگ خودکار از عنوان
         const titleInput = document.querySelector('input[name="title"]');
         const slugInput = document.querySelector('input[name="slug"]');
+        const hlsInput = document.getElementById('is_hls');
+        const videoLabel = document.getElementById('video-label');
+        const videoHelp = document.getElementById('video-help');
+        const videoUrl = document.getElementById('video_url');
+
+        function syncVideoType() {
+            const selected = document.querySelector('.video-type:checked')?.value || 'normal';
+            const isHls = selected === 'hls';
+            hlsInput.value = isHls ? '1' : '0';
+            videoLabel.textContent = isHls ? 'اسکریپت embed ویدیوی HLS' : 'لینک ویدیو';
+            videoHelp.textContent = isHls
+                ? 'برای HLS، کل تگ script دریافتی از IranHLS را وارد کنید.'
+                : 'برای ویدیوی عادی، لینک مستقیم ویدیو را وارد کنید.';
+            videoUrl.placeholder = isHls
+                ? '<script id="..." src="https://stream.iranhls.com/Video/Embed/..."></script>'
+                : 'https://example.com/video.mp4';
+        }
+
+        document.querySelectorAll('.video-type').forEach((input) => {
+            input.addEventListener('change', syncVideoType);
+        });
+        syncVideoType();
 
         titleInput.addEventListener('blur', function() {
             if (!slugInput.value) {

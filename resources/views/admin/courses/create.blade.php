@@ -107,6 +107,20 @@
             </div>
         </div>
 
+        <!-- Access Type -->
+        <div>
+            <label class="block text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">نوع دسترسی</label>
+            <select name="access_type" id="access_type" class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none appearance-none">
+                <option value="">انتخاب نوع دسترسی</option>
+                <option value="individual" @selected(old('access_type')=='individual')>خرید تکی دوره</option>
+                <option value="subscription" @selected(old('access_type')=='subscription')>دسترسی از طریق اشتراک</option>
+                <option value="both" @selected(old('access_type')=='both')>هر دو روش</option>
+            </select>
+            @error('access_type')
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+
         <!-- Status & Thumbnail -->
         <div class="grid md:grid-cols-2 gap-6">
             <div>

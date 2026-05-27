@@ -48,7 +48,7 @@ Route::prefix('admin')->middleware('admin')->group(function(){
    Route::get('/lessons/create',[LessonController::class,'create'])->name('admin.lessons.create');
    Route::post('/lessons/store',[LessonController::class,'store'])->name('admin.lessons.store');
    Route::get('/lessons/{id}/edit',[LessonController::class ,'edit'])->name('admin.lessons.edit');
-   Route::put('/lessons/{id}/update',[LessonController::class,'update'])->name('admin.lessons.update');
+   Route::put('/lessons/{lesson}/update',[LessonController::class,'update'])->name('admin.lessons.update');
    Route::delete('/lessons/{id}/delete',[LessonController::class,'destroy'])->name('admin.lessons.destroy');
 
 
@@ -99,9 +99,18 @@ Route::prefix('admin')->middleware('admin')->group(function(){
     Route::put('/comments/{comment}/pending',[CommentController::class,'pending'])->name('admin.comments.pending');
     Route::delete('/comments/{comment}/delete',[CommentController::class,'destroy'])->name('admin.comments.destroy');
 
+    // Subscription Plans Management Routes
+    Route::get('/subscription-plans', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'index'])->name('admin.subscription-plans.index');
+    Route::get('/subscription-plans/{id}/edit', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'edit'])->name('admin.subscription-plans.edit');
+    Route::put('/subscription-plans/{id}/update', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'update'])->name('admin.subscription-plans.update');
 
+    // Course Subscription Plans
+    Route::get('/courses/{courseId}/subscription-plans', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'coursePlans'])->name('admin.subscription-plans.course-plans');
+    Route::post('/courses/{courseId}/subscription-plans', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'storeCoursePrice'])->name('admin.subscription-plans.store-course-price');
+    Route::delete('/courses/{courseId}/subscription-plans', [App\Http\Controllers\Admin\SubscriptionPlanController::class, 'removeCoursePrice'])->name('admin.subscription-plans.remove-course-price');
 
-
-
+    // Subscription Settings
+    Route::get('/subscription-settings', [App\Http\Controllers\Admin\SubscriptionSettingController::class, 'index'])->name('admin.subscription-settings.index');
+    Route::put('/subscription-settings', [App\Http\Controllers\Admin\SubscriptionSettingController::class, 'update'])->name('admin.subscription-settings.update');
 
 });

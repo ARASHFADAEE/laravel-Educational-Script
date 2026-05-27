@@ -112,6 +112,20 @@
             @enderror
         </div>
 
+        <!-- Access Type -->
+        <div>
+            <label class="form-label">نوع دسترسی</label>
+            <select name="access_type" id="access_type" class="form-input text-black w-full">
+                <option value="">انتخاب نوع دسترسی</option>
+                <option value="individual" @selected(old('access_type', $course->access_type) == 'individual')>خرید تکی دوره</option>
+                <option value="subscription" @selected(old('access_type', $course->access_type) == 'subscription')>دسترسی از طریق اشتراک</option>
+                <option value="both" @selected(old('access_type', $course->access_type) == 'both')>هر دو روش</option>
+            </select>
+            @error('access_type')
+                <p class="form-error">{{ $message }}</p>
+            @enderror
+        </div>
+
         <!-- Status -->
         <div>
             <label class="form-label ">وضعیت</label>
@@ -161,9 +175,17 @@
 
         <!-- Actions -->
         <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
-            <a href="{{ route('admin.courses.index') }}" class="btn-secondary">
-                بازگشت
-            </a>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('admin.courses.index') }}" class="btn-secondary">
+                    بازگشت
+                </a>
+                @if($course->access_type === 'subscription' || $course->access_type === 'both')
+                    <a href="{{ route('admin.subscription-plans.course-plans', $course->id) }}" 
+                        class="px-6 py-3 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium transition-colors">
+                        تنظیم قیمت اشتراک
+                    </a>
+                @endif
+            </div>
 
             <button type="submit" class="text-white px-6 py-3 rounded" style="background: #2a77ff;">
                 ذخیره تغییرات

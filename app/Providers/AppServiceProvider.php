@@ -44,6 +44,11 @@ class AppServiceProvider extends ServiceProvider
                 'route' => 'blog.index',
                 'active' => request()->routeIs('blog.index', 'single.blog.show'),
             ],
+                        [
+                'label' => 'خرید اشتراک',
+                'route' => 'subscription.index',
+                'active' => request()->routeIs('subscription.index'),
+            ],
             [
                 'label' => 'درباره ما',
                 'route' => 'about.index',
@@ -78,9 +83,23 @@ class AppServiceProvider extends ServiceProvider
 
     $userId=Auth::id();
     $courses_user_count = Enrollment::where('user_id', $userId)->count();
+    $activeSubscription = Auth::check()
+        ? Auth::user()->subscriptions()
+            ->with('subscriptionPlan')
+            ->where('status', 'active')
+            ->where('end_date', '>', now())
+            ->latest('end_date')
+            ->first()
+        : null;
+
+    $subscriptionRemainingDays = $activeSubscription
+        ? max(0, now()->startOfDay()->diffInDays($activeSubscription->end_date->copy()->endOfDay(), false))
+        : 0;
 
         $view->with([
-            'courses_user_count'=>$courses_user_count
+            'courses_user_count'=>$courses_user_count,
+            'activeSubscription' => $activeSubscription,
+            'subscriptionRemainingDays' => $subscriptionRemainingDays,
         ]);
 
 

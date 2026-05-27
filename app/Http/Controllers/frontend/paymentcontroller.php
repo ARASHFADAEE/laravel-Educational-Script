@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Admin\SubscriptionSettingController;
 use App\Jobs\SendSuccessPaymentSmsJob;
 use App\Models\Cart;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Payment;
+use App\Models\Subscription;
+use App\Models\SubscriptionPlan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -150,6 +153,143 @@ class PaymentController extends Controller
     }
 
     /**
+     * Handle subscription checkout from single course page.
+     */
+    public function requestSubscriptionZibal(Request $request, Course $course)
+    {
+        if (!in_array($course->access_type, ['subscription', 'both'])) {
+            return back()->with('error', 'خرید اشتراک برای این دوره فعال نیست.');
+        }
+
+        $request->validate([
+            'subscription_plan_id' => 'required|exists:subscription_plans,id',
+            'first_name' => 'nullable|string|max:80',
+            'last_name' => 'nullable|string|max:80',
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        $planId = (int) $request->input('subscription_plan_id');
+        $plan = SubscriptionPlan::findOrFail($planId);
+
+        $pivot = $course->subscriptionPlans()->where('subscription_plan_id', $planId)->first();
+        $price = $pivot && (int) $pivot->pivot->price > 0
+            ? (int) $pivot->pivot->price
+            : SubscriptionSettingController::getPlanPrice($plan->slug);
+
+        if ($price <= 0) {
+            return back()->with('error', 'قیمت اشتراک برای این دوره تنظیم نشده است. لطفا با مدیریت تماس بگیرید.');
+        }
+
+        $amountInRials = $price * 10;
+
+        if ($amountInRials <= 0) {
+            return back()->with('error', 'مبلغ پرداخت معتبر نیست!');
+        }
+
+        $firstName = trim((string) $request->input('first_name', ''));
+        $lastName = trim((string) $request->input('last_name', ''));
+        $normalizedPhone = $this->normalizePhone((string) $request->input('phone', ''));
+
+        if (!Auth::check() && !preg_match('/^09\d{9}$/', $normalizedPhone)) {
+            return back()->with('error', 'شماره موبایل معتبر نیست.');
+        }
+
+        $response = Http::post('https://gateway.zibal.ir/v1/request', [
+            'merchant' => env('ZIBAL_MERCHENT'),
+            'amount' => $amountInRials,
+            'callbackUrl' => route('payment.callback'),
+            'description' => 'خرید اشتراک (' . $course->title . ') - پلن #' . $planId,
+            'orderId' => 'subscription_course_' . $course->id . '_' . $planId . '_' . time(),
+        ]);
+
+        $result = $response->json();
+
+        if (isset($result['result']) && (int) $result['result'] === 100 && isset($result['trackId'])) {
+            $trackId = $result['trackId'];
+
+            session([
+                'zibal_trackId' => $trackId,
+                'zibal_expected_amount' => $amountInRials,
+                'checkout_payload' => [
+                    'mode' => 'subscription',
+                    'course_id' => $course->id,
+                    'subscription_plan_id' => $planId,
+                    'amount_toman' => $price,
+                    'user_id' => Auth::id(),
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'phone' => $normalizedPhone,
+                ],
+            ]);
+
+            return redirect()->away('https://gateway.zibal.ir/start/' . $trackId);
+        }
+
+        return back()->with('error', 'خطا در اتصال به درگاه پرداخت: ' . ($result['message'] ?? 'نامشخص'));
+    }
+
+    /**
+     * Handle global subscription checkout from subscription plans page.
+     */
+    public function requestPlanSubscriptionZibal(Request $request)
+    {
+        $request->validate([
+            'subscription_plan_id' => 'required|exists:subscription_plans,id',
+            'first_name' => Auth::check() ? 'nullable|string|max:80' : 'required|string|max:80',
+            'last_name' => Auth::check() ? 'nullable|string|max:80' : 'required|string|max:80',
+            'phone' => Auth::check() ? 'nullable|string|max:20' : 'required|string|max:20',
+        ]);
+
+        $plan = SubscriptionPlan::findOrFail((int) $request->input('subscription_plan_id'));
+        $price = SubscriptionSettingController::getPlanPrice($plan->slug);
+        $amountInRials = $price * 10;
+
+        if ($amountInRials <= 0) {
+            return back()->with('error', 'قیمت این پلن تنظیم نشده است.');
+        }
+
+        $firstName = trim((string) $request->input('first_name', ''));
+        $lastName = trim((string) $request->input('last_name', ''));
+        $normalizedPhone = $this->normalizePhone((string) $request->input('phone', ''));
+
+        if (!Auth::check() && !preg_match('/^09\d{9}$/', $normalizedPhone)) {
+            return back()->with('error', 'شماره موبایل معتبر نیست.')->withInput();
+        }
+
+        $response = Http::post('https://gateway.zibal.ir/v1/request', [
+            'merchant' => env('ZIBAL_MERCHENT'),
+            'amount' => $amountInRials,
+            'callbackUrl' => route('payment.callback'),
+            'description' => 'خرید اشتراک: ' . $plan->name,
+            'orderId' => 'subscription_plan_' . $plan->id . '_' . time(),
+        ]);
+
+        $result = $response->json();
+
+        if (isset($result['result']) && (int) $result['result'] === 100 && isset($result['trackId'])) {
+            $trackId = $result['trackId'];
+
+            session([
+                'zibal_trackId' => $trackId,
+                'zibal_expected_amount' => $amountInRials,
+                'checkout_payload' => [
+                    'mode' => 'subscription',
+                    'subscription_plan_id' => $plan->id,
+                    'amount_toman' => $price,
+                    'user_id' => Auth::id(),
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'phone' => $normalizedPhone,
+                ],
+            ]);
+
+            return redirect()->away('https://gateway.zibal.ir/start/' . $trackId);
+        }
+
+        return back()->with('error', 'خطا در اتصال به درگاه پرداخت: ' . ($result['message'] ?? 'نامشخص'))->withInput();
+    }
+
+    /**
      * Handle payment callback from Zibal.
      */
     public function callback()
@@ -207,7 +347,7 @@ class PaymentController extends Controller
                     Payment::firstOrCreate(
                         [
                             'user_id' => $user->id,
-                            'course_id' => $course->id,
+                            'course_id' => $course?->id,
                             'transaction_id' => (string) $trackId,
                         ],
                         [
@@ -236,6 +376,76 @@ class PaymentController extends Controller
                     ->with('success', 'پرداخت موفق بود. حساب کاربری شما ایجاد/فعال شد و دوره به حساب شما اضافه شد.');
 
 
+            }
+
+            if ($mode === 'subscription') {
+                $user = DB::transaction(function () use ($payload, $trackId) {
+                    $course = !empty($payload['course_id']) ? Course::findOrFail($payload['course_id']) : null;
+                    $planId = $payload['subscription_plan_id'];
+                    $price = (int) ($payload['amount_toman'] ?? 0);
+
+                    $user = $this->resolveCheckoutUser($payload);
+
+                    if ($course) {
+                        Payment::firstOrCreate(
+                            [
+                                'user_id' => $user->id,
+                                'course_id' => $course->id,
+                                'transaction_id' => (string) $trackId,
+                            ],
+                            [
+                                'amount' => $price,
+                                'payment_method' => 'zibal',
+                                'status' => 'completed',
+                            ]
+                        );
+                    }
+
+                    // create subscription
+                    $plan = SubscriptionPlan::findOrFail($planId);
+                    $start = now();
+                    $end = $start->copy()->addDays($plan->duration_days);
+
+                    Subscription::updateOrCreate(
+                        [
+                            'user_id' => $user->id,
+                            'status' => 'active',
+                        ],
+                        [
+                            'subscription_plan_id' => $plan->id,
+                            'start_date' => $start,
+                            'end_date' => $end,
+                            'amount' => $price,
+                            'transaction_id' => (string) $trackId,
+                            'payment_method' => 'zibal',
+                        ]
+                    );
+
+                    // enroll user to this course if course allows subscription access
+                    if ($course && in_array($course->access_type, ['subscription', 'both'])) {
+                        Enrollment::firstOrCreate(
+                            [
+                                'user_id' => $user->id,
+                                'course_id' => $course->id,
+                            ],
+                            [
+                                'price' => $price,
+                                'status' => 'completed',
+                            ]
+                        );
+                    }
+
+                    return $user;
+                });
+
+                if (!Auth::check() || Auth::id() !== $user->id) {
+                    Auth::login($user);
+                }
+
+                $this->clearCheckoutSession();
+
+                return redirect('/dashboard')
+                    ->with('success', 'اشتراک با موفقیت خریداری شد و دسترسی فعال شد.');
             }
 
             // Cart checkout flow
@@ -364,6 +574,10 @@ class PaymentController extends Controller
     {
         if ($mode === 'single_course' && !empty($payload['course_slug'])) {
             return redirect()->route('course.show', $payload['course_slug'])->with('error', $message);
+        }
+
+        if ($mode === 'subscription') {
+            return redirect()->route('subscription.index')->with('error', $message);
         }
 
         return redirect('/cart')->with('error', $message);

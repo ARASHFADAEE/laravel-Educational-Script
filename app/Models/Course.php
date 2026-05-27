@@ -14,6 +14,7 @@ class Course extends Model
         'level',
         'regular_price',
         'status',
+        'access_type',
         'thumbnail',
         'video_preview',
         'description',
@@ -55,6 +56,13 @@ return $this->belongsTo(CourseCategory::class, 'category_id', 'id');
 
     public function carts(){
         return $this->hasMany(Cart::class);
+    }
+
+    public function subscriptionPlans()
+    {
+        return $this->belongsToMany(SubscriptionPlan::class, 'course_subscription_plan')
+                    ->withPivot('price')
+                    ->withTimestamps();
     }
 
 

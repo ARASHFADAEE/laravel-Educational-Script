@@ -95,6 +95,34 @@
     @if (request()->routeIs('lesson.show') || request()->routeIs('course.show') )
 
         <script src="{{ asset('frontend/js/plyr.min.js') }}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                if (typeof Plyr === 'undefined') {
+                    return;
+                }
+
+                document.querySelectorAll('.js-player').forEach(function (player) {
+                    if (player.dataset.plyrReady === 'true') {
+                        return;
+                    }
+
+                    player.dataset.plyrReady = 'true';
+
+                    new Plyr(player, {
+                        controls: [
+                            'play-large',
+                            'play',
+                            'progress',
+                            'current-time',
+                            'mute',
+                            'volume',
+                            'settings',
+                            'fullscreen',
+                        ],
+                    });
+                });
+            });
+        </script>
 
     @endif
     @if (session('success'))

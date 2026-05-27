@@ -39,21 +39,20 @@
             <div class="flex-1 space-y-6">
                 <!-- Video Container -->
                 <div class="relative bg-black rounded-3xl overflow-hidden shadow-2xl group border border-white/5">
-                    @if (!$lesson->is_hls)
-                        
-                    
-                    <video class="js-player aspect-video" playsinline controls data-poster="{{asset('storage')}}/{{$course->thumbnail}}">
-                        <source src="{{ $lesson->video_url }}" type="video/mp4" />
-                    </video>
-
+                    @if($lesson->is_hls)
+                        <div class="aspect-video w-full">
+                            {!! $lesson->video_url !!}
+                        </div>
+                    @elseif($lesson->video_url)
+                        <video class="js-player aspect-video w-full" playsinline controls preload="metadata" data-poster="{{ asset('storage/' . $course->thumbnail) }}">
+                            <source src="{{ $lesson->video_url }}" type="video/mp4" />
+                            مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.
+                        </video>
                     @else
-                    <?php 
-                    echo $lesson->video_url
-                    ?>
-
+                        <div class="aspect-video flex items-center justify-center p-6 text-center text-sm text-white/70">
+                            ویدیویی برای این جلسه ثبت نشده است.
+                        </div>
                     @endif
-
-
                 </div>
 
                 <!-- Lesson Info & Tabs -->
@@ -68,7 +67,7 @@
                         <div x-show="tab === 'description'" class="animate-in fade-in duration-300">
                             <h2 class="text-xl font-black text-foreground mb-4">{{ $lesson->title }}</h2>
                             <div class="prose prose-sm max-w-none text-muted leading-relaxed">
-                                {!! $lesson->description ?? 'توضیحاتی برای این جلسه ثبت نشده است.' !!}
+                                {!! $lesson->content ?? 'توضیحاتی برای این جلسه ثبت نشده است.' !!}
                             </div>
                         </div>
 
@@ -79,20 +78,27 @@
 
                         <div x-show="tab === 'files'" class="animate-in fade-in duration-300">
                             <div class="grid sm:grid-cols-2 gap-4">
-                                <div class="flex items-center justify-between p-4 bg-secondary rounded-2xl border border-border group hover:border-primary/30 transition-all">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                                            </svg>
+                                @if($lesson->file_link)
+                                    <a href="{{ $lesson->file_link }}" target="_blank" rel="noopener"
+                                        class="flex items-center justify-between p-4 bg-secondary rounded-2xl border border-border group hover:border-primary/30 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-xs font-bold text-foreground line-clamp-1">فایل ضمیمه جلسه</p>
+                                                <p class="text-[10px] text-muted">برای دانلود کلیک کنید</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <p class="text-xs font-bold text-foreground line-clamp-1">سورس کد جلسه</p>
-                                            <p class="text-[10px] text-muted">ZIP - 1.2 MB</p>
-                                        </div>
+                                        <span class="text-xs font-bold text-primary group-hover:underline">دانلود</span>
+                                    </a>
+                                @else
+                                    <div class="sm:col-span-2 rounded-2xl border border-dashed border-border bg-secondary/50 p-6 text-center text-sm text-muted">
+                                        فایل ضمیمه‌ای برای این جلسه ثبت نشده است.
                                     </div>
-                                    <button class="text-xs font-bold text-primary group-hover:underline">دانلود</button>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>

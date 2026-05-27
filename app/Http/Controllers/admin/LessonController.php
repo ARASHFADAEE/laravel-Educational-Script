@@ -7,6 +7,7 @@ use App\Models\Chapter;
 use Illuminate\Http\Request;
 use App\Models\Lesson;
 use App\Models\Course;
+use Illuminate\Validation\Rule;
 
 class LessonController extends Controller
 {
@@ -20,25 +21,26 @@ class LessonController extends Controller
         $lessons = Lesson::query()
             ->with('chapter')
             ->when($request->search, function ($query, $search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('content', 'like', "%{$search}%");
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('content', 'like', "%{$search}%");
+                });
             })
             ->when($request->course_id, function ($query, $courseId) {
-                $query->where('course_id', $courseId);
+                $query->whereHas('chapter', function ($query) use ($courseId) {
+                    $query->where('course_id', $courseId);
+                });
             })
-            ->when($request->has('is_free'), function ($query) use ($request) {
+            ->when($request->filled('is_free'), function ($query) use ($request) {
                 $query->where('is_free', $request->is_free);
             })
             ->orderBy('position')
             ->orderBy('created_at', 'desc')
             ->paginate(30);
 
+        $courses = Course::all();
 
-
-
-
-
-        return view('admin.lessons.index', compact('lessons'));
+        return view('admin.lessons.index', compact('lessons', 'courses'));
     }
 
     /**
@@ -62,21 +64,36 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
+        $isHls = $request->input('video_type') === 'hls';
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'chapter_id' => 'required|exists:chapters,id',
             'slug' => 'required|string|max:255|unique:lessons,slug',
             'content' => 'nullable|string',
-            'video_url' => 'nullable|max:500',
+            'video_type' => 'required|in:normal,hls',
+            'video_url' => [
+                'required',
+                'string',
+                'max:2000',
+                $isHls
+                    ? 'regex:/^<script\s+id="[^"]+"\s+src="https:\/\/stream\.iranhls\.com\/Video\/Embed\/[^"]+"><\/script>$/i'
+                    : 'url',
+            ],
             'position' => 'nullable|integer|min:0',
-            'File_link' => 'nullable|url|max:500',
+            'file_link' => 'nullable|url|max:500',
             'is_free' => 'boolean',
             'is_hls' => 'boolean'
+        ], [
+            'video_url.required' => 'لینک یا اسکریپت ویدیو الزامی است.',
+            'video_url.url' => 'برای ویدیوی عادی باید یک لینک معتبر وارد کنید.',
+            'video_url.regex' => 'اسکریپت HLS باید از دامنه stream.iranhls.com و با فرمت embed معتبر باشد.',
         ]);
 
         // مقدار پیش‌فرض برای is_free
         $validated['is_free'] = $request->has('is_free') ? 1 : 0;
-        $validated['is_hls'] = $request->has('is_hls') ? 1 : 0;
+        $validated['is_hls'] = $isHls ? 1 : 0;
+        unset($validated['video_type']);
 
 
 
@@ -114,22 +131,42 @@ class LessonController extends Controller
     // متد update
     public function update(Request $request, Lesson $lesson)
     {
+        $isHls = $request->input('video_type') === 'hls';
+
         $validated = $request->validate([
             'title'      => 'required|string|max:255',
             'chapter_id' => 'required|exists:chapters,id',
-            'slug' => 'required|string|max:255' . $lesson->id,
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('lessons', 'slug')->ignore($lesson->id),
+            ],
             'content'    => 'nullable|string',
-            'video_url'  => 'nullable|max:500',
+            'video_type' => 'required|in:normal,hls',
+            'video_url'  => [
+                'required',
+                'string',
+                'max:2000',
+                $isHls
+                    ? 'regex:/^<script\s+id="[^"]+"\s+src="https:\/\/stream\.iranhls\.com\/Video\/Embed\/[^"]+"><\/script>$/i'
+                    : 'url',
+            ],
             'position'   => 'nullable|integer|min:0',
-            'File_link'  => 'nullable|url|max:500',
+            'file_link'  => 'nullable|url|max:500',
             'is_free'    => 'boolean',
             'is_hls'     => 'boolean'
+        ], [
+            'video_url.required' => 'لینک یا اسکریپت ویدیو الزامی است.',
+            'video_url.url' => 'برای ویدیوی عادی باید یک لینک معتبر وارد کنید.',
+            'video_url.regex' => 'اسکریپت HLS باید از دامنه stream.iranhls.com و با فرمت embed معتبر باشد.',
         ]);
 
 
 
         $validated['is_free'] = $request->has('is_free') ? 1 : 0;
-        $validated['is_hls']  = $request->has('is_hls') ? 1 : 0;
+        $validated['is_hls']  = $isHls ? 1 : 0;
+        unset($validated['video_type']);
 
 
         $lesson->update($validated);
@@ -146,7 +183,7 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        $lesson = lesson::query()->findOrFail($id);
+        $lesson = Lesson::query()->findOrFail($id);
         $lesson->delete();
 
         return redirect()->route('admin.lessons.index')
